@@ -1,0 +1,53 @@
+﻿@model Admin_Panel.Models.Attribute
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <h1 class="text-center mt-4">Create</h1>
+    <h4 class="text-center">Attribute</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortTitle" class="control-label"></label>
+                    <input asp-for="ShortTitle" class="form-control" />
+                    <span asp-validation-for="ShortTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Value" class="control-label"></label>
+                    <input asp-for="Value" class="form-control" />
+                    <span asp-validation-for="Value" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UnitOfMeasurement" class="control-label"></label>
+                    <input asp-for="UnitOfMeasurement" class="form-control" />
+                    <span asp-validation-for="UnitOfMeasurement" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GroupAttr" class="control-label"></label>
+                    <input asp-for="GroupAttr" class="form-control" />
+                    <span asp-validation-for="GroupAttr" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

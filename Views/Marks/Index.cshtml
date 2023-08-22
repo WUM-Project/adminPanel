@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Admin_Panel.Models.Mark>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@*
+<div class="container">
+    <h1 class="text-center my-4">Marks</h1>
+     class="text-center"
+    <p class="mb-4 d-flex justify-content-end">
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th> @Html.DisplayNameFor(model => model.Id)</th>
+                    <th> @Html.DisplayNameFor(model => model.Lang)</th>
+                    <th> @Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.Color)</th>
+                    <th>@Html.DisplayNameFor(model => model.Type)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Lang)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Color)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+                        <td class="align-middle">
+                              <div class="d-flex justify-content-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm mr-2">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success btn-sm mr-2">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
