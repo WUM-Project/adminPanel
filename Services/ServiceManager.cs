@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 using Microsoft.Extensions.Configuration;
 using Admin_Panel.Interfaces;
-
+using AutoMapper;
 using Admin_Panel.Data;
 namespace Admin_Panel.Services
 {
@@ -17,11 +17,11 @@ namespace Admin_Panel.Services
         private readonly Lazy<ICategoryService> _lazyCategoryService;
         private readonly Lazy<IMarkService> __lazyMarkService;
 
-        public ServiceManager( AppDbContext context)
+        public ServiceManager( AppDbContext context,IMapper mapper)
         {
             _context = context;
             _lazyAttiruteService = new Lazy<IAttributeService>(() => new AttributeServices(_context));
-            _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(_context));
+            _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(_context, mapper));
             __lazyMarkService = new Lazy<IMarkService>(() => new MarkService(_context));
             // reportGrpcService, examGrpcService,
         }

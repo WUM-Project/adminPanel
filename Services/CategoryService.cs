@@ -8,24 +8,28 @@ using Microsoft.EntityFrameworkCore;
 using Admin_Panel.Data;
 using Admin_Panel.Interfaces;
 using Admin_Panel.Models;
+using AutoMapper;
+
 namespace Admin_Panel.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly AppDbContext _context;
-
-        public CategoryService(AppDbContext context)
+        private readonly IMapper _mapper;
+        public CategoryService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
         {   
            
-
+ var result = await _context.Categories.ToListAsync(cancellationToken);
+           var  resultOut = _mapper.Map<IEnumerable<Category>>(result);
            
-            return await _context.Categories.ToListAsync(cancellationToken);
+            return resultOut;
         }
 
         public async Task<Category> GetByIdAsync(int id,CancellationToken cancellationToken = default)
@@ -37,10 +41,12 @@ namespace Admin_Panel.Services
             return category;
         }
 
-        public async Task Create(Category category)
+        public async Task<Category> Create(Category category)
         {    category.Status= 3;
             _context.Add(category);
             await _context.SaveChangesAsync();
+            return category; 
+            
         }
 
         public async Task Update(Category category)

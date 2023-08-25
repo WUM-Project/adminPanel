@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Admin_Panel.Models.Category>
+﻿@model Admin_Panel.Pagginations.PagiData<Admin_Panel.Models.Category>
+@* @model IEnumerable<Admin_Panel.Models.Category> *@
 
 @{
     ViewData["Title"] = "Index";
@@ -7,26 +8,53 @@
 <div class="container">
     <h1 class="text-center my-4">Categories</h1>
     @* class="text-center" *@
-    <p class="mb-4 d-flex justify-content-end">
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
-    </p>
+  
+     <div class="row justify-content-end mb-4">
+         <div class="col-md-4">
+            <form method="get" class="form-inline">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by title" value="@Context.Request.Query["search"]">
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["search"]))
+                    {
+                        <div class="input-group-append">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Undo Search</a>
+                        </div>
+                    }
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered ">
             <thead>
                 <tr>
-                    <th> @Html.DisplayNameFor(model => model.Id)</th>
+                    @* <th> @Html.DisplayNameFor(model => model.Id)</th>
                     <th> @Html.DisplayNameFor(model => model.Lang)</th>
                     <th> @Html.DisplayNameFor(model => model.Title)</th>
                     <th>@Html.DisplayNameFor(model => model.ParentId)</th>
                     <th>@Html.DisplayNameFor(model => model.Status)</th>
                     <th>@Html.DisplayNameFor(model => model.ImageId)</th>
                     <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
-                    <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th> *@
+                   <th> @Html.DisplayNameFor(model => model.Items.First().Id)</th>
+                    <th> @Html.DisplayNameFor(model => model.Items.First().Lang)</th>
+                    <th> @Html.DisplayNameFor(model => model.Items.First().Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().ParentId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().Status)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().ImageId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.Items.First().UpdatedAt)</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model) {
+                @foreach (var item in Model.Items) {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Id)</td>
                         <td>@Html.DisplayFor(modelItem => item.Lang)</td>
@@ -47,5 +75,18 @@
                 }
             </tbody>
         </table>
+    </div>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (var pageNum = Model.StartPage; pageNum <= Model.EndPage; pageNum++)
+                {
+                    <li class="page-item @(pageNum == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="?page=@pageNum">@pageNum</a>
+                    </li>
+                }
+            </ul>
+        </nav>
     </div>
 </div>
