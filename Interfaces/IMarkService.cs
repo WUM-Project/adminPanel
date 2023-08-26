@@ -9,7 +9,7 @@ namespace Admin_Panel.Interfaces
         // CancellationToken cancellationToken
         Task<IEnumerable<Mark>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<Mark> GetByIdAsync(int id,CancellationToken cancellationToken = default);
-        Task Create(Mark attribute);
+        Task<Mark> Create(Mark attribute);
         Task Update(Mark attribute);
         Task Delete(int id);
     }

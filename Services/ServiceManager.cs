@@ -20,9 +20,9 @@ namespace Admin_Panel.Services
         public ServiceManager( AppDbContext context,IMapper mapper)
         {
             _context = context;
-            _lazyAttiruteService = new Lazy<IAttributeService>(() => new AttributeServices(_context));
+            _lazyAttiruteService = new Lazy<IAttributeService>(() => new AttributeServices(_context, mapper));
             _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(_context, mapper));
-            __lazyMarkService = new Lazy<IMarkService>(() => new MarkService(_context));
+            __lazyMarkService = new Lazy<IMarkService>(() => new MarkService(_context,mapper));
             // reportGrpcService, examGrpcService,
         }
 

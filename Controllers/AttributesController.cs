@@ -3,41 +3,53 @@ using Microsoft.AspNetCore.Mvc;
 using Admin_Panel.Services;
 using Admin_Panel.Interfaces;
 using Admin_Panel.Models;
+using Admin_Panel.Pagginations;
 namespace Admin_Panel.Controllers
 {
     public class AttributesController : Controller
     {
-       private readonly IServiceManager _serviceManager;
+        private readonly IServiceManager _serviceManager;
 
         public AttributesController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
-        {  
-          
-          var test =await _serviceManager.AttributeServices.GetAllAsync(cancellationToken);
-            Console.WriteLine("====================================");
-            Console.WriteLine(test);
-            Console.WriteLine("================================");
-            
-            return View(await _serviceManager.AttributeServices.GetAllAsync());
+        public async Task<IActionResult> Index(string lang, string search, int page = 1, int middleVal = 10,
+            int cntBetween = 5, int limit = 10)
+        {
+
+            var result = await _serviceManager.AttributeServices.GetAllAsync();
+            if (!String.IsNullOrEmpty(lang))
+            {
+
+                result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+            }
+            if (!String.IsNullOrEmpty(search))
+            {
+
+                result = result?.Where(x => x.Title?.ToLower().Contains(search.ToLower()) ?? false)?.ToList();
+            }
+            var test =Paggination<Models.Attribute>.GetData(currentPage: page, limit: limit, itemsData: result,
+                middleVal: middleVal, cntBetween: cntBetween);
+                Console.WriteLine(test);
+            return View(Paggination<Models.Attribute>.GetData(currentPage: page, limit: limit, itemsData: result,
+                middleVal: middleVal, cntBetween: cntBetween));
         }
 
-        public async Task<IActionResult> Details(int? id,CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Details(int? id, CancellationToken cancellationToken = default)
         {
             if (id == null)
             {
                 return NotFound();
             }
-              Console.WriteLine("================================");
+            Console.WriteLine("================================");
             Console.WriteLine(id.Value);
-              Console.WriteLine("================================");
-            var attribute = await _serviceManager.AttributeServices.GetByIdAsync(id.Value,cancellationToken);
-             Console.WriteLine("================================");
+            Console.WriteLine("================================");
+            var attribute = await _serviceManager.AttributeServices.GetByIdAsync(id.Value, cancellationToken);
+            Console.WriteLine("================================");
             Console.WriteLine(attribute);
-              Console.WriteLine("================================");
+            Console.WriteLine("================================");
             if (attribute == null)
             {
                 return NotFound();
@@ -55,9 +67,29 @@ namespace Admin_Panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Models.Attribute attribute)
         {
+            List<string> languages = new List<string>() { "uk", "ru" };
+            Models.Attribute result = null;
+            int? originAttributeId = null;
+          
             if (ModelState.IsValid)
             {
-                await _serviceManager.AttributeServices.Create(attribute);
+
+                foreach (var lang in languages)
+                {
+                    if (attribute?.Id != null)
+                    {
+                        attribute.Id = 0;
+                    }
+                    attribute.Lang = lang;
+                    attribute.OriginId = originAttributeId ?? 0;
+                    result = await _serviceManager.AttributeServices.Create(attribute);
+                    //for storage multiple data
+                    if (originAttributeId == null) originAttributeId = result.Id;
+
+                }
+
+                result = attribute;
+                // await _serviceManager.AttributeServices.Create(attribute);
                 return RedirectToAction(nameof(Index));
             }
             return View(attribute);

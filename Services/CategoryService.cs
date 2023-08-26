@@ -26,7 +26,7 @@ namespace Admin_Panel.Services
         public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
         {   
            
- var result = await _context.Categories.ToListAsync(cancellationToken);
+           var result = await _context.Categories.ToListAsync(cancellationToken);
            var  resultOut = _mapper.Map<IEnumerable<Category>>(result);
            
             return resultOut;

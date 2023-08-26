@@ -1,4 +1,4 @@
-﻿@* @model Admin_Panel.Models.Mark
+﻿@model Admin_Panel.Models.Mark
 
 @{
     ViewData["Title"] = "Edit";
@@ -45,11 +45,7 @@
                    
 
                   
-                    <div class="mb-3">
-                        <label for="ImageId" class="form-label">ImageId</label>
-                        <input type="text" asp-for="ImageId" class="form-control" />
-                        <span asp-validation-for="ImageId" class="text-danger"></span>
-                    </div>
+                   
                     
                     
 
@@ -68,4 +64,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} *@
+}

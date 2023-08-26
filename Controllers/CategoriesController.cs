@@ -21,8 +21,6 @@ namespace Admin_Panel.Controllers
             int cntBetween = 5, int limit = 10)
         {  
           
-            
-            
             var result = await _serviceManager.CategoryService.GetAllAsync();
          if (!String.IsNullOrEmpty(lang))
             {
@@ -73,13 +71,13 @@ namespace Admin_Panel.Controllers
             int? parent_id = null; // Assuming parent_id is needed
             
             int? originCategoryId = null;
-            int? id=0;
+          
        
             if (ModelState.IsValid)
             { 
             foreach (var lang in languages)
             {    
-               if(category.Id != null){
+               if(category?.Id != null){
                 category.Id = 0;
             } 
                 category.Lang = lang;

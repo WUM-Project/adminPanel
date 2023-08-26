@@ -52,7 +52,7 @@ namespace Admin_Panel.Pagginations
             var endIndex = (int)Math.Min(startInedx + itemsCntOnPage - 1, totalPages - 1);
             var startPage = 0;
             var endPage = 0;
-            var CurrentPage=0;
+            
             if (currentPage >= middleVal)
             {
                 startPage = currentPage - cntBetween;

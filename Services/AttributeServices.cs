@@ -8,24 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using Admin_Panel.Data;
 using Admin_Panel.Interfaces;
 using Admin_Panel.Models;
+using AutoMapper;
 namespace Admin_Panel.Services
 {
     public class AttributeServices : IAttributeService
     {
         private readonly AppDbContext _context;
-
-        public AttributeServices(AppDbContext context)
+        private readonly IMapper _mapper;
+        public AttributeServices(AppDbContext context, IMapper mapper)
         {
             _context = context;
+             _mapper = mapper;
         }
 
 // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Models.Attribute>> GetAllAsync(CancellationToken cancellationToken = default)
         {   
            
-
+           var result = await _context.Attributes.ToListAsync(cancellationToken);
+           var  resultOut = _mapper.Map<IEnumerable<Models.Attribute>>(result);
            
-            return await _context.Attributes.ToListAsync(cancellationToken);
+            return resultOut;
+           
+            
         }
 
         public async Task<Models.Attribute> GetByIdAsync(int id,CancellationToken cancellationToken = default)
@@ -38,10 +43,11 @@ namespace Admin_Panel.Services
             return attribute;
         }
 
-        public async Task Create(Models.Attribute attribute)
+        public async Task<Models.Attribute> Create(Models.Attribute attribute)
         {    attribute.Status= 3;
             _context.Add(attribute);
             await _context.SaveChangesAsync();
+            return attribute;
         }
 
         public async Task Update(Models.Attribute attribute)
