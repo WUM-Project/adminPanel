@@ -115,6 +115,7 @@ namespace Admin_Panel.Controllers
             }
 
             var category = await _serviceManager.CategoryService.GetByIdAsync(id.Value);
+         
             if (category == null)
             {
                 return NotFound();
@@ -130,9 +131,10 @@ namespace Admin_Panel.Controllers
             {
                 return NotFound();
             }
-
+              
             if (ModelState.IsValid)
-            {
+            {   
+                // var origin_id = Category.OriginId ?? Category.Id;
                 await _serviceManager.CategoryService.Update(Category);
                 return RedirectToAction(nameof(Index));
             }

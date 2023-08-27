@@ -57,9 +57,45 @@ namespace Admin_Panel.Services
 
         public async Task Delete(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            // var category = await _context.Categories.FindAsync(id);
+            // _context.Categories.Remove(category);
+            // await _context.SaveChangesAsync();
+               var category = await _context.Categories
+               .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (category != null)
+            {
+                var originId = category.OriginId;
+                  
+                if (originId.HasValue && originId != 0)
+                {
+                    var origincategory = await _context.Categories
+                        .FirstOrDefaultAsync(m => m.Id == originId.Value);
+
+                    if (origincategory != null)
+                    {
+                        _context.Categories.Remove(origincategory);
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else{
+                    
+                      var origincategory = await _context.Categories
+                        .FirstOrDefaultAsync(m => m.OriginId == id);
+
+                    if (origincategory != null)
+                    {
+                        _context.Categories.Remove(origincategory);
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+ 
+        }
         }
     }
 }
