@@ -51,9 +51,54 @@ namespace Admin_Panel.Services
 
         public async Task Update(Mark mark)
         {
-            mark.UpdatedAt = DateTime.Now;
-            _context.Update(mark);
-            await _context.SaveChangesAsync();
+      var existingMark = await _context.Marks
+        .FirstOrDefaultAsync(m => m.Id == mark.Id);
+
+    if (existingMark != null)
+    {
+        mark.Lang = existingMark.Lang; 
+
+        var originId = mark.OriginId;
+        if (originId.HasValue && originId != 0)
+        {
+            var originMark = await _context.Marks
+                .FirstOrDefaultAsync(m => m.Id == originId.Value);
+
+            if (originMark != null)
+            {
+                originMark.Color = mark.Color;
+                originMark.Status = mark.Status;
+                _context.Update(originMark);
+                      await _context.SaveChangesAsync();
+            } 
+        } else{
+                    
+                      var originMark = await _context.Marks
+                        .FirstOrDefaultAsync(m => m.OriginId == mark.Id);
+                  
+                    if (originMark != null)
+                    {
+                         originMark.Color = mark.Color;
+                originMark.Status = mark.Status;
+                _context.Update(originMark);
+                      await _context.SaveChangesAsync();
+                    }
+                }
+        
+
+        existingMark.UpdatedAt = DateTime.Now;
+
+        // Update the properties of the existingMark object
+        _context.Entry(existingMark).CurrentValues.SetValues(mark);
+          _context.Update(existingMark);
+           await _context.SaveChangesAsync();
+    }
+
+   
+
+            // mark.UpdatedAt = DateTime.Now;
+            // _context.Update(mark);
+            // await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)

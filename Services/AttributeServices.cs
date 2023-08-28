@@ -45,6 +45,9 @@ namespace Admin_Panel.Services
 
         public async Task<Models.Attribute> Create(Models.Attribute attribute)
         {    attribute.Status= 3;
+        //  var res = await _context.Attributes.FirstOrDefaultAsync(e => e.Lang == attribute.Lang);
+       
+        //      attribute.Position = res != null && res.Position.HasValue ? res.Position.Value + 1 : 1;
             _context.Add(attribute);
             await _context.SaveChangesAsync();
             return attribute;
