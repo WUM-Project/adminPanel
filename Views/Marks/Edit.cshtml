@@ -21,11 +21,26 @@
                         <input type="text" asp-for="Title" class="form-control" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
-                     <div class="mb-3">
+                     @* <div class="mb-3">
                         <label for="Color" class="form-label">Color</label>
                         <input type="text" asp-for="Color" class="form-control" />
                         <span asp-validation-for="Color" class="text-danger"></span>
-                    </div>
+                    </div> *@
+                    <div class="mb-3">
+    <label for="Color" class="form-label">Color</label>
+    <input type="color" asp-for="Color"  id="colorInput" class="form-control" />
+    <span asp-validation-for="Color" class="text-danger"></span>
+                      </div>
+                          <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
+        <label for="Position" class="form-label">Position</label>
+        <input type="text" asp-for="Position" class="form-control" />
+        <span asp-validation-for="Position" class="text-danger"></span>
+    </div>
+                     <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
+        <label for="OriginId" class="form-label">OriginId</label>
+        <input type="text" asp-for="OriginId" class="form-control" />
+        <span asp-validation-for="OriginId" class="text-danger"></span>
+    </div>
                      <div class="mb-3">
                         <label for="Type" class="form-label">Type</label>
                         <input type="text" asp-for="Type" class="form-control" />
@@ -61,7 +76,19 @@
         </div>
     </div>
 </div>
-
+<script>
+    const colorInput = document.getElementById('colorInput');
+     colorInput.setAttribute('value', colorInput.getAttribute('value').replace(/\s/g, ''));
+    colorInput.addEventListener('change', (event) => {
+        const selectedColor = event.target.value;
+        console.log(selectedColor);
+        const formattedColor = '#' + selectedColor.substr(1); // Remove the '#' symbol
+        colorInput.value = formattedColor
+        console.log(formattedColor)
+    });
+   
+    
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

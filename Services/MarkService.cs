@@ -43,6 +43,12 @@ namespace Admin_Panel.Services
 
         public async Task<Mark> Create(Mark mark)
         {
+            var res = await _context.Marks
+          .Where(result => result.Lang == mark.Lang)
+         .OrderByDescending(result => result.Position)
+    .Select(result => new { result.Id, result.Position })
+    .FirstOrDefaultAsync();
+            mark.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
             mark.Status = 3;
             _context.Add(mark);
             await _context.SaveChangesAsync();
@@ -51,50 +57,53 @@ namespace Admin_Panel.Services
 
         public async Task Update(Mark mark)
         {
-      var existingMark = await _context.Marks
-        .FirstOrDefaultAsync(m => m.Id == mark.Id);
+            var existingMark = await _context.Marks
+              .FirstOrDefaultAsync(m => m.Id == mark.Id);
 
-    if (existingMark != null)
-    {
-        mark.Lang = existingMark.Lang; 
-
-        var originId = mark.OriginId;
-        if (originId.HasValue && originId != 0)
-        {
-            var originMark = await _context.Marks
-                .FirstOrDefaultAsync(m => m.Id == originId.Value);
-
-            if (originMark != null)
+            if (existingMark != null)
             {
-                originMark.Color = mark.Color;
-                originMark.Status = mark.Status;
-                _context.Update(originMark);
-                      await _context.SaveChangesAsync();
-            } 
-        } else{
-                    
-                      var originMark = await _context.Marks
-                        .FirstOrDefaultAsync(m => m.OriginId == mark.Id);
-                  
+                mark.Lang = existingMark.Lang;
+
+                var originId = mark.OriginId;
+                if (originId.HasValue && originId != 0)
+                {
+                    var originMark = await _context.Marks
+                        .FirstOrDefaultAsync(m => m.Id == originId.Value);
+
                     if (originMark != null)
                     {
-                         originMark.Color = mark.Color;
-                originMark.Status = mark.Status;
-                _context.Update(originMark);
-                      await _context.SaveChangesAsync();
+                        originMark.Color = mark.Color.Trim();
+                        originMark.Status = mark.Status;
+                        _context.Update(originMark);
+                        await _context.SaveChangesAsync();
                     }
                 }
-        
+                else
+                {
 
-        existingMark.UpdatedAt = DateTime.Now;
+                    var originMark = await _context.Marks
+                      .FirstOrDefaultAsync(m => m.OriginId == mark.Id);
 
-        // Update the properties of the existingMark object
-        _context.Entry(existingMark).CurrentValues.SetValues(mark);
-          _context.Update(existingMark);
-           await _context.SaveChangesAsync();
-    }
+                    if (originMark != null)
+                    {
+                        originMark.OriginId = mark.Id;
+                        originMark.Color = mark.Color.Trim();
+                        originMark.Status = mark.Status;
+                        _context.Update(originMark);
+                        await _context.SaveChangesAsync();
+                    }
+                }
 
-   
+
+                existingMark.UpdatedAt = DateTime.Now;
+
+                // Update the properties of the existingMark object
+                _context.Entry(existingMark).CurrentValues.SetValues(mark);
+                _context.Update(existingMark);
+                await _context.SaveChangesAsync();
+            }
+
+
 
             // mark.UpdatedAt = DateTime.Now;
             // _context.Update(mark);
@@ -103,7 +112,7 @@ namespace Admin_Panel.Services
 
         public async Task Delete(int id)
         {
-         
+
 
 
             var mark = await _context.Marks
@@ -112,7 +121,7 @@ namespace Admin_Panel.Services
             if (mark != null)
             {
                 var originId = mark.OriginId;
-                  
+
                 if (originId.HasValue && originId != 0)
                 {
                     var originMark = await _context.Marks
@@ -125,10 +134,11 @@ namespace Admin_Panel.Services
                         await _context.SaveChangesAsync();
                     }
                 }
-                else{
-                    
-                      var originMark = await _context.Marks
-                        .FirstOrDefaultAsync(m => m.OriginId == id);
+                else
+                {
+
+                    var originMark = await _context.Marks
+                      .FirstOrDefaultAsync(m => m.OriginId == id);
 
                     if (originMark != null)
                     {
@@ -140,8 +150,8 @@ namespace Admin_Panel.Services
 
                 _context.Marks.Remove(mark);
                 await _context.SaveChangesAsync();
-            
+
+            }
         }
     }
-}
 }

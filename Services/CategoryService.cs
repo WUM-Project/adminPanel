@@ -42,7 +42,14 @@ namespace Admin_Panel.Services
         }
 
         public async Task<Category> Create(Category category)
-        {    category.Status= 3;
+        {    
+              var res = await _context.Categories
+          .Where(result => result.Lang == category.Lang)
+         .OrderByDescending(result => result.Position)
+    .Select(result => new { result.Id, result.Position })
+    .FirstOrDefaultAsync();
+            category.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
+            category.Status= 3;
             _context.Add(category);
             await _context.SaveChangesAsync();
             return category; 
@@ -50,9 +57,63 @@ namespace Admin_Panel.Services
         }
 
         public async Task Update(Category category)
-        {category.UpdatedAt = DateTime.Now;
-            _context.Update(category);
-            await _context.SaveChangesAsync();
+        {
+              var existingCategory = await _context.Categories
+              .FirstOrDefaultAsync(m => m.Id == category.Id);
+            
+            if (existingCategory != null)
+            {   
+                if(category.ParentId !=null){
+                var originParentCategoryId = await _context.Categories
+    .Where(cat => cat.Id == category.ParentId || cat.OriginId == category.ParentId)
+    .Select(cat => cat.OriginId ?? cat.Id)
+    .FirstOrDefaultAsync();
+
+    
+    }
+
+                category.Lang = existingCategory.Lang;
+
+                var originId = category.OriginId;
+                if (originId.HasValue && originId != 0)
+                {
+                    var originCategory = await _context.Categories
+                        .FirstOrDefaultAsync(m => m.Id == originId.Value);
+
+                    if (originCategory != null)
+                    {
+                        
+                        originCategory.Status = category.Status;
+                        originCategory.ImageId = category.ImageId;
+                        _context.Update(originCategory);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+
+                    var originCategory = await _context.Categories
+                      .FirstOrDefaultAsync(m => m.OriginId == category.Id);
+
+                    if (originCategory != null)
+                    {
+                        originCategory.OriginId = category.Id;
+                        
+                        originCategory.Status = category.Status;
+                        originCategory.ImageId = category.ImageId;
+                        _context.Update(originCategory);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+
+                existingCategory.UpdatedAt = DateTime.Now;
+
+                // Update the properties of the existingCategory object
+                _context.Entry(existingCategory).CurrentValues.SetValues(category);
+                _context.Update(existingCategory);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task Delete(int id)

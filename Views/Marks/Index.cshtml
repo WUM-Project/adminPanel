@@ -51,7 +51,8 @@
                         <td>@Html.DisplayFor(modelItem => item.Id)</td>
                         <td>@Html.DisplayFor(modelItem => item.Lang)</td>
                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Color)</td>
+                        <td style="background-color: @item.Color;">&nbsp;</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.Color)</td> *@
                         <td>@Html.DisplayFor(modelItem => item.Type)</td>
                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>

@@ -18,45 +18,95 @@ namespace Admin_Panel.Services
         public AttributeServices(AppDbContext context, IMapper mapper)
         {
             _context = context;
-             _mapper = mapper;
+            _mapper = mapper;
         }
 
-// CancellationToken cancellationToken = default
+        // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Models.Attribute>> GetAllAsync(CancellationToken cancellationToken = default)
-        {   
-           
-           var result = await _context.Attributes.ToListAsync(cancellationToken);
-           var  resultOut = _mapper.Map<IEnumerable<Models.Attribute>>(result);
-           
+        {
+
+            var result = await _context.Attributes.ToListAsync(cancellationToken);
+            var resultOut = _mapper.Map<IEnumerable<Models.Attribute>>(result);
+
             return resultOut;
-           
-            
+
+
         }
 
-        public async Task<Models.Attribute> GetByIdAsync(int id,CancellationToken cancellationToken = default)
+        public async Task<Models.Attribute> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 
-        {    Console.WriteLine(id);
+        {
+            Console.WriteLine(id);
             var attribute = await _context.Attributes.FirstOrDefaultAsync(e => e.Id == id);
-            
+
             Console.WriteLine(attribute);
             Console.WriteLine("First");
             return attribute;
         }
 
         public async Task<Models.Attribute> Create(Models.Attribute attribute)
-        {    attribute.Status= 3;
-        //  var res = await _context.Attributes.FirstOrDefaultAsync(e => e.Lang == attribute.Lang);
-       
-        //      attribute.Position = res != null && res.Position.HasValue ? res.Position.Value + 1 : 1;
+        {
+            attribute.Status = 3;
+            var res = await _context.Attributes
+             .Where(result => result.Lang == attribute.Lang)
+            .OrderByDescending(result => result.Position)
+            .Select(result => new { result.Id, result.Position })
+            .FirstOrDefaultAsync();
+            attribute.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
             _context.Add(attribute);
             await _context.SaveChangesAsync();
             return attribute;
         }
 
         public async Task Update(Models.Attribute attribute)
-        {attribute.UpdatedAt = DateTime.Now;
-            _context.Update(attribute);
-            await _context.SaveChangesAsync();
+        {
+             var existingAttribute = await _context.Attributes
+              .FirstOrDefaultAsync(m => m.Id == attribute.Id);
+
+            if (existingAttribute != null)
+            {
+                attribute.Lang = existingAttribute.Lang;
+
+                var originId = attribute.OriginId;
+                if (originId.HasValue && originId != 0)
+                {
+                    var originAttribute = await _context.Attributes
+                        .FirstOrDefaultAsync(m => m.Id == originId.Value);
+
+                    if (originAttribute != null)
+                    {
+                        originAttribute.Value = attribute.Value;
+                        originAttribute.Status = attribute.Status;
+                        _context.Update(originAttribute);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+
+                    var originAttribute = await _context.Attributes
+                      .FirstOrDefaultAsync(m => m.OriginId == attribute.Id);
+
+                    if (originAttribute != null)
+                    {
+                        originAttribute.OriginId = attribute.Id;
+                        originAttribute.Value = attribute.Value;
+                        originAttribute.Status = attribute.Status;
+                        _context.Update(originAttribute);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+
+                existingAttribute.UpdatedAt = DateTime.Now;
+
+                // Update the properties of the existingAttribute object
+                _context.Entry(existingAttribute).CurrentValues.SetValues(attribute);
+                _context.Update(existingAttribute);
+                await _context.SaveChangesAsync();
+            }
+
+          
         }
 
         public async Task Delete(int id)
@@ -64,13 +114,13 @@ namespace Admin_Panel.Services
             // var attribute = await _context.Attributes.FindAsync(id);
             // _context.Attributes.Remove(attribute);
             // await _context.SaveChangesAsync();
-               var attribute = await _context.Attributes
-               .FirstOrDefaultAsync(m => m.Id == id);
+            var attribute = await _context.Attributes
+            .FirstOrDefaultAsync(m => m.Id == id);
 
             if (attribute != null)
             {
                 var originId = attribute.OriginId;
-                  
+
                 if (originId.HasValue && originId != 0)
                 {
                     var originattribute = await _context.Attributes
@@ -83,10 +133,11 @@ namespace Admin_Panel.Services
                         await _context.SaveChangesAsync();
                     }
                 }
-                else{
-                    
-                      var originattribute = await _context.Attributes
-                        .FirstOrDefaultAsync(m => m.OriginId == id);
+                else
+                {
+
+                    var originattribute = await _context.Attributes
+                      .FirstOrDefaultAsync(m => m.OriginId == id);
 
                     if (originattribute != null)
                     {
@@ -99,6 +150,6 @@ namespace Admin_Panel.Services
                 _context.Attributes.Remove(attribute);
                 await _context.SaveChangesAsync();
             }
-            }
+        }
     }
 }
