@@ -22,7 +22,7 @@ namespace Admin_Panel.Models
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
-
+        public IList<ProductToMark>  ProductToMark  { get; set; }
 
     }
 }

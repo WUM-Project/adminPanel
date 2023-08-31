@@ -25,8 +25,8 @@ namespace Admin_Panel.Services
         // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Mark>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-
-            var result = await _context.Marks.ToListAsync(cancellationToken);
+// cancellationToken
+            var result = await _context.Marks.ToListAsync();
             var resultOut = _mapper.Map<IEnumerable<Mark>>(result);
 
             return resultOut;

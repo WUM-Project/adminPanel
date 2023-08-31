@@ -1,4 +1,4 @@
-﻿@model Admin_Panel.Pagginations.PagiData<Admin_Panel.Models.Mark>
+﻿@model Admin_Panel.Pagginations.PagiData<Admin_Panel.Models.Product>
 @* @model IEnumerable<Admin_Panel.Models.Mark> *@
 
 @{
@@ -6,7 +6,7 @@
 }
 
 <div class="container">
-    <h1 class="text-center my-4">Marks</h1>
+    <h1 class="text-center my-4">Products</h1>
     
       <div class="row justify-content-end mb-4">
          <div class="col-md-4">
@@ -34,14 +34,15 @@
             <thead>
                 <tr>
                     <th> @Html.DisplayNameFor(model =>  model.Items.First().Id)</th>
-                    <th> @Html.DisplayNameFor(model =>  model.Items.First().Lang)</th>
-                    <th> @Html.DisplayNameFor(model =>  model.Items.First().Title)</th>
-                    <th>@Html.DisplayNameFor(model =>  model.Items.First().Color)</th>
-                    <th>@Html.DisplayNameFor(model =>  model.Items.First().Type)</th>
-                    <th>@Html.DisplayNameFor(model =>  model.Items.First().Status)</th>
+                    @* <th> @Html.DisplayNameFor(model =>  model.Items.First().Lang)</th> *@
+                    <th> @Html.DisplayNameFor(model =>  model.Items.First().Name)</th>
+                    <th>@Html.DisplayNameFor(model =>  model.Items.First().Price)</th>
+                 
+                   
                     
                     <th>@Html.DisplayNameFor(model =>  model.Items.First().CreatedAt)</th>
-                    <th>@Html.DisplayNameFor(model =>  model.Items.First().UpdatedAt)</th>
+                    <th>@Html.DisplayNameFor(model =>  model.Items.First().UpdatedAt)</th> 
+                    <th>@Html.DisplayNameFor(model =>  model.Items.First().Status)</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -49,19 +50,20 @@
                 @foreach (var item in Model.Items) {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Lang)</td>
-                        <td><a asp-action="Details" asp-route-id="@item.Id" > @Html.DisplayFor(modelItem => item.Title)</a></td>
-                        <td style="background-color: @item.Color;">&nbsp;</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.Color)</td> *@
-                        <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.Lang)</td> *@
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                   
+                     
+                       
                         <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                         <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td class="align-middle">
                               <div class="d-flex justify-content-center">
-                            <a asp-action="Edit" asp-route-id="@item.Id" ><img width="30" height="30" src="https://img.icons8.com/wired/64/create-new.png" alt="create-new"/></a>
-                            @* <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success btn-sm mr-2">Details</a> *@
-                            <a asp-action="Delete" asp-route-id="@item.Id"> <img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/filled-trash.png" alt="Delete"/></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm mr-2">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success btn-sm mr-2">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
                         </div>
                         </td>
                     </tr>

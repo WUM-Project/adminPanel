@@ -1,0 +1,39 @@
+﻿@model Admin_Panel.Models.Mark
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <h1 class="mb-4">Details</h1>
+
+    <div class="mb-4">
+        <h4>Mark</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Lang)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Lang)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Title)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Type)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Type)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Color)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Color)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Status)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.CreatedAt)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UpdatedAt)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.UpdatedAt)</dd>
+           
+        </dl>
+    </div>
+
+    <div class="mb-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

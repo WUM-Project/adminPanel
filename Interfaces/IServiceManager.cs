@@ -8,5 +8,6 @@ namespace Admin_Panel.Interfaces
         IAttributeService AttributeServices { get; }
         ICategoryService CategoryService { get; }
         IMarkService MarkService { get; }
+        IProductService ProductService { get; }
     }
 }
