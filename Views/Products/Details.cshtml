@@ -1,4 +1,4 @@
-﻿@model Admin_Panel.Models.Mark
+﻿@model Admin_Panel.Models.Product
 
 @{
     ViewData["Title"] = "Details";
@@ -9,19 +9,29 @@
     <h1 class="mb-4">Details</h1>
 
     <div class="mb-4">
-        <h4>Mark</h4>
+        <h4>Product</h4>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Lang)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Lang)</dd>
-            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Title)</dt>
-            <dd class="col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
-            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Type)</dt>
-            <dd class="col-sm-10">@Html.DisplayFor(model => model.Type)</dd>
-            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Color)</dt>
-            <dd class="col-sm-10">@Html.DisplayFor(model => model.Color)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ShortName)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.ShortName)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ShortDescription)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.ShortDescription)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ImageId)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.ImageId)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Sku)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Sku)</dd>
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.DiscountedPrice)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.DiscountedPrice)</dd>
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Status)</dd>
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CreatedAt)</dt>

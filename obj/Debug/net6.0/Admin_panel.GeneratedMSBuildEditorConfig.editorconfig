@@ -6,13 +6,13 @@ build_property.ProjectTypeGuids =
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
-build_property.RootNamespace = Admin_panel
-build_property.RootNamespace = Admin_panel
-build_property.ProjectDir = D:\навчання\Dyplom_Adminka\Admin_panel\
+build_property.RootNamespace = Admin_Panel
+build_property.RootNamespace = Admin_Panel
+build_property.ProjectDir = d:\навчання\Dyplom_Adminka\Admin_panel\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\навчання\Dyplom_Adminka\Admin_panel
+build_property.MSBuildProjectDirectory = d:\навчання\Dyplom_Adminka\Admin_panel
 build_property._RazorSourceGeneratorDebug = 
 
 [D:/навчання/Dyplom_Adminka/Admin_panel/Views/Attributes/Create.cshtml]
@@ -121,4 +121,4 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/навчання/Dyplom_Adminka/Admin_panel/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-ckgq577dig
+build_metadata.AdditionalFiles.CssScope = b-k4amkhcqg6

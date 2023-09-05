@@ -20,8 +20,8 @@ namespace Admin_Panel.Models
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
-        public IList<ProductToCategory>  ProductToCategory  { get; set; }
-
+        public IList<ProductToCategory>  Products  { get; set; }
+        // public virtual ICollection<Product> Product { get; set; }= new List<Product>();
 
     }
 }

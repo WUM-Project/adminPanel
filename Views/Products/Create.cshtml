@@ -17,13 +17,23 @@
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="ShortName" class="control-label"></label>
+                    <input asp-for="ShortName" class="form-control" />
+                    <span asp-validation-for="ShortName" class="text-danger"></span>
+                </div>
                     <div class="form-group">
         <label asp-for="ImageId" class="file-input-label">
            
         </label>
         <input asp-for="ImageId" type="file" id="fileInput" name="ImageId" class="form-control"/>
     </div>
-   
+   <div class="form-group">
+    <label asp-for="Categories" class="control-label">Category</label>
+    <select asp-for="Categories" class="form-select" asp-items="@ViewBag.Categories">
+        <option value="">Select a category</option>
+    </select>
+</div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />

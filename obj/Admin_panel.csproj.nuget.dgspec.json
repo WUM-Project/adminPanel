@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj": {}
+    "d:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_Panel.csproj": {}
   },
   "projects": {
-    "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj": {
+    "d:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_Panel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj",
-        "projectName": "Admin_panel",
-        "projectPath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj",
+        "projectUniqueName": "d:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_Panel.csproj",
+        "projectName": "Admin_Panel",
+        "projectPath": "d:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_Panel.csproj",
         "packagesPath": "C:\\Users\\WellDone\\.nuget\\packages\\",
-        "outputPath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\obj\\",
+        "outputPath": "d:\\навчання\\Dyplom_Adminka\\Admin_panel\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

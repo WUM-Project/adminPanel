@@ -73,6 +73,8 @@ namespace Admin_Panel.Services
                     if (originproduct != null)
                     {
                        
+                        originproduct.Sku = product.Sku;
+                        originproduct.Quantity = product.Quantity;
                         originproduct.Status = product.Status;
                         _context.Update(originproduct);
                         await _context.SaveChangesAsync();
@@ -87,7 +89,8 @@ namespace Admin_Panel.Services
                     if (originproduct != null)
                     {
                         originproduct.OriginId = product.Id;
-                    
+                         originproduct.Sku = product.Sku;
+                        originproduct.Quantity = product.Quantity;
                         originproduct.Status = product.Status;
                         _context.Update(originproduct);
                         await _context.SaveChangesAsync();

@@ -4,6 +4,7 @@ using Admin_Panel.Services;
 using Admin_Panel.Interfaces;
 using Admin_Panel.Models;
 using Admin_Panel.Pagginations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Admin_Panel.Controllers
 {
     public class ProductsController : Controller
@@ -54,18 +55,31 @@ namespace Admin_Panel.Controllers
             return View(Product);
         }
 
-        public  IActionResult Create()
-        {  
+        public async  Task<IActionResult> Create()
+        {   string lang ="uk";
+              var result = await _serviceManager.CategoryService.GetAllAsync();
+         if (!String.IsNullOrEmpty(lang))
+            {
            
+              result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+            }
+              List<SelectListItem> mylist = new List<SelectListItem>();
+            foreach (var price in result)
+            {
+                mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
+
+            }
+            ViewBag.Categories = mylist;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product Product)
-        {
+        {     
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
+            Console.WriteLine(Product);
             int? originProductId = null;
             if (ModelState.IsValid)
             {

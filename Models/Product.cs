@@ -30,11 +30,13 @@ namespace Admin_Panel.Models
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
             // public virtual ICollection<Models.Attribute> Attributes { get; set; } = new List<Models.Attribute>();
-            // public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+            // public virtual Category Categories { get; set; }
             // public virtual ICollection<Mark> Marks { get; set; } = new List<Mark>();
+            // public Category category;
             public IList<ProductToMark>  ProductToMark  { get; set; }
             public IList<ProductToAttribute>  ProductToAttribute  { get; set; }
-            public IList<ProductToCategory>  ProductToCategory  { get; set; }
+            public IList<ProductToCategory>  Categories  { get; set; }= new List<ProductToCategory>();
+            //   public virtual ICollection<Category> Category { get; set; }= new List<Category>();
 
     }
 }
