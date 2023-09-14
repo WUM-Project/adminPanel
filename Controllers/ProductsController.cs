@@ -58,10 +58,12 @@ namespace Admin_Panel.Controllers
         public async  Task<IActionResult> Create()
         {   string lang ="uk";
               var result = await _serviceManager.CategoryService.GetAllAsync();
+              var marks = await _serviceManager.MarkService.GetAllAsync();
          if (!String.IsNullOrEmpty(lang))
             {
            
               result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+              marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
             }
               List<SelectListItem> mylist = new List<SelectListItem>();
             foreach (var price in result)
@@ -69,17 +71,27 @@ namespace Admin_Panel.Controllers
                 mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
 
             }
+              List<SelectListItem> markslist = new List<SelectListItem>();
+            foreach (var item in marks)
+            {
+                markslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+
+            }
+            Console.WriteLine(marks);
             ViewBag.Categories = mylist;
+            ViewBag.Marks = markslist;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product Product)
+        public async Task<IActionResult> Create(Product Product, string Categories, string Marks)
         {     
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
             Console.WriteLine(Product);
+            Console.WriteLine(Categories);
+            Console.WriteLine(Marks);
             int? originProductId = null;
             if (ModelState.IsValid)
             {

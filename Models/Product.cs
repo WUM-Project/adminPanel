@@ -33,7 +33,7 @@ namespace Admin_Panel.Models
             // public virtual Category Categories { get; set; }
             // public virtual ICollection<Mark> Marks { get; set; } = new List<Mark>();
             // public Category category;
-            public IList<ProductToMark>  ProductToMark  { get; set; }
+            public IList<ProductToMark>  Marks  { get; set; } =  new List<ProductToMark>();
             public IList<ProductToAttribute>  ProductToAttribute  { get; set; }
             public IList<ProductToCategory>  Categories  { get; set; }= new List<ProductToCategory>();
             //   public virtual ICollection<Category> Category { get; set; }= new List<Category>();

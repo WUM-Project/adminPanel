@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Admin_Panel")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Admin_panel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("Admin_Panel")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Admin_Panel")]
+[assembly: System.Reflection.AssemblyProductAttribute("Admin_panel")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Admin_panel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.

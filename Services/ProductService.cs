@@ -75,6 +75,8 @@ namespace Admin_Panel.Services
                        
                         originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
+                        originproduct.Price = product.Price;
+                        originproduct.DiscountedPrice = product.DiscountedPrice;
                         originproduct.Status = product.Status;
                         _context.Update(originproduct);
                         await _context.SaveChangesAsync();
@@ -91,6 +93,8 @@ namespace Admin_Panel.Services
                         originproduct.OriginId = product.Id;
                          originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
+                        originproduct.Price = product.Price;
+                        originproduct.DiscountedPrice = product.DiscountedPrice;
                         originproduct.Status = product.Status;
                         _context.Update(originproduct);
                         await _context.SaveChangesAsync();
