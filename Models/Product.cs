@@ -34,7 +34,7 @@ namespace Admin_Panel.Models
             // public virtual ICollection<Mark> Marks { get; set; } = new List<Mark>();
             // public Category category;
             public IList<ProductToMark>  Marks  { get; set; } =  new List<ProductToMark>();
-            public IList<ProductToAttribute>  ProductToAttribute  { get; set; }
+            public IList<ProductToAttribute>  Attributes  { get; set; }
             public IList<ProductToCategory>  Categories  { get; set; }= new List<ProductToCategory>();
             //   public virtual ICollection<Category> Category { get; set; }= new List<Category>();
 

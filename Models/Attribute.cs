@@ -29,7 +29,7 @@ public partial class Attribute
     public DateTime? UpdatedAt { get; set; } =DateTime.Now;
 
     public int? Position { get; set; }
-     public IList<ProductToAttribute>  ProductToAttribute  { get; set; }
+     public IList<ProductToAttribute>  Products  { get; set; }
            
 }
 }

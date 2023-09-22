@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 namespace Admin_Panel.Models
 {
 
-    public partial class ProductToMark
+ 
+        public partial class ProductToMark
     {
+       
         public int ProductId { get; set; }
      
         public int MarkId { get; set; }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ICUn6bGjtho0+Hdf08l05yBuIF3Spd1O8TEWEh/6sXI=",
+  "Hash": "6UBPQblbeOW/WT9XWf04ZeKBfbScr+gpZo/dFVqFDtk=",
   "Source": "Admin_panel",
   "BasePath": "_content/Admin_panel",
   "Mode": "Default",
@@ -848,6 +848,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\lib\\bootstrap\\dist\\js\\product.js",
+      "SourceId": "Admin_panel",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\",
+      "BasePath": "_content/Admin_panel",
+      "RelativePath": "lib/bootstrap/dist/js/product.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\product.js"
     },
     {
       "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\lib\\bootstrap\\LICENSE",

@@ -28,18 +28,68 @@
         </label>
         <input asp-for="ImageId" type="file" id="fileInput" name="ImageId" class="form-control"/>
     </div>
-                     <div class="form-group">
+
+                 @* Categories *@
+                 <div class="form-group">
+    <label asp-for="Categories" class="control-label">Category</label>
+    <div class="location-popup-categories">
+        @foreach (var categoryGroup in ViewBag.Categories)
+        {
+            <div class="category-group">
+                <strong>@categoryGroup.Key</strong>
+                @foreach (var category in categoryGroup)
+                {
+                    <label class="checkbox-entry" data-id="@category.Id">
+                        <input type="checkbox" name="Categories" class="categories" data-id="@category.Id">
+                        <span>@category.Title</span>
+                    </label>
+                }
+            </div>
+        }
+    </div>
+    <input type="hidden" id="selectedCategories" name="SelectedCategories" />
+</div>
+                     @* <div class="form-group">
                       <label asp-for="Categories" class="control-label">Category</label>
-                      <select asp-for="Categories" class="form-select" asp-items="@ViewBag.Categories">
+                      <select asp-for="Categories" multiple="true" class="form-select" asp-items="@ViewBag.Categories">
                           <option value="">Select a category</option>
                       </select>
-                  </div>
+                  </div> *@
+                 @* Categories *@
+
                   <div class="form-group">
                    <label asp-for="Marks" class="control-label">Mark</label>
-                   <select asp-for="Marks" class="form-select"  asp-items="@ViewBag.Marks">
-                       <option value="">Select a mark</option>
+                 @* asp-items="@ViewBag.Marks"  *@
+                 <div class="location-popup-radios">
+                 @foreach (var item in ViewBag.Marks){
+                   <label class="checkbox-entry"  data-id="@item.Value">
+                    @* asp-for="Marks"  *@
+                <input type="checkbox" name="Marks" class="marks" data-id="@item.Value">
+                <span>@item.Text</span>
+            </label>
+            }
+            </div>
+                 
+                   @* <select asp-for="Marks"  size="5"   style="height: auto;" class="form-select"  id="TestMarks" multiple>
+                    <option value="">Select a mark</option> 
+                     @foreach (var item in ViewBag.Marks)
+                       {<option value="@item.Id">@item.Title</option>}
+                   </select> *@
+                   <input type="hidden" id="selectedMarks" name="SelectedMarks" />
+                  </div>
+               
+                 
+                  <div class="form-group row">
+           <label asp-for="Attributes" class="control-label col-md-3">Attribute</label>
+           <div >
+               <div class="input-group">
+                   <select asp-for="Attributes" multiple="true" class="form-select" asp-items="@ViewBag.Attributes">
+                       <option value="">Select an attribute</option>
                    </select>
+                   <input type="text" class="form-control" placeholder="Your Text Input">
                </div>
+           </div>
+       </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
@@ -76,7 +126,7 @@
               
               
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn create-product btn-primary">Create</button>
                 </div>
             </form>
         </div>
@@ -85,20 +135,7 @@
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
-<script>
-    function previewImage(event) {
-        const previewContainer = document.querySelector('.preview');
-        if (event.target.files && event.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewContainer.style.backgroundImage = `url('${e.target.result}')`;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        } else {
-            previewContainer.style.backgroundImage = `url('assets/images/icon-placeholder.svg')`;
-        }
-    }
-</script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

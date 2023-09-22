@@ -59,12 +59,20 @@ namespace Admin_Panel.Controllers
         {   string lang ="uk";
               var result = await _serviceManager.CategoryService.GetAllAsync();
               var marks = await _serviceManager.MarkService.GetAllAsync();
+              var attributes = await _serviceManager.AttributeServices.GetAllAsync();
          if (!String.IsNullOrEmpty(lang))
             {
            
               result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
               marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+              attributes = attributes?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
             }
+            var groupedCategories = result
+    .GroupBy(category => category.ParentId)
+    .ToList();
+
+            Console.WriteLine(groupedCategories);
+
               List<SelectListItem> mylist = new List<SelectListItem>();
             foreach (var price in result)
             {
@@ -77,22 +85,44 @@ namespace Admin_Panel.Controllers
                 markslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
 
             }
-            Console.WriteLine(marks);
-            ViewBag.Categories = mylist;
+              List<SelectListItem> attributesList = new List<SelectListItem>();
+            foreach (var item in attributes)
+            {
+                attributesList.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+
+            }
+        
+            ViewBag.Categories = groupedCategories;
+            // ViewBag.Categories = mylist;
             ViewBag.Marks = markslist;
+          
+            ViewBag.Attributes = attributesList;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product Product, string Categories, string Marks)
+        public async Task<IActionResult> Create(Product Product, string Categories, string Marks, string SelectedMarks,string SelectedCategories,string Attributes)
         {     
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
-            Console.WriteLine(Product);
-            Console.WriteLine(Categories);
-            Console.WriteLine(Marks);
+            // string[] selectedCategoryIds;
+            // string[] selectedMarkIds;
+            // Console.WriteLine(Product);
+            // Console.WriteLine(Categories);
+            // Console.WriteLine(Marks);
+            // Console.WriteLine(SelectedMarks);
+            // Console.WriteLine(SelectedCategories);
             int? originProductId = null;
+            //get SelectedMarks
+        //      if (!string.IsNullOrEmpty(SelectedMarks))
+        //     {
+        //        selectedMarkIds = SelectedMarks.Split(',');
+        //      }
+        //      if (!string.IsNullOrEmpty(SelectedCategories))
+        //     {
+        //  selectedCategoryIds = SelectedCategories.Split(',');
+        //      }
             if (ModelState.IsValid)
             {
                 foreach (var lang in languages)
@@ -100,7 +130,7 @@ namespace Admin_Panel.Controllers
                     if (Product?.Id != null) Product.Id = 0;
                     Product.Lang = lang;
                     Product.OriginId = originProductId ?? 0;
-                    result = await _serviceManager.ProductService.Create(Product);
+                    result = await _serviceManager.ProductService.Create(Product, SelectedCategories, SelectedMarks);
                     //for storage multiple data
                     if (originProductId == null) originProductId = result.Id;
                 }

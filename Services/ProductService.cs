@@ -41,8 +41,18 @@ namespace Admin_Panel.Services
             return product;
         }
 
-        public async Task<Product> Create(Product product)
-        {
+        public async Task<Product> Create(Product product,string  Categories,string Marks)
+        { 
+            try
+            {
+                
+           
+             List<string> languages = new List<string>() { "uk", "ru" };
+             int indexLang = languages.FindIndex(el => el == product.Lang);
+             indexLang = indexLang >= 0 ? indexLang : 0;
+             Console.WriteLine(indexLang);
+             string[] selectedCategoryIds;
+            string[] selectedMarkIds;
             var res = await _context.Products
           .Where(result => result.Lang == product.Lang)
          .OrderByDescending(result => result.Position)
@@ -50,9 +60,57 @@ namespace Admin_Panel.Services
     .FirstOrDefaultAsync();
             product.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
             product.Status = 3;
-            _context.Add(product);
+                 _context.Add(product);
             await _context.SaveChangesAsync();
+
+
+        //         if (!string.IsNullOrEmpty(Marks))
+        //     {
+        //        selectedMarkIds = Marks.Split(',');
+        //        foreach (var markId in selectedMarkIds)
+        // {
+        //     // Create a new ProductToMarks entity and associate it with the product.
+        //      Console.WriteLine(product);
+        //     var mark = new ProductToMark()
+        //     {
+                
+        //         ProductId = product.Id, 
+        //         MarkId = int.Parse(markId)
+        //     };
+
+        //  await _context.ProductToMarks.AddAsync(mark);
+        //      await _context.SaveChangesAsync();
+        // }
+               
+        //      }
+
+             if (!string.IsNullOrEmpty(Categories))
+            {
+         selectedCategoryIds = Categories.Split(',');
+         foreach (var categoryId in selectedCategoryIds)
+        {
+            // Create a new ProductToCategory entity and associate it with the product.
+            var productToCategory = new ProductToCategory
+            {
+                ProductId = product.Id, // Set the ProductId
+                CategoryId = int.Parse(categoryId)
+            };
+            // ProductToCategories
+            _context.Add(productToCategory);
+           await _context.SaveChangesAsync();
+        }
+             }
+
+            // _context.Add(product);
+            // await _context.SaveChangesAsync();
             return product;
+             }
+            catch (System.Exception ex)
+            {
+                 // Log the exception
+    Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task Update(Product product)
