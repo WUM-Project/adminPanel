@@ -19,7 +19,11 @@ namespace Admin_Panel.Data
           
             
             Database.EnsureCreated();
-        } 
+        }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<User> Users { get; set; }
         public DbSet<ProductToMark> ProductToMarks { get; set; }
         public DbSet<ProductToCategory> ProductToCategories { get; set; }
         public DbSet<ProductToAttribute> ProductToAttributes { get; set; }

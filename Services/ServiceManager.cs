@@ -12,7 +12,7 @@ namespace Admin_Panel.Services
     public sealed class ServiceManager : IServiceManager
     {   
         
-          private readonly AppDbContext _context;
+        private readonly AppDbContext _context;
         private readonly Lazy<IAttributeService> _lazyAttiruteService;
         private readonly Lazy<ICategoryService> _lazyCategoryService;
         private readonly Lazy<IMarkService> __lazyMarkService;

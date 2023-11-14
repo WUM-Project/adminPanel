@@ -13,8 +13,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connection);
 });
 
+//builder.Services.AddAuthentication()
+//    .AddMicrosoftAccount(microsoftOptions => {
+//        microsoftOptions.ClientId = "<Microsoft-Client-ID>";
+//        microsoftOptions.ClientSecret = "<Microsoft-Client-Secret>";
+//    })
+//    .AddGoogle(googleOptions => {
+//        googleOptions.ClientId = "<Google-Client-ID>";
+//        googleOptions.ClientSecret = "<Google-Client-Secret>";
+//    })
+//    .AddFacebook(facebookOptions => {
+//        facebookOptions.AppId = "<Facebook-App-ID>";
+//        facebookOptions.AppSecret = "<Facebook-App-Secret>";
+//    });
+
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
- builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
  
 builder.Services.AddSwaggerGen(c =>
 {

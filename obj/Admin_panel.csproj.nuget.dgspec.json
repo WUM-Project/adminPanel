@@ -1,28 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj": {}
+    "D:\\DIPLOM_WUM\\adminPANEL\\Admin_Panel.csproj": {}
   },
   "projects": {
-    "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj": {
+    "D:\\DIPLOM_WUM\\adminPANEL\\Admin_Panel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj",
-        "projectName": "Admin_panel",
-        "projectPath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj",
-        "packagesPath": "C:\\Users\\WellDone\\.nuget\\packages\\",
-        "outputPath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\obj\\",
+        "projectUniqueName": "D:\\DIPLOM_WUM\\adminPANEL\\Admin_Panel.csproj",
+        "projectName": "Admin_Panel",
+        "projectPath": "D:\\DIPLOM_WUM\\adminPANEL\\Admin_Panel.csproj",
+        "packagesPath": "C:\\Users\\jekaj\\.nuget\\packages\\",
+        "outputPath": "D:\\DIPLOM_WUM\\adminPANEL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\WellDone\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\jekaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,6 +54,18 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.Facebook": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Google": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.MicrosoftAccount": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -57,7 +74,7 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.4, )"
+              "version": "[6.0.23, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -93,7 +110,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.412\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }
