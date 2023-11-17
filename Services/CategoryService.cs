@@ -26,7 +26,7 @@ namespace Admin_Panel.Services
         public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
         {   
            
-           var result = await _context.Categories.ToListAsync(cancellationToken);
+           var result = await _context.Categories.Include(d => d.UploadedFiles).Include(d=>d.UploadedFileIcon).ToListAsync(cancellationToken);
            var  resultOut = _mapper.Map<IEnumerable<Category>>(result);
            
             return resultOut;
@@ -35,7 +35,7 @@ namespace Admin_Panel.Services
         public async Task<Category> GetByIdAsync(int id,CancellationToken cancellationToken = default)
 
         { 
-            var category = await _context.Categories.FirstOrDefaultAsync(e => e.Id == id);
+            var category = await _context.Categories.Include(d => d.UploadedFiles).Include(d=>d.UploadedFileIcon).FirstOrDefaultAsync(e => e.Id == id);
             
            
             return category;
@@ -85,6 +85,7 @@ namespace Admin_Panel.Services
                         
                         originCategory.Status = category.Status;
                         originCategory.ImageId = category.ImageId;
+                        originCategory.IconId = category.IconId;
                         _context.Update(originCategory);
                         await _context.SaveChangesAsync();
                     }
@@ -101,6 +102,7 @@ namespace Admin_Panel.Services
                         
                         originCategory.Status = category.Status;
                         originCategory.ImageId = category.ImageId;
+                        originCategory.IconId = category.IconId;
                         _context.Update(originCategory);
                         await _context.SaveChangesAsync();
                     }

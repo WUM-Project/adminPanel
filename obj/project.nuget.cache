@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VaXVAByxLsN4S3a34nCTDHSGbYD+EtAsIOikF9WfbtY6HZ8Fgu2KH/iB+6Ha1Gk/jU3yFeMAth7aL8zwP5x10w==",
+  "dgSpecHash": "xTzNGBEVcY9wTcXx+XGqpDCGahMYnkG1rnfb4PBRwFZ54ur6dbIKXn4BPc2Y87whLPoFXcC7Uzw1rY7CKXDuVQ==",
   "success": true,
-  "projectFilePath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_panel.csproj",
+  "projectFilePath": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\Admin_Panel.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\WellDone\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\WellDone\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

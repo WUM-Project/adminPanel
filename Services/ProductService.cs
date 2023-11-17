@@ -41,8 +41,9 @@ namespace Admin_Panel.Services
             return product;
         }
 
-        public async Task<Product> Create(Product product,string  Categories,string Marks)
+        public async Task<Product> Create(Product product,string  Categories,string Marks,string Attributes)
         { 
+             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 
@@ -50,69 +51,126 @@ namespace Admin_Panel.Services
              List<string> languages = new List<string>() { "uk", "ru" };
              int indexLang = languages.FindIndex(el => el == product.Lang);
              indexLang = indexLang >= 0 ? indexLang : 0;
-             Console.WriteLine(indexLang);
+             Console.WriteLine(product);
              string[] selectedCategoryIds;
             string[] selectedMarkIds;
+            string[] selectedAttributeIds;
             var res = await _context.Products
           .Where(result => result.Lang == product.Lang)
          .OrderByDescending(result => result.Position)
-    .Select(result => new { result.Id, result.Position })
-    .FirstOrDefaultAsync();
+    .Select(result => new { result.Id, result.Position }).FirstOrDefaultAsync();
+        // Console.WriteLine(res);
+            //  if(product.OriginId > 0){
+           
+            // product.Id = (int)(product.OriginId +1);
+    
+
+            //  }
             product.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
             product.Status = 3;
-                 _context.Add(product);
+            // Guid id = Guid.Empty;
+            
+              product.Categories.Clear(); 
+              product.Marks.Clear(); 
+              
+               await  _context.AddAsync(product);
             await _context.SaveChangesAsync();
 
 
-        //         if (!string.IsNullOrEmpty(Marks))
+        //         if (!string.IsNullOrEmpty(Attributes))
         //     {
-        //        selectedMarkIds = Marks.Split(',');
-        //        foreach (var markId in selectedMarkIds)
+        //        selectedAttributeIds = Marks.Split(',');
+        //        foreach (var markId in selectedAttributeIds)
         // {
-        //     // Create a new ProductToMarks entity and associate it with the product.
-        //      Console.WriteLine(product);
-        //     var mark = new ProductToMark()
+        //     // Create a new ProductToAttribute entity and associate it with the product.
+            
+        //     var attribute = new ProductToAttribute()
         //     {
                 
         //         ProductId = product.Id, 
-        //         MarkId = int.Parse(markId)
+        //         AttributeId = int.Parse(markId)
         //     };
 
-        //  await _context.ProductToMarks.AddAsync(mark);
-        //      await _context.SaveChangesAsync();
+        //  await _context.ProductToAttributes.AddAsync(attribute);
+             
         // }
-               
+        //       await _context.SaveChangesAsync(); 
         //      }
+
+                if (!string.IsNullOrEmpty(Marks))
+            {
+               selectedMarkIds = Marks.Split(',');
+               foreach (var markId in selectedMarkIds)
+        {
+            // Create a new ProductToMarks entity and associate it with the product.
+             Console.WriteLine(product);
+            var mark = new ProductToMark()
+            {
+                
+                ProductId = product.Id, 
+                MarkId = int.Parse(markId)
+            };
+
+         await _context.ProductToMarks.AddAsync(mark);
+             
+        }
+              await _context.SaveChangesAsync(); 
+             }
 
              if (!string.IsNullOrEmpty(Categories))
             {
          selectedCategoryIds = Categories.Split(',');
-         foreach (var categoryId in selectedCategoryIds)
-        {
-            // Create a new ProductToCategory entity and associate it with the product.
-            var productToCategory = new ProductToCategory
-            {
-                ProductId = product.Id, // Set the ProductId
-                CategoryId = int.Parse(categoryId)
-            };
-            // ProductToCategories
-            _context.Add(productToCategory);
-           await _context.SaveChangesAsync();
-        }
+          selectedCategoryIds = Categories.Split(',');
+            await AddProductToCategoryAsync(product.Id, selectedCategoryIds);
+        //  foreach (var categoryId in selectedCategoryIds)
+        // {
+        //     // Create a new ProductToCategory entity and associate it with the product.
+        //     var productToCategory = new ProductToCategory
+        //     {
+        //         ProductId = product.Id, // Set the ProductId
+        //         CategoryId = int.Parse(categoryId)
+        //     };
+        //     // ProductToCategories
+        //   await   _context.ProductToCategories.AddAsync(productToCategory);
+           
+        // }
+        // await _context.SaveChangesAsync();
+
+      
              }
 
             // _context.Add(product);
             // await _context.SaveChangesAsync();
+              await transaction.CommitAsync();
             return product;
              }
             catch (System.Exception ex)
             {
+                 await transaction.RollbackAsync();
                  // Log the exception
     Console.WriteLine($"An error occurred: {ex.Message}");
                 throw;
             }
         }
+private async Task AddProductToCategoryAsync(int productId, string[] CategoryIds)
+{
+   
+  foreach (var categoryId in CategoryIds)
+        {
+            // Create a new ProductToCategory entity and associate it with the product.
+            var productToCategory = new ProductToCategory
+            {
+                ProductId =productId, // Set the ProductId
+                CategoryId = int.Parse(categoryId)
+            };
+            // ProductToCategories
+             _context.ProductToCategories.Add(productToCategory);
+           
+        }
+    
 
+    await _context.SaveChangesAsync();
+}
         public async Task Update(Product product)
         {
             var existingProduct = await _context.Products

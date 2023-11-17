@@ -9,7 +9,7 @@ namespace Admin_Panel.Interfaces
         // CancellationToken cancellationToken
         Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<Product> GetByIdAsync(int id,CancellationToken cancellationToken = default);
-        Task<Product> Create(Product product, string  Categories,string  Marks);
+        Task<Product> Create(Product product, string  Categories,string  Marks,string Attribute);
         Task Update(Product product);
         Task Delete(int id);
     }

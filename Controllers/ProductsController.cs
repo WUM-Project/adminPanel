@@ -102,7 +102,7 @@ namespace Admin_Panel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product Product, string Categories, string Marks, string SelectedMarks,string SelectedCategories,string Attributes)
+        public async Task<IActionResult> Create(Product Product,  string SelectedMarks,string SelectedCategories,string Attributes)
         {     
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
@@ -130,7 +130,7 @@ namespace Admin_Panel.Controllers
                     if (Product?.Id != null) Product.Id = 0;
                     Product.Lang = lang;
                     Product.OriginId = originProductId ?? 0;
-                    result = await _serviceManager.ProductService.Create(Product, SelectedCategories, SelectedMarks);
+                    result = await _serviceManager.ProductService.Create(Product, SelectedCategories, SelectedMarks,Attributes);
                     //for storage multiple data
                     if (originProductId == null) originProductId = result.Id;
                 }

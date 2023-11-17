@@ -17,7 +17,7 @@ namespace Admin_Panel.Data
             : base(options)
         {
           
-            
+            // Database.EnsureDeleted();
             Database.EnsureCreated();
         } 
         public DbSet<ProductToMark> ProductToMarks { get; set; }
@@ -27,6 +27,7 @@ namespace Admin_Panel.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Mark> Marks { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<UploadedFiles> UploadedFile { get; set; }
        
         // public DbSet<User> Users { get; set; }
         // public DbSet<UserExams> UserExams { get; set; }
@@ -37,23 +38,60 @@ namespace Admin_Panel.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
           
-            // builder.Entity<User>().HasMany(x => x.RefreshTokens).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
-            // builder.Entity<UserExams>().HasKey(x => new { x.ExamId, x.UserId });
-            // builder.Entity<ProductToMark>()
-            //     .HasOne(b => b.Product)
-            //     .WithMany(ba => ba.Marks)
-            //     .HasForeignKey(bi => bi.ProductId);
-
-            // builder.Entity<ProductToMark>()
-            //   .HasOne(b => b.Mark)
-            //   .WithMany(ba => ba.Products)
-            //   .HasForeignKey(bi => bi.MarkId);
+           
             builder.Entity<ProductToMark>().ToTable("ProductToMark");
             builder.Entity<Product>().HasMany(x => x.Marks).WithOne(x => x.Product).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<ProductToMark>().HasKey(sc => new { sc.ProductId, sc.MarkId });
             builder.Entity<ProductToCategory>().HasKey(sc => new { sc.ProductId, sc.CategoryId });
+// builder.Entity<ProductToCategory>().HasIndex(u => u.Id).IsUnique();
+    //          builder.Entity<ProductToCategory>()
+    //         .HasKey(ptc => new { ptc.ProductId, ptc.CategoryId });
+
+    //          builder.Entity<ProductToCategory>()
+    //              .HasOne(ptc => ptc.Product)
+    //              .WithMany(p => p.Categories)
+    //              .HasForeignKey(ptc => ptc.ProductId).HasPrincipalKey(b => b.Id);
+    //  builder.Entity<ProductToMark>().HasIndex(u => u.ProductId).IsUnique();
+             builder.Entity<ProductToMark>()
+                 .HasOne(ptc => ptc.Mark)
+            .WithMany(c => c.Products)
+            .HasForeignKey(ptc => ptc.MarkId).HasPrincipalKey(b => b.Id);
+             
+             builder.Entity<ProductToMark>()
+            .HasKey(ptc => new { ptc.ProductId, ptc.MarkId });
+
+             builder.Entity<ProductToMark>()
+                 .HasOne(ptc => ptc.Product)
+                 .WithMany(p => p.Marks)
+                 .HasForeignKey(ptc => ptc.ProductId).HasPrincipalKey(b => b.Id);
+     
+             builder.Entity<ProductToCategory>()
+                 .HasOne(ptc => ptc.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(ptc => ptc.CategoryId).HasPrincipalKey(c => c.Id);
+            // .HasPrincipalKey(b => b.Id);
+             
             builder.Entity<ProductToAttribute>().HasKey(sc => new { sc.ProductId, sc.AttributeId });
-            base.OnModelCreating(builder);
+ 
+
+ 
+
+
+          builder.Entity<Category>()
+        .HasOne(c => c.UploadedFiles)
+        .WithMany(uf => uf.Categories)
+        .HasForeignKey(c => c.ImageId) // Assuming ImageId is the foreign key in Category
+        .OnDelete(DeleteBehavior.Restrict); // Adjust the delete behavior as needed
+       
+
+        builder.Entity<Category>()
+        .HasOne(c => c.UploadedFileIcon)
+        .WithMany(uf => uf.CategoryIcon)
+        .HasForeignKey(c => c.IconId) // Assuming IconId is the foreign key in Category
+        .OnDelete(DeleteBehavior.Restrict);
+
+
+     
         }
     }
 }
