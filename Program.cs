@@ -3,15 +3,29 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Admin_Panel.Services;
 using Admin_Panel.Interfaces;
+using Interfaces;
+using Admin_Panel;
+
 var builder = WebApplication.CreateBuilder(args);
 string connection = builder.Configuration.GetConnectionString("DefualtConnection");
 
+
+
+builder.Services.AddHttpClient<IUserService, UserServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5001/");
+
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connection);
 });
+
+
+
+
 
 //builder.Services.AddAuthentication()
 //    .AddMicrosoftAccount(microsoftOptions => {

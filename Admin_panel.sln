@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin_Panel", "Admin_Panel.csproj", "{73F53D8E-821F-487B-B869-61B1229F1E2E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "..\Custom\Interfaces\Interfaces.csproj", "{BFC77560-D332-420C-9677-EF36F8A84ACA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{73F53D8E-821F-487B-B869-61B1229F1E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F53D8E-821F-487B-B869-61B1229F1E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F53D8E-821F-487B-B869-61B1229F1E2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC77560-D332-420C-9677-EF36F8A84ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC77560-D332-420C-9677-EF36F8A84ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC77560-D332-420C-9677-EF36F8A84ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC77560-D332-420C-9677-EF36F8A84ACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

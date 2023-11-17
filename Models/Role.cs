@@ -1,4 +1,7 @@
-﻿namespace Admin_Panel.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+namespace Admin_Panel.Models
 {
     public partial class Role
     {

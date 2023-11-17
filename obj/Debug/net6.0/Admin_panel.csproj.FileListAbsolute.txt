@@ -548,3 +548,6 @@ D:\DIPLOM_WUM\adminPANEL\obj\Debug\net6.0\refint\Admin_Panel.dll
 D:\DIPLOM_WUM\adminPANEL\obj\Debug\net6.0\Admin_Panel.pdb
 D:\DIPLOM_WUM\adminPANEL\obj\Debug\net6.0\Admin_Panel.genruntimeconfig.cache
 D:\DIPLOM_WUM\adminPANEL\obj\Debug\net6.0\ref\Admin_Panel.dll
+D:\DIPLOM_WUM\adminPANEL\bin\Debug\net6.0\Shed.CoreKit.WebApi.Abstractions.dll
+D:\DIPLOM_WUM\adminPANEL\bin\Debug\net6.0\Interfaces.dll
+D:\DIPLOM_WUM\adminPANEL\bin\Debug\net6.0\Interfaces.pdb

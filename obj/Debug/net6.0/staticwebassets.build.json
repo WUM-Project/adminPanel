@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0m5696qcjSGJ1cpXsB1NnNI4hy8IPtatCf86qWqre8g=",
+  "Hash": "JXcwcJFtYHFijDuUpXtfacBpyExTZIf/D6W1MBjqlZ0=",
   "Source": "Admin_Panel",
   "BasePath": "_content/Admin_Panel",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\DIPLOM_WUM\\adminPANEL\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Admin_Panel.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\DIPLOM_WUM\\adminPANEL\\wwwroot\\css\\login.css",
+      "SourceId": "Admin_Panel",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\DIPLOM_WUM\\adminPANEL\\wwwroot\\",
+      "BasePath": "_content/Admin_Panel",
+      "RelativePath": "css/login.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\login.css"
     },
     {
       "Identity": "D:\\DIPLOM_WUM\\adminPANEL\\wwwroot\\css\\site.css",

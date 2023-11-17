@@ -1,0 +1,63 @@
+﻿/* wwwroot/css/login.css */
+.container {
+    background-color: #4ebe38;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+
+body.login-body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button[type="submit"] {
+    background-color: #314b2d;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    button[type="submit"]:hover {
+        background-color: #514c4c;
+    }
+
+
+.login-content {
+    background-color: #3b8911; /* Зелёный цвет фона формы */
+    color: #fff; /* Белый цвет текста внутри формы */
+}

@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Admin_Panel.bundle.scp.css"
     },
     {
+      "Id": "D:\\DIPLOM_WUM\\adminPANEL\\wwwroot\\css\\login.css",
+      "PackagePath": "staticwebassets\\css\\login.css"
+    },
+    {
       "Id": "D:\\DIPLOM_WUM\\adminPANEL\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "A5KSwDDnPdMOqZaSofjU/mKrEYgUUQAuhWjrEGdQ7i665DcE311LTSB5TwtjcN5QNiuUVKWLR6NHfH7/5ZX9wg==",
+  "dgSpecHash": "s7RMKaKo1+Lnl2tcjRHw7O1G317XXQMSg+ZZf54b1HergmDBUrfRA+TeHTAdeUgFBk/mOMpe0j+PTC5TwNNQIg==",
   "success": true,
   "projectFilePath": "D:\\DIPLOM_WUM\\adminPANEL\\Admin_Panel.csproj",
   "expectedPackageFiles": [
@@ -103,6 +103,7 @@
     "C:\\Users\\jekaj\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\jekaj\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\jekaj\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\jekaj\\.nuget\\packages\\shed.corekit.webapi.abstractions\\1.0.0\\shed.corekit.webapi.abstractions.1.0.0.nupkg.sha512",
     "C:\\Users\\jekaj\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\jekaj\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\jekaj\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

@@ -10,6 +10,7 @@
         "dependencies": {
           "AutoMapper": "12.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
+          "Interfaces": "1.0.0",
           "Microsoft.AspNetCore.Authentication.Facebook": "6.0.0",
           "Microsoft.AspNetCore.Authentication.Google": "6.0.0",
           "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "6.0.0",
@@ -1488,6 +1489,14 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
+      "Shed.CoreKit.WebApi.Abstractions/1.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/Shed.CoreKit.WebApi.Abstractions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.5.0": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
@@ -2317,6 +2326,14 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
         }
+      },
+      "Interfaces/1.0.0": {
+        "dependencies": {
+          "Shed.CoreKit.WebApi.Abstractions": "1.0.0"
+        },
+        "runtime": {
+          "Interfaces.dll": {}
+        }
       }
     }
   },
@@ -3019,6 +3036,13 @@
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
+    "Shed.CoreKit.WebApi.Abstractions/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oWHRbXXbzyuB5d7qQCRHCow1gfx9Gxc43oF2VPSQ7GUXUPfKnoW9jeeMUDLmvrWWczNZMbmtSQJincF/gUJBkg==",
+      "path": "shed.corekit.webapi.abstractions/1.0.0",
+      "hashPath": "shed.corekit.webapi.abstractions.1.0.0.nupkg.sha512"
+    },
     "Swashbuckle.AspNetCore/6.5.0": {
       "type": "package",
       "serviceable": true,
@@ -3599,6 +3623,11 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "Interfaces/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
