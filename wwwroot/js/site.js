@@ -3,7 +3,261 @@
 
 // Write your JavaScript code.
 jQuery(function($) {
+    //Версія з dropDown list 
+    // Змінити значення dropdown та прихованого поля
+document.querySelectorAll('.dropdown-item:not(.selected)').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+        e.preventDefault();
+        var attributeDropdown = document.getElementById('attributeDropdown');
+        var attributeValueInput = document.getElementById('attributeValueInput');
+        if (attributeDropdown) {
+            // Змінити значення dropdown та прихованого поля
+            attributeDropdown.textContent = this.textContent;
+            attributeDropdown.dataset.value = this.dataset.value;
+
+            // Скинути значення текстового поля
+            attributeValueInput.value = '';
+        }
+    });
+});
+
+document.getElementById('addAttributeBtn').addEventListener('click', function (e) {
+    var attributeDropdown = document.getElementById('attributeDropdown');
+    var attributeValueInput = document.getElementById('attributeValueInput');
+    var selectedAttributesList = document.getElementById('selectedAttributesList');
+    var hiddenAttributesInput = document.getElementById('SelectedAttributes');
+    e.preventDefault();
+
+    // Перевірити, чи є обраний атрибут
+    if (attributeDropdown.dataset.value) {
+        // Перевірити, чи атрибут вже вибрано
+        var isAlreadySelected = selectedAttributesList.querySelector('.selected-attribute[data-value="' + attributeDropdown.dataset.value + '"]');
+        if (!isAlreadySelected) {
+            // Додати атрибут до списку
+            var divWrapper = document.createElement('div');
+            divWrapper.className = 'd-flex align-items-center mb-2 selected-attribute';
+            divWrapper.dataset.value = attributeDropdown.dataset.value;
+
+            var selectedAttribute = document.createElement('input');
+            selectedAttribute.type = 'hidden';
+            selectedAttribute.className = 'attribute-input';
+            selectedAttribute.name = 'Attributes';
+            selectedAttribute.value = attributeDropdown.dataset.value + ':' + attributeValueInput.value;
+
+            var dropdownClone = attributeDropdown.cloneNode(true);
+            dropdownClone.textContent = attributeDropdown.textContent;
+            dropdownClone.dataset.value = attributeDropdown.dataset.value;
+
+            var textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.className = 'form-control ms-2 me-2 attribute-value';
+            textInput.value = attributeValueInput.value;
+
+            var deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'btn btn-danger';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function () {
+                // Видалити поточний елемент списку
+                divWrapper.remove();
+                // Зняти заборону для випадаючого списку
+                dropdownClone.removeAttribute('disabled');
+            });
+
+            // Додати елементи до обгортки
+            divWrapper.appendChild(dropdownClone);
+            divWrapper.appendChild(textInput);
+            divWrapper.appendChild(deleteButton);
+            divWrapper.appendChild(selectedAttribute);
+
+            // Заборонити випадаючий список для обраного значення
+            dropdownClone.setAttribute('disabled', 'disabled');
+
+            // Додати обгортку до списку
+            selectedAttributesList.insertBefore(divWrapper, selectedAttributesList.firstChild);
+
+            // Скинути значення текстового поля
+            attributeValueInput.value = '';
+
+             // Оновити приховане поле
+             updateHiddenAttributes(hiddenAttributesInput);
+        }
+    }
+});
+
+// Допоміжна функція для оновлення прихованого поля Attributes
+function updateHiddenAttributes(hiddenAttributesInput) {
+    var selectedAttributes = document.querySelectorAll('.selected-attribute .attribute-input');
+    var attributeValues = Array.from(selectedAttributes).map(function (attribute) {
+        return attribute.value;
+    });
+    hiddenAttributesInput.value = attributeValues.join(',');
+    // hiddenAttributesInput.value = attributeValues.join(',');
+    // hiddenAttributesInput.value = JSON.stringify(attributeValues);
+
+    console.log("Updated Hidden Attributes:", hiddenAttributesInput.value);
+}
+    
+  
    
+    //Робоча версія з select
+    // document.getElementById('addAttributeBtn').addEventListener('click', function () {
+    //     var select = document.querySelector('select[name="Attributes"]');
+    //     var attributeValueInput = document.getElementById('attributeValueInput');
+    //     var selectedAttributesList = document.getElementById('selectedAttributesList');
+    //     var hiddenAttributesInput = document.getElementById('hiddenAttributes');
+
+    //     // Перевірити, чи є обраний атрибут
+    //     if (select.value) {
+    //         // Перевірити, чи атрибут вже вибрано
+    //         var existingAttribute = document.querySelector('input[value="' + select.value + '"]');
+    //         if (existingAttribute) {
+    //             // Якщо атрибут вже вибрано, оновити його значення
+    //             existingAttribute.nextElementSibling.nextElementSibling.textContent = attributeValueInput.value;
+
+    //             // Оновити значення прихованого поля
+    //             existingAttribute.value = select.value + ':' + attributeValueInput.value;
+
+    //             // Перенести елемент вгору (перед першим елементом списку)
+    //             selectedAttributesList.insertBefore(existingAttribute.parentElement, selectedAttributesList.firstChild);
+    //         } else {
+    //             // Якщо атрибут не вибрано, додати його до списку
+    //             var divWrapper = document.createElement('div');
+    //             divWrapper.className = 'd-flex align-items-center mb-2';
+
+    //             var selectedAttribute = document.createElement('input');
+    //             selectedAttribute.type = 'hidden';
+    //             selectedAttribute.name = 'Attributes';
+    //             selectedAttribute.value = select.value + ':' + attributeValueInput.value;
+
+    //             var selectClone = select.cloneNode(true);
+    //             selectClone.value = select.value;
+    //             // selectClone.disabled = true;
+
+    //             var textInput = document.createElement('input');
+    //             textInput.type = 'text';
+    //             textInput.className = 'form-control ms-2 me-2';
+    //             textInput.value = attributeValueInput.value;
+
+    //             var deleteButton = document.createElement('button');
+    //             deleteButton.type = 'button';
+    //             deleteButton.className = 'btn btn-danger';
+    //             deleteButton.textContent = 'Delete';
+    //             deleteButton.addEventListener('click', function () {
+    //                 // Видалити поточний елемент списку
+    //                 divWrapper.remove();
+    //             });
+
+    //             // Додати елементи до обгортки
+    //             divWrapper.appendChild(selectClone);
+    //             divWrapper.appendChild(textInput);
+    //             divWrapper.appendChild(deleteButton);
+    //             divWrapper.appendChild(selectedAttribute);
+
+    //             // Додати обгортку до списку
+    //             selectedAttributesList.insertBefore(divWrapper, selectedAttributesList.firstChild);
+    //         }
+
+    //         // Скинути значення текстового поля
+    //         attributeValueInput.value = '';
+    //     }
+    // });
+
+    // // Додати обробник події для вибору атрибуту в списку
+    // document.querySelector('select[name="Attributes"]').addEventListener('change', function () {
+    //     var select = document.querySelector('select[name="Attributes"]');
+    //     var attributeValueInput = document.getElementById('attributeValueInput');
+
+    //     // Перевірити, чи атрибут вже вибрано
+    //     var existingAttribute = document.querySelector('input[value="' + select.value + '"]');
+    //     if (existingAttribute) {
+    //         // Якщо атрибут вже вибрано, заповнити значення текстового поля
+    //         attributeValueInput.value = existingAttribute.nextElementSibling.nextElementSibling.value;
+    //     } else {
+    //         // Якщо атрибут не вибрано, скинути значення текстового поля
+    //         attributeValueInput.value = '';
+    //     }
+    // });
+    //==================================================================================
+    // document.getElementById('addAttributeBtn').addEventListener('click', function () {
+    //     var select = document.querySelector('select[name="Attributes"]');
+    //     var attributeValueInput = document.getElementById('attributeValueInput');
+    //     var selectedAttributesList = document.getElementById('selectedAttributesList');
+    //     var hiddenAttributesInput = document.getElementById('hiddenAttributes');
+
+    //     // Перевірити, чи є обраний атрибут
+    //     if (select.value) {
+    //         // Перевірити, чи атрибут вже вибрано
+    //         var existingAttribute = document.querySelector('input[value="' + select.value + '"]');
+    //         if (existingAttribute) {
+    //             // Якщо атрибут вже вибрано, оновити його значення
+    //             existingAttribute.nextElementSibling.nextElementSibling.textContent = attributeValueInput.value;
+
+    //             // Оновити значення прихованого поля
+    //             existingAttribute.value = select.value + ':' + attributeValueInput.value;
+    //         } else {
+    //             // Якщо атрибут не вибрано, додати його до списку
+    //             var divWrapper = document.createElement('div');
+    //             divWrapper.className = 'd-flex align-items-center mb-2';
+
+    //             var selectedAttribute = document.createElement('input');
+    //             selectedAttribute.type = 'hidden';
+    //             selectedAttribute.name = 'Attributes';
+    //             selectedAttribute.value = select.value + ':' + attributeValueInput.value;
+
+    //             var selectClone = select.cloneNode(true);
+    //             selectClone.value = select.value;
+    //             // selectClone.disabled = true;
+
+    //             var textInput = document.createElement('input');
+    //             textInput.type = 'text';
+    //             textInput.className = 'form-control ms-2 me-2';
+    //             textInput.value = attributeValueInput.value;
+
+    //             var deleteButton = document.createElement('button');
+    //             deleteButton.type = 'button';
+    //             deleteButton.className = 'btn btn-danger';
+    //             deleteButton.textContent = 'Delete';
+    //             deleteButton.addEventListener('click', function () {
+    //                 // Видалити поточний елемент списку
+    //                 divWrapper.remove();
+    //             });
+
+    //             // Додати елементи до обгортки
+    //             divWrapper.appendChild(selectClone);
+    //             divWrapper.appendChild(textInput);
+    //             divWrapper.appendChild(deleteButton);
+    //             divWrapper.appendChild(selectedAttribute);
+
+    //             // Вставити новий елемент перед іншими елементами у вибраних атрибутах
+    //             selectedAttributesList.insertBefore(divWrapper, selectedAttributesList.firstChild);
+    //         }
+
+    //         // Скинути значення текстового поля
+    //         attributeValueInput.value = '';
+    //     }
+    // });
+
+    // // Додати обробник події для вибору атрибуту в списку
+    // document.querySelector('select[name="Attributes"]').addEventListener('change', function () {
+    //     var select = document.querySelector('select[name="Attributes"]');
+    //     var attributeValueInput = document.getElementById('attributeValueInput');
+
+    //     // Перевірити, чи атрибут вже вибрано
+    //     var existingAttribute = document.querySelector('input[value="' + select.value + '"]');
+    //     if (existingAttribute) {
+    //         // Якщо атрибут вже вибрано, заповнити значення текстового поля
+    //         attributeValueInput.value = existingAttribute.nextElementSibling.nextElementSibling.value;
+    //     } else {
+    //         // Якщо атрибут не вибрано, скинути значення текстового поля
+    //         attributeValueInput.value = '';
+    //     }
+    // });
+
+    //=================================================================================
+   
+   
+    /////////////=============================================================================================================
 
 //     $(".marks").click(function (e)
 // {
@@ -25,6 +279,7 @@ jQuery(function($) {
        //For get check
        let selectedMarks = [];
        let selectedCategories = [];
+       let selectedAttributesValue=[];
        $('.location-popup-radios .checkbox-entry').each(function (index, value) {
            if ($(this).find('input').is(':checked')) {
                selectedMarks.push($(this).attr('data-id'));
@@ -45,7 +300,7 @@ jQuery(function($) {
         //     }).get();
         //     $('#selectedCategories').val(selectedCategories.join(','));
         // });
-
+     
   
    })
    $(document).ready(function () {

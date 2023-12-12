@@ -22,6 +22,7 @@ namespace Admin_Panel.Data
         } 
         public DbSet<ProductToMark> ProductToMarks { get; set; }
         public DbSet<ProductToCategory> ProductToCategories { get; set; }
+        public DbSet<ProductToUploadedFiles> ProductToUploadedFiles { get; set; }
         public DbSet<ProductToAttribute> ProductToAttributes { get; set; }
         public DbSet<Models.Attribute> Attributes { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -39,8 +40,10 @@ namespace Admin_Panel.Data
         {
           
            
-            builder.Entity<ProductToMark>().ToTable("ProductToMark");
-            builder.Entity<Product>().HasMany(x => x.Marks).WithOne(x => x.Product).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<ProductToMark>().ToTable("ProductToMarks");
+            // builder.Entity<Product>().HasMany(x => x.Marks).WithOne(x => x.Product).OnDelete(DeleteBehavior.Cascade);
+           
+           
             builder.Entity<ProductToMark>().HasKey(sc => new { sc.ProductId, sc.MarkId });
             builder.Entity<ProductToCategory>().HasKey(sc => new { sc.ProductId, sc.CategoryId });
 // builder.Entity<ProductToCategory>().HasIndex(u => u.Id).IsUnique();
@@ -57,13 +60,13 @@ namespace Admin_Panel.Data
             .WithMany(c => c.Products)
             .HasForeignKey(ptc => ptc.MarkId).HasPrincipalKey(b => b.Id);
              
-             builder.Entity<ProductToMark>()
-            .HasKey(ptc => new { ptc.ProductId, ptc.MarkId });
+            //  builder.Entity<ProductToMark>()
+            // .HasKey(ptc => new { ptc.ProductId, ptc.MarkId });
 
-             builder.Entity<ProductToMark>()
-                 .HasOne(ptc => ptc.Product)
-                 .WithMany(p => p.Marks)
-                 .HasForeignKey(ptc => ptc.ProductId).HasPrincipalKey(b => b.Id);
+            //  builder.Entity<ProductToMark>()
+            //      .HasOne(ptc => ptc.Product)
+            //      .WithMany(p => p.Marks)
+            //      .HasForeignKey(ptc => ptc.ProductId).HasPrincipalKey(b => b.Id);
      
              builder.Entity<ProductToCategory>()
                  .HasOne(ptc => ptc.Category)
@@ -77,6 +80,12 @@ namespace Admin_Panel.Data
  
 
 
+          builder.Entity<Product>()
+        .HasOne(c => c.UploadedFiles)
+        .WithMany(uf => uf.Products)
+        .HasForeignKey(c => c.ImageId) // Assuming ImageId is the foreign key in Category
+        .OnDelete(DeleteBehavior.Restrict); // Adjust the delete behavior as needed
+
           builder.Entity<Category>()
         .HasOne(c => c.UploadedFiles)
         .WithMany(uf => uf.Categories)
@@ -89,7 +98,13 @@ namespace Admin_Panel.Data
         .WithMany(uf => uf.CategoryIcon)
         .HasForeignKey(c => c.IconId) // Assuming IconId is the foreign key in Category
         .OnDelete(DeleteBehavior.Restrict);
+        
 
+           builder.Entity<ProductToUploadedFiles>().HasKey(sc => new { sc.ProductId, sc.UploadId });
+               builder.Entity<ProductToUploadedFiles>()
+                 .HasOne(ptc => ptc.UploadedFile)
+            .WithMany(c => c.ProductToUploadedFiles)
+            .HasForeignKey(ptc => ptc.UploadId).HasPrincipalKey(c => c.Id);
 
      
         }

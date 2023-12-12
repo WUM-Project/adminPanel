@@ -1,4 +1,5 @@
-﻿@model Admin_Panel.Models.Product
+﻿@model Admin_Panel.ViewModels.ProductCreateViewModel
+@* @model Admin_Panel.Models.Product *@
 
 @{
     ViewData["Title"] = "Create";
@@ -10,7 +11,7 @@
     <hr />
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form asp-action="Create">
+            <form enctype="multipart/form-data" asp-action="Create"  >
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -22,13 +23,26 @@
                     <input asp-for="ShortName" class="form-control" />
                     <span asp-validation-for="ShortName" class="text-danger"></span>
                 </div>
-                    <div class="form-group">
-        <label asp-for="ImageId" class="file-input-label">
+                     <div class="form-group" id="hiddenId">
+        <label asp-for="Photo" class="file-input-label">
            
         </label>
-        <input asp-for="ImageId" type="file" id="fileInput" name="ImageId" class="form-control"/>
+        
+        <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
+     
+    </div>
+  <!-- Add a new file input for multiple file uploads -->
+    <div class="form-group" id="hiddenId">
+        <label asp-for="Gallery">Gallery Images</label>
+        <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
     </div>
 
+
+                    @* <div class="form-group" id="hiddenId">
+        <label for="fileInput">Choose files:</label>
+        <input asp-for="UploadedFiles" type="file" name="files" id="fileInput" multiple />
+        <br />
+    </div> *@
                  @* Categories *@
                  <div class="form-group">
     <label asp-for="Categories" class="control-label">Category</label>
@@ -77,19 +91,52 @@
                    </select> *@
                    <input type="hidden" id="selectedMarks" name="SelectedMarks" />
                   </div>
+
+
+        
+ 
+ <div class="form-group row">
+    <label asp-for="Attributes" class="control-label col-md-3">Attribute</label>
+   
+    <div class="input-group">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="attributeDropdown" data-bs-toggle="dropdown" aria-haspopup="true" >
+                Select an attribute
+            </button>
+            <div class="dropdown-menu" aria-labelledby="attributeDropdown">
+                @foreach (var item in ViewBag.Attributes)
+                {
+                    <a class="dropdown-item" href="#" data-value="@item.Value">@item.Text</a>
+                }
+            </div>
+        </div>
+        <input type="text" class="form-control" id="attributeValueInput" placeholder="Attribute Value">
+        <button type="button" class="btn btn-success" id="addAttributeBtn">+</button>
+    </div>
+     <div id="selectedAttributesList" class="mt-2">
+        <!-- Вибрані атрибути будуть тут -->
+    </div>
+    @* name="SelectedAttributes"  *@
+    <input type="hidden"  name="SelectedAttributes[]"  id="SelectedAttributes" />
+</div>
+ @* працююча версыя з атрибутами <div class="form-group row">
+        <label asp-for="Attributes" class="control-label col-md-3">Attribute</label>
+         <div id="selectedAttributesList" class="mt-2">
+            <!-- Вибрані атрибути будуть тут -->
+        </div>
+        <div class="input-group">
+            <select asp-for="Attributes" class="form-select custom-select" asp-items="@ViewBag.Attributes"  size="1">
+             
+            </select>
+            <input type="text" class="form-control" id="attributeValueInput" placeholder="Attribute Value">
+            <button type="button" class="btn btn-success" id="addAttributeBtn">+</button>
+        </div>
+       
+        <input type="hidden" asp-for="Attributes" id="hiddenAttributes" />
+    </div> *@
+
+                
                
-                 
-                  <div class="form-group row">
-           <label asp-for="Attributes" class="control-label col-md-3">Attribute</label>
-           <div >
-               <div class="input-group">
-                   <select asp-for="Attributes" multiple="true" class="form-select" asp-items="@ViewBag.Attributes">
-                       <option value="">Select an attribute</option>
-                   </select>
-                   <input type="text" class="form-control" placeholder="Your Text Input">
-               </div>
-           </div>
-       </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
@@ -137,5 +184,10 @@
 </div>
 
 @section Scripts {
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"  crossorigin="anonymous">
+
+@* <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script> *@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

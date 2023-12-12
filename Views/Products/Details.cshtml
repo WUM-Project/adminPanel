@@ -24,8 +24,33 @@
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ShortDescription)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.ShortDescription)</dd>
-            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ImageId)</dt>
-            <dd class="col-sm-10">@Html.DisplayFor(model => model.ImageId)</dd>
+            <dt class="col-sm-2">Image</dt>
+            @* <dd class="col-sm-10">@Html.DisplayFor(model => model.ImageId)</dd> *@
+              @if(@Model.ImageId != null){
+                            <dd>
+                            <img class="image-cell" src="@Model.UploadedFiles.FilePath" style="width: 250px;height=500px;"/ >
+                        </dd>
+                        }else{
+<dd>
+                           
+                        </dd>
+                        }
+
+                        @if(Model.ProductToUploadedFile != null && Model.ProductToUploadedFile.Any())
+{
+    <div id="image-slider">
+        @foreach(var uploadedFile in Model.ProductToUploadedFile)
+        {
+            <img class="image-cell"  src="@uploadedFile.UploadedFile.FilePath" alt="@uploadedFile.UploadedFile.Name" style="width: 250px; height: 250px;" />
+        }
+    </div>
+}
+else
+{
+    <div id="image-slider">
+        <!-- You can add a default image or leave it empty -->
+    </div>
+}
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Sku)</dt>
@@ -47,3 +72,21 @@
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
+@section Scripts {
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+@* <script>
+    $(document).ready(function(){
+        $('#image-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+    });
+</script> *@
+}

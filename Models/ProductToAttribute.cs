@@ -12,7 +12,7 @@ namespace Admin_Panel.Models
         [Column(Order = 1)]
         [ForeignKey("Attribute")] 
         public int AttributeId { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
           [Key]
         [Column(Order = 0)]
         [ForeignKey("Product")]
