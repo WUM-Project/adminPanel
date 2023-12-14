@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JLTTZ3OHb3wvBsbH3F6tenEjEvG9Vm3Y1mQ7/c1uYvA=",
+  "Hash": "8qIPMzD3GQ1o/VbsB2U1IMxP381ryFi3AocFyYLTZcE=",
   "Source": "Admin_Panel",
   "BasePath": "_content/Admin_Panel",
   "Mode": "Default",
@@ -68,6 +68,23 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
+      "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\css\\swiper-bundle.min.css",
+      "SourceId": "Admin_Panel",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\",
+      "BasePath": "_content/Admin_Panel",
+      "RelativePath": "css/swiper-bundle.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\swiper-bundle.min.css"
+    },
+    {
       "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\favicon.ico",
       "SourceId": "Admin_Panel",
       "SourceType": "Discovered",
@@ -100,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\js\\swiper-bundle.min.js",
+      "SourceId": "Admin_Panel",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\",
+      "BasePath": "_content/Admin_Panel",
+      "RelativePath": "js/swiper-bundle.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\swiper-bundle.min.js"
     },
     {
       "Identity": "D:\\навчання\\Dyplom_Adminka\\Admin_panel\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

@@ -97,7 +97,28 @@ function updateHiddenAttributes(hiddenAttributesInput) {
 
     console.log("Updated Hidden Attributes:", hiddenAttributesInput.value);
 }
-    
+
+$(document).ready(function () {
+    // Find the element by ID
+    var deleteAttributeButton = document.getElementById('delete_attribute');
+
+    // Check if the element exists before attaching the event listener
+    if (deleteAttributeButton) {
+        deleteAttributeButton.addEventListener('click', function () {
+            removeAttribute(this);
+        });
+    }
+});
+
+function removeAttribute(button) {
+    // Видалити поточний елемент списку
+    var divWrapper = button.closest('.selected-attribute');
+    divWrapper.remove();
+
+    // Оновити приховане поле
+    var hiddenAttributesInput = document.getElementById('SelectedAttributes');
+    updateHiddenAttributes(hiddenAttributesInput);
+}
   
    
     //Робоча версія з select
@@ -380,5 +401,77 @@ function uploadFiles(formData) {
         }
     })
 }
+// 'use strict';
 
+// $('.gallery-wrapper').lightGallery({
+//     selector: '.gallery-item',
+//     subHtmlSelectorRelative: true,
+//     prevHtml: '<div class="swiper-button-prev"><i></i></div>',
+//     nextHtml: '<div class="swiper-button-next"><i></i></div>'
+// });
+
+
+// if ($('html').find("body").hasClass("lg-on")) {
+//     $('html').addClass("overflow-hidden")
+// } else {
+//     $('html').removeClass("overflow-hidden")
+// }
+//    /* swiper sliders */
+//    _functions.getSwOptions = function(swiper) {
+//     let options = swiper.data('options');
+//     options = (!options || typeof options !== 'object') ? {} : options;
+//     const $p = swiper.closest('.swiper-entry'),
+//         slidesLength = swiper.find('>.swiper-wrapper>.swiper-slide').length;
+//     if (!options.pagination) options.pagination = {
+//         el: $p.find('.swiper-pagination')[0],
+//         clickable: true
+//     };
+//     if (!options.navigation) options.navigation = {
+//         nextEl: $p.find('.swiper-button-next')[0],
+//         prevEl: $p.find('.swiper-button-prev')[0]
+//     };
+//     options.preloadImages = false;
+//     options.lazy = {
+//         loadPrevNext: true
+//     };
+//     options.observer = true;
+//     options.observeParents = true;
+//     options.watchOverflow = true;
+//     options.centerInsufficientSlides = true;
+//     if (!options.speed) options.speed = 500;
+//     options.roundLengths = true;
+//     if (isTouchScreen) options.direction = "horizontal";
+//     if (slidesLength <= 1) {
+//         options.loop = false;
+//         $p.find('.swiper-wrapper').css({
+//             "cursor": "default"
+//         })
+//     }
+//     if (options.customFraction) {
+//         $p.addClass('custom-fraction');
+//         if (slidesLength > 1 && slidesLength < 10) {
+//             $p.find('.custom-current').text('1');
+//             $p.find('.custom-total').text(slidesLength);
+//         } else if (slidesLength > 1) {
+//             $p.find('.custom-current').text('1');
+//             $p.find('.custom-total').text(slidesLength);
+//         }
+//     }
+//     return options;
+// };
+// _functions.initSwiper = function(el) {
+//     const swiper = new Swiper(el[0], _functions.getSwOptions(el));
+// };
+
+  // Ініціалізація Swiper після завантаження документа
+  document.addEventListener('DOMContentLoaded', function () {
+    var mySwiper = new Swiper('.swiper-container', {
+        // Опції Swiper тут
+        loop: true, // якщо ви хочете їхати по колу
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+});
 })

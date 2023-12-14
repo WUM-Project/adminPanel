@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - Admin_Panel</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    
+    @* <link rel="stylesheet" href="~/css/swiper-bundle.min.css" asp-append-version="true" /> *@
     <link rel="stylesheet" href="~/Admin_Panel.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -56,6 +59,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/js/swiper-bundle.min.js" asp-append-version="true"></script> *@
  
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -7,7 +7,7 @@ using Admin_Panel.Models;
 using Admin_Panel.Pagginations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
+using Admin_Panel.ViewModels;
 namespace Admin_Panel.Controllers
 {
     public class ProductsController : Controller
@@ -76,7 +76,7 @@ namespace Admin_Panel.Controllers
     .GroupBy(category => category.ParentId)
     .ToList();
 
-          
+
 
             List<SelectListItem> mylist = new List<SelectListItem>();
             foreach (var price in result)
@@ -147,7 +147,7 @@ namespace Admin_Panel.Controllers
                             var responseContent = await response.Content.ReadAsStringAsync();
                             downloadedimage = JsonConvert.DeserializeObject<UploadedFiles>(responseContent);
                             imageId = downloadedimage.Id;
-                        
+
                         }
                         else
                         {
@@ -178,7 +178,7 @@ namespace Admin_Panel.Controllers
                                 uploadedFilesList.Add(galleryDownloadedimage);
                                 galleryImageIds.Add(galleryDownloadedimage.Id);
                                 // Process the gallery image response as needed
-                             
+
                             }
                             else
                             {
@@ -191,7 +191,7 @@ namespace Admin_Panel.Controllers
             if (ModelState.IsValid)
             {
 
-         
+
                 foreach (var lang in languages)
                 {
                     if (Product?.Id != null) Product.Id = 0;
@@ -238,27 +238,110 @@ namespace Admin_Panel.Controllers
                 //Add ProductToMarks origin
                 await _serviceManager.ProductService.AddProductToMarkAsync(originProductId.Value, SelectedMarks, originLang);
 
-                  await _serviceManager.ProductService.AddProductToAttributeAsync(originProductId.Value, SelectedAttributes, originLang);
+                await _serviceManager.ProductService.AddProductToAttributeAsync(originProductId.Value, SelectedAttributes, originLang);
 
 
                 return RedirectToAction(nameof(Index));
             }
             return View(Product);
         }
-       
+
         public async Task<IActionResult> Edit(int? id)
         {
+            string lang = "uk";
+             var result = await _serviceManager.CategoryService.GetAllAsync();
+            var marks = await _serviceManager.MarkService.GetAllAsync();
+            var attributes = await _serviceManager.AttributeServices.GetAllAsync();
+            if (!String.IsNullOrEmpty(lang))
+            {
+
+                result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+                marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+                attributes = attributes?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+            }
+            var groupedCategories = result
+    .GroupBy(category => category.ParentId)
+    .ToList();
+
             if (id == null)
             {
                 return NotFound();
             }
+             List<SelectListItem> mylist = new List<SelectListItem>();
+            foreach (var price in result)
+            {
+                mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
 
+            }
+            List<SelectListItem> markslist = new List<SelectListItem>();
+            foreach (var item in marks)
+            {
+                markslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+
+            }
+            List<SelectListItem> attributesList = new List<SelectListItem>();
+            foreach (var item in attributes)
+            {
+                attributesList.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+
+            }
             var Product = await _serviceManager.ProductService.GetByIdAsync(id.Value);
+            var ProductViewModel = new ProductEditViewModel
+            {
+                Id = Product.Id,
+                OriginId = Product.OriginId,
+                Lang = Product.Lang,
+                Status = Product.Status,
+                Description = Product.Description,
+                ShortDescription = Product.ShortDescription,
+                Sku = Product.Sku,
+                Price = Product.Price,
+                DiscountedPrice = Product.DiscountedPrice,
+                Quantity = Product.Quantity,
+                Name = Product.Name,
+                ShortName = Product.ShortName,
+                Position = Product.Position,
+                Availability = Product.Availability,
+                ImageId = Product.ImageId,
+                UploadedFiles = Product.UploadedFiles,
+                ProductToUploadedFile = Product.ProductToUploadedFile,
+                // SelectedMarks = Product.Marks,
+                // SelectedAttributes = Product.Attributes,
+                // SelectedCategories = Product.Categories
+                   SelectedMarks = Product.Marks.Select(m => new MarkViewModel
+    {
+        MarkId = m.Mark.Id,
+        Title = m.Mark.Title,
+        // Map other properties if needed
+    }).ToList(),
+
+    SelectedAttributes = Product.Attributes.Select(a => new AttributeViewModel
+    {
+        AttributeId = a.Attribute.Id,
+        Value = a.Value,
+        Title = a.Attribute.Title
+        // Map other properties if needed
+    }).ToList(),
+
+    SelectedCategories = Product.Categories.Select(c => new CategoryViewModel
+    {
+        CategoryId = c.Category.Id,
+        Title = c.Category.Title,
+        // Map other properties if needed
+    }).ToList()
+            };
             if (Product == null)
             {
                 return NotFound();
             }
-            return View(Product);
+               ViewBag.Categories = groupedCategories;
+               Console.WriteLine(markslist);
+            // ViewBag.Categories = mylist;
+            ViewBag.Marks = markslist;
+
+            ViewBag.Attributes = attributesList;
+            Console.WriteLine(ViewBag.Categories);
+            return View(ProductViewModel);
         }
 
         [HttpPost]

@@ -1,121 +1,360 @@
-﻿@model Admin_Panel.Models.Product
+﻿@model Admin_Panel.ViewModels.ProductEditViewModel
+
 
 @{
     ViewData["Title"] = "Edit";
 }
 
 <div class="container">
+    <h1 class="text-center mt-4">Edit</h1>
+    <h4 class="text-center">Product</h4>
+    <hr />
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="text-center mt-5">
-                <h1>Edit</h1>
-                <h4 class="mt-3">Product</h4>
-                <hr />
-
-                <form asp-action="Edit" class="mt-4">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
-      <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
-        <label for="Position" class="form-label">Position</label>
-        <input type="text" asp-for="Position" class="form-control" />
-        <span asp-validation-for="Position" class="text-danger"></span>
-    </div>
-                     <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
-        <label for="OriginId" class="form-label">OriginId</label>
-        <input type="text" asp-for="OriginId" class="form-control" />
-        <span asp-validation-for="OriginId" class="text-danger"></span>
-    </div>
-                    <div class="mb-3">
-                        <label for="Name" class="form-label">Name</label>
-                        <input type="text" asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ShortName" class="form-label">ShortName</label>
-                        <input type="text" asp-for="ShortName" class="form-control" />
-                        <span asp-validation-for="ShortName" class="text-danger"></span>
-                    </div>
-                 
-                           <div class="mb-3">
-        <label asp-for="ImageId" class="file-input-label">
+        <div class="col-md-6">
+            <form enctype="multipart/form-data" asp-action="Edit"  >
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortName" class="control-label"></label>
+                    <input asp-for="ShortName" class="form-control" />
+                    <span asp-validation-for="ShortName" class="text-danger"></span>
+                </div>
+                     <div class="form-group" id="hiddenId">
+        <label asp-for="Photo" class="file-input-label">
            
         </label>
-        <input asp-for="ImageId" type="file" id="fileInput" name="ImageId" class="form-control"/>
+        
+        <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
+     
     </div>
-      <div class="mb-3">
-                        <label for="Description" class="form-label">Description</label>
-                        <input type="text" asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-      <div class="mb-3">
-                        <label for="ShortDescription" class="form-label">ShortDescription</label>
-                        <input type="text" asp-for="ShortDescription" class="form-control" />
-                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
-                    </div>
-                    
-                     <div class="mb-3">
-                        <label for="Sku" class="form-label">Sku</label>
-                        <input type="text" asp-for="Sku" class="form-control" />
-                        <span asp-validation-for="Sku" class="text-danger"></span>
-                    </div>
-                     <div class="mb-3">
-                        <label for="Price" class="form-label">Price</label>
-                        <input type="text" asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                     <div class="mb-3">
-                        <label for="DiscountedPrice" class="form-label">DiscountedPrice</label>
-                        <input type="text" asp-for="DiscountedPrice" class="form-control" />
-                        <span asp-validation-for="DiscountedPrice" class="text-danger"></span>
-                    </div>
-                     <div class="mb-3">
-                        <label for="Quantity" class="form-label">Quantity</label>
-                        <input type="text" asp-for="Quantity" class="form-control" />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-    <label for="Status" class="form-label">Status</label>
-    <select asp-for="Status" class="form-select">
-        <option value="1">Deleted</option>
-        <option value="2">Active</option>
-        <option value="3">Waiting</option>
-    </select>
-    <span asp-validation-for="Status" class="text-danger"></span>
+    <div class="align">
+
 </div>
-                    
- 
-                   
+<div id="imageGridWrapper">
+    <!-- Додайте більше картинок, якщо потрібно -->
+    <div class="image-container">
+        <img src="https://localhost:7144/Uploads/productviews/ads-6_20231213203546343.jpg" alt="Image 1">
+        <button class="delete-button" onclick="deleteImage(this)">Видалити</button>
+    </div>
+    <!-- Додайте нову картинку, якщо потрібно -->
+    <div class="image-container">
+        <img src="https://localhost:7144/Uploads/productviews/ads-6_20231213203546343.jpg" alt="Нова картинка">
+        <button class="delete-button" onclick="deleteImage(this)">Видалити</button>
+    </div>
+    <!-- Продовжте додавати картинки -->
+</div>
+     <div class="row prod-detail-row" itemscope itemtype="http://schema.org/Product">
+        <div class="col-lg-6 sticky-gap">
+            <div class="sticky-gap-item">
+                <div class="swiper-entry product_detail-swiper gallery-wrapper">
 
-                  
-                   
-                    
-                    
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="product_detail-img gallery-item main-image"
+                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                    <picture>
+                                        <source
+                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            type='image/png'>
+                                        <img
+                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            alt='Alt Text'>
+                                    </picture>
+                                     <button app-button="" class="icon-button stroked-button sm">
+                                        <svg width="16" height="16">
+                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="product_detail-img gallery-item main-image"
+                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                    <picture>
+                                        <source
+                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            type='image/png'>
+                                        <img
+                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            alt='Alt Text'>
+                                    </picture>
+                                     <button app-button="" class="icon-button stroked-button sm">
+                                        <svg width="16" height="16">
+                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="product_detail-img gallery-item main-image"
+                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                    <picture>
+                                        <source
+                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            type='image/png'>
+                                        <img
+                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            alt='Alt Text'>
+                                    </picture>
+                                     <button app-button="" class="icon-button stroked-button sm">
+                                        <svg width="16" height="16">
+                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="product_detail-img gallery-item main-image"
+                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                    <picture>
+                                        <source
+                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            type='image/png'>
+                                        <img
+                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
+                                            alt='Alt Text'>
+                                    </picture>
+                                     <button app-button="" class="icon-button stroked-button sm">
+                                        <svg width="16" height="16">
+                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-
-                <div class="mt-3">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <div class="swiper-pagination"></div>
+                       <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    @* <div class="row prod-detail-row" itemscope itemtype="http://schema.org/Product">
+    <div class="col-lg-6 sticky-gap">
+        <div class="sticky-gap-item">
+            <div class="swiper-entry product_detail-swiper gallery-wrapper">
+                
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="product_detail-img gallery-item main-image"
+                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                <picture>
+                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
+                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
+                                </picture>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product_detail-img gallery-item main-image"
+                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                <picture>
+                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
+                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
+                                </picture>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product_detail-img gallery-item main-image"
+                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                <picture>
+                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
+                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
+                                </picture>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product_detail-img gallery-item main-image"
+                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
+                                <picture>
+                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
+                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
+                                </picture>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+</div> *@
+  <!-- Add a new file input for multiple file uploads -->
+    <div class="form-group" id="hiddenId">
+        <label asp-for="Gallery">Gallery Images</label>
+        <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
+    </div>
+
+      <div class="form-group">
+        <label class="control-label" for="SelectedCategories">Category</label>
+        <div class="location-popup-categories">
+            @foreach (var categoryGroup in ViewBag.Categories)
+            {
+                <div class="category-group">
+                    <strong>@categoryGroup.Key</strong>
+                    @foreach (var category in categoryGroup)
+                    {
+                 
+                        <label class="checkbox-entry" data-id="@category.Id">
+                            <input type="checkbox" name="SelectedCategories" class="categories" data-id="@category.Id" @(Model.SelectedCategories != null && Model.SelectedCategories.Any(c => c.CategoryId == category.Id) ? "checked" : "")>
+                            <span>@category.Title</span>
+                        </label>
+                    }
+                </div>
+            }
+        </div>
+        <input type="hidden" id="selectedCategories" name="SelectedCategories" value="@Model.SelectedCategories">
+    </div>
+
+<div class="form-group">
+    <label class="control-label" for="SelectedMarks">Mark</label>
+    <div class="location-popup-radios">
+        @foreach (var item in ViewBag.Marks)
+        {
+            <!-- Updated here: Use 'Any' to check if the current MarkViewModel is in SelectedMarks -->
+            <label class="checkbox-entry" data-id="@item.Value">
+                <input type="checkbox" name="SelectedMarks" class="marks" value="@item.Value" @(Model.SelectedMarks != null && Model.SelectedMarks.Any(m => m.MarkId == int.Parse(item.Value)) ? "checked" : "")>
+                <span>@item.Text</span>
+            </label>
+        }
+    </div>
+    <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@Model.SelectedMarks">
 </div>
-<script>
-    const colorInput = document.getElementById('colorInput');
-     colorInput.setAttribute('value', colorInput.getAttribute('value').replace(/\s/g, ''));
-    colorInput.addEventListener('change', (event) => {
-        const selectedColor = event.target.value;
-        console.log(selectedColor);
-        const formattedColor = '#' + selectedColor.substr(1); // Remove the '#' symbol
-        colorInput.value = formattedColor
-        console.log(formattedColor)
-    });
-   
-    
-</script>
+
+<div class="form-group row">
+    <label class="control-label col-md-3" for="Attributes">Attribute</label>
+
+    <div class="input-group">
+        <div class="dropdown">
+            <!-- Dropdown for attribute selection -->
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="attributeDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-value="3">VideoCard</button>
+            <div class="dropdown-menu" aria-labelledby="attributeDropdown" style="">
+                @foreach (var item in ViewBag.Attributes)
+                {
+                    <a class="dropdown-item" href="#" data-value="@item.Value">@item.Text</a>
+                }
+            </div>
+        </div>
+        <input type="text" class="form-control valid" id="attributeValueInput" placeholder="Attribute Value" aria-invalid="false">
+        <button type="button" class="btn btn-success valid" id="addAttributeBtn" aria-invalid="false">+</button>
+    </div>
+
+    <div id="selectedAttributesList" class="mt-2">
+        <!-- Display selected attributes -->
+        @foreach (var selectedAttribute in Model.SelectedAttributes)
+        {
+            <div class="d-flex align-items-center mb-2 selected-attribute" data-value="@selectedAttribute.AttributeId">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="attributeDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-value="@selectedAttribute.AttributeId" disabled="disabled">@selectedAttribute.Title</button>
+                <input type="text" class="form-control ms-2 me-2 attribute-value" value="@selectedAttribute.Value">
+                <button type="button" class="btn btn-danger"  id="delete_attribute"  >Delete</button>
+                <input type="hidden" class="attribute-input" name="SelectedAttributes" value="@($"{selectedAttribute.AttributeId}:{selectedAttribute.Value}")">
+            </div>
+        }
+        <!-- Selected attributes will be displayed here -->
+    </div>
+
+    <input type="hidden" name="SelectedAttributes[]" id="SelectedAttributes" value="@string.Join(",", Model.SelectedAttributes.Select(sa => $"{sa.AttributeId}:{sa.Value}"))">
+</div>
+
+
+                
+        
+
+     
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortDescription" class="control-label"></label>
+                    <input asp-for="ShortDescription" class="form-control" />
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+               
+               
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price"  class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountedPrice" class="control-label"></label>
+                    <input asp-for="DiscountedPrice"  class="form-control" />
+                    <span asp-validation-for="DiscountedPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Sku" class="control-label"></label>
+                    <input asp-for="Sku"  class="form-control" />
+                    <span asp-validation-for="Sku" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity"  class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                
+              
+              
+                <div class="form-group text-center">
+                    <button type="submit" class="btn edit-product btn-primary">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
 @section Scripts {
+    <script> // Function to remove selected attribute
+     function removeAttribute(button) {
+        // Видалити поточний елемент списку
+        var divWrapper = button.closest('.selected-attribute');
+        divWrapper.remove();
+    
+        // Оновити приховане поле
+        var hiddenAttributesInput = document.getElementById('SelectedAttributes');
+        updateHiddenAttributes(hiddenAttributesInput);
+    }
+
+  
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var mySwiper = new Swiper('.swiper-container', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                    navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });
+
+            var closeButton = document.querySelectorAll('.icon-button');
+            closeButton.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var slideIndex = mySwiper.activeIndex;
+                    mySwiper.removeSlide(slideIndex);
+                });
+            });
+        });
+  </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"  crossorigin="anonymous">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+@* <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script> *@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

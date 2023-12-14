@@ -35,31 +35,154 @@ namespace Admin_Panel.Services
         public async Task<Product> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 
         {
-            var product = await _context.Products.Include(d => d.UploadedFiles).Include(y => y.ProductToUploadedFile).FirstOrDefaultAsync(e => e.Id == id);
-            if (product.ProductToUploadedFile != null)
+            // var product = await _context.Products.Include(d => d.UploadedFiles).Include(y => y.ProductToUploadedFile).FirstOrDefaultAsync(e => e.Id == id);
+            // if (product.ProductToUploadedFile != null)
+            // {
+            //     foreach (var mark in product.ProductToUploadedFile)
+            //     {
+            //         if (mark.UploadId != null)
+            //         {
+
+            //             // Замініть цей блок коду залежно від вашої логіки створення об'єкта mark за його ідентифікатором markId
+            //             mark.UploadedFile = await _context.UploadedFile
+            //                 .Where(m => m.Id == mark.UploadId)
+            //                 .Select(m => new UploadedFiles
+            //                 {
+            //                     // Додайте поля, які вам потрібні
+            //                     Id = m.Id,
+            //                     FilePath = m.FilePath,
+            //                     Name = m.Name,
+            //                     // і так далі
+            //                 })
+            //                 .FirstOrDefaultAsync(cancellationToken);
+            //         }
+            //     }
+            // }
+
+            // return product;
+             var product = await _context.Products
+        .Include(d => d.UploadedFiles)
+        .FirstOrDefaultAsync(e => e.Id == id);
+
+    if (product != null)
+    {
+        
+        
+        await _context.Entry(product)
+            .Collection(p => p.Attributes)
+            .LoadAsync(cancellationToken);
+   await _context.Entry(product)
+            .Collection(d => d.Categories)
+            .LoadAsync(cancellationToken);
+
+        await _context.Entry(product)
+            .Collection(d => d.Marks)
+            .LoadAsync(cancellationToken);
+    
+ await _context.Entry(product)
+            .Collection(p => p.ProductToUploadedFile)
+            .LoadAsync(cancellationToken);
+ 
+   
+           //Витяжка аттрибутів
+         if (product.Attributes != null)
+    {
+        foreach (var item in product.Attributes)
+        {
+            if (item != null)
             {
-                foreach (var mark in product.ProductToUploadedFile)
-                {
-                    if (mark.UploadId != null)
+                item.Product = null;
+                
+                item.Attribute = await _context.Attributes
+                    .Where(m => m.Id == item.AttributeId)
+                    .Select(m => new Admin_Panel.Models.Attribute
                     {
-
-                        // Замініть цей блок коду залежно від вашої логіки створення об'єкта mark за його ідентифікатором markId
-                        mark.UploadedFile = await _context.UploadedFile
-                            .Where(m => m.Id == mark.UploadId)
-                            .Select(m => new UploadedFiles
-                            {
-                                // Додайте поля, які вам потрібні
-                                Id = m.Id,
-                                FilePath = m.FilePath,
-                                Name = m.Name,
-                                // і так далі
-                            })
-                            .FirstOrDefaultAsync(cancellationToken);
-                    }
-                }
+                        
+                        Id = m.Id,
+                        Title = m.Title,
+                        ShortTitle = m.ShortTitle,
+                        UnitOfMeasurement = m.UnitOfMeasurement,
+                        GroupAttr = m.GroupAttr,
+                     
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
             }
+        }
+    }
+         if (product.Marks != null)
+    {
+        foreach (var mark in product.Marks)
+        {
+            if (mark != null)
+            {
+                mark.Product = null;
+                
+                mark.Mark = await _context.Marks
+                    .Where(m => m.Id == mark.MarkId)
+                    .Select(m => new Mark
+                    {
+                        
+                        Id = m.Id,
+                        Title = m.Title,
+                        Color = m.Color,
+                     
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+        }
+    }
+       if (product.Categories != null)
+    {
+        foreach (var category in product.Categories)
+        {
+            if (category != null)
+            {
+              
+               
+                category.Category = await _context.Categories
+                    .Where(m => m.Id == category.CategoryId)
+                    .Select(m => new Category
+                    {
+                      
+                        Id = m.Id,
+                        Title = m.Title,
+                        Lang = m.Lang,
+                        ParentId = m.ParentId,
+                        
+                      
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+        }
+    }
+        // Add other related collections as needed
+    if (product.ProductToUploadedFile != null)
+    {
+        foreach (var file in product.ProductToUploadedFile)
+        {
+            if (file.UploadId != null)
+            {
+               
+              
+                file.UploadedFile = await _context.UploadedFile
+                    .Where(m => m.Id == file.UploadId)
+                    .Select(m => new UploadedFiles
+                    {
+                        
+                        Id = m.Id,
+                        FilePath = m.FilePath,
+                        Name = m.Name,
+                      
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+        }
+    }
+   
+    }
 
-            return product;
+ 
+    return product;
         }
         public async Task<Product> CreateTest(Product product)
         {
