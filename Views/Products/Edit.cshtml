@@ -27,8 +27,16 @@
         <label asp-for="Photo" class="file-input-label">
            
         </label>
-        
+        <div id="previewImg">
+          @if (!string.IsNullOrEmpty(Model.ImageId.ToString())){   
+         <div class="image-container">
+        <img src="@Model.UploadedFiles.FilePath" alt="Image 1">
+        <button class="delete-button"  data-file-id="@Model.ImageId" >Видалити</button>
+    </div>
+    }
+    </div>
         <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
+               <input type="hidden" id="previewImageId" name="ImageId" value="@Model.ImageId">
      
     </div>
     <div class="align">
@@ -36,162 +44,31 @@
 </div>
 <div id="imageGridWrapper">
     <!-- Додайте більше картинок, якщо потрібно -->
+    @foreach(var item in Model.ProductGallery){
     <div class="image-container">
-        <img src="https://localhost:7144/Uploads/productviews/ads-6_20231213203546343.jpg" alt="Image 1">
-        <button class="delete-button" onclick="deleteImage(this)">Видалити</button>
+        <img src="@item.FilePath" alt="Image 1">
+        <button class="delete-button"  data-file-id="@item.ImageId" >Видалити</button>
     </div>
-    <!-- Додайте нову картинку, якщо потрібно -->
-    <div class="image-container">
-        <img src="https://localhost:7144/Uploads/productviews/ads-6_20231213203546343.jpg" alt="Нова картинка">
-        <button class="delete-button" onclick="deleteImage(this)">Видалити</button>
-    </div>
-    <!-- Продовжте додавати картинки -->
+    }
+   
 </div>
-     <div class="row prod-detail-row" itemscope itemtype="http://schema.org/Product">
-        <div class="col-lg-6 sticky-gap">
-            <div class="sticky-gap-item">
-                <div class="swiper-entry product_detail-swiper gallery-wrapper">
-
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="product_detail-img gallery-item main-image"
-                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                    <picture>
-                                        <source
-                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            type='image/png'>
-                                        <img
-                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            alt='Alt Text'>
-                                    </picture>
-                                     <button app-button="" class="icon-button stroked-button sm">
-                                        <svg width="16" height="16">
-                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product_detail-img gallery-item main-image"
-                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                    <picture>
-                                        <source
-                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            type='image/png'>
-                                        <img
-                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            alt='Alt Text'>
-                                    </picture>
-                                     <button app-button="" class="icon-button stroked-button sm">
-                                        <svg width="16" height="16">
-                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product_detail-img gallery-item main-image"
-                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                    <picture>
-                                        <source
-                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            type='image/png'>
-                                        <img
-                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            alt='Alt Text'>
-                                    </picture>
-                                     <button app-button="" class="icon-button stroked-button sm">
-                                        <svg width="16" height="16">
-                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product_detail-img gallery-item main-image"
-                                    data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                    <picture>
-                                        <source
-                                            srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            type='image/png'>
-                                        <img
-                                            src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg'
-                                            alt='Alt Text'>
-                                    </picture>
-                                     <button app-button="" class="icon-button stroked-button sm">
-                                        <svg width="16" height="16">
-                                            <use xlink:href="assets/images/icon-global.svg#icon-close"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                       <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @* <div class="row prod-detail-row" itemscope itemtype="http://schema.org/Product">
-    <div class="col-lg-6 sticky-gap">
-        <div class="sticky-gap-item">
-            <div class="swiper-entry product_detail-swiper gallery-wrapper">
-                
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="product_detail-img gallery-item main-image"
-                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                <picture>
-                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
-                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
-                                </picture>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product_detail-img gallery-item main-image"
-                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                <picture>
-                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
-                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
-                                </picture>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product_detail-img gallery-item main-image"
-                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                <picture>
-                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
-                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
-                                </picture>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product_detail-img gallery-item main-image"
-                                data-src="https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg">
-                                <picture>
-                                    <source srcset='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' type='image/png'>
-                                    <img src='https://localhost:7144/Uploads/productviews\\ads-6_20231213203546343.jpg' alt='Alt Text'>
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </div>
-</div> *@
+    
   <!-- Add a new file input for multiple file uploads -->
     <div class="form-group" id="hiddenId">
         <label asp-for="Gallery">Gallery Images</label>
         <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
+        <input type="hidden" id="uploadedImageIds" name="UploadedImageIds" value="@string.Join(",", Model.ProductGallery.Select(item => item.ImageId))"  />
+        <input type="hidden"  name="OldImagesIds" value="@string.Join(",", Model.ProductGallery.Select(item => item.ImageId))"  />
     </div>
-
+ <div class="mb-3">
+                        <label for="Status" class="form-label">Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">Deleted</option>
+                            <option value="2">Active</option>
+                            <option value="3">Waiting</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
       <div class="form-group">
         <label class="control-label" for="SelectedCategories">Category</label>
         <div class="location-popup-categories">
@@ -203,7 +80,8 @@
                     {
                  
                         <label class="checkbox-entry" data-id="@category.Id">
-                            <input type="checkbox" name="SelectedCategories" class="categories" data-id="@category.Id" @(Model.SelectedCategories != null && Model.SelectedCategories.Any(c => c.CategoryId == category.Id) ? "checked" : "")>
+                            @* name="SelectedCategories" *@
+                            <input type="checkbox"  class="categories" data-id="@category.Id" @(Model.SelectedCategories != null && Model.SelectedCategories.Any(c => c.CategoryId == category.Id) ? "checked" : "")>
                             <span>@category.Title</span>
                         </label>
                     }
@@ -220,12 +98,14 @@
         {
             <!-- Updated here: Use 'Any' to check if the current MarkViewModel is in SelectedMarks -->
             <label class="checkbox-entry" data-id="@item.Value">
-                <input type="checkbox" name="SelectedMarks" class="marks" value="@item.Value" @(Model.SelectedMarks != null && Model.SelectedMarks.Any(m => m.MarkId == int.Parse(item.Value)) ? "checked" : "")>
+               @* name="SelectedMarks" *@
+                <input type="checkbox"  class="marks" value="@item.Value" @(Model.SelectedMarks != null && Model.SelectedMarks.Any(m => m.MarkId == int.Parse(item.Value)) ? "checked" : "")>
                 <span>@item.Text</span>
             </label>
         }
     </div>
-    <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@Model.SelectedMarks">
+    <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@string.Join(",", Model.SelectedMarks.Select(s=>s.MarkId))">
+    @* <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@Model.SelectedMarks"> *@
 </div>
 
 <div class="form-group row">
@@ -315,7 +195,13 @@
 </div>
 
 @section Scripts {
-    <script> // Function to remove selected attribute
+    <script> 
+        
+            function deleteImage(button) {
+      
+        button.parentElement.style.display = 'none';
+    }
+    // Function to remove selected attribute
      function removeAttribute(button) {
         // Видалити поточний елемент списку
         var divWrapper = button.closest('.selected-attribute');

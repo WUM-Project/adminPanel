@@ -304,7 +304,14 @@ namespace Admin_Panel.Controllers
                 Availability = Product.Availability,
                 ImageId = Product.ImageId,
                 UploadedFiles = Product.UploadedFiles,
-                ProductToUploadedFile = Product.ProductToUploadedFile,
+                ProductGallery = Product.ProductToUploadedFile.Select(m => new GalleryViewModel
+    {
+        FilePath = m.UploadedFile.FilePath,
+        ImageId = m.UploadId,
+
+        // Map other properties if needed
+    }).ToList(),
+                // ProductToUploadedFile = Product.ProductToUploadedFile,
                 // SelectedMarks = Product.Marks,
                 // SelectedAttributes = Product.Attributes,
                 // SelectedCategories = Product.Categories
@@ -329,24 +336,25 @@ namespace Admin_Panel.Controllers
         Title = c.Category.Title,
         // Map other properties if needed
     }).ToList()
+    
             };
             if (Product == null)
             {
                 return NotFound();
             }
                ViewBag.Categories = groupedCategories;
-               Console.WriteLine(markslist);
+           
             // ViewBag.Categories = mylist;
             ViewBag.Marks = markslist;
 
             ViewBag.Attributes = attributesList;
-            Console.WriteLine(ViewBag.Categories);
+            // Console.WriteLine(ViewBag.Categories);
             return View(ProductViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product Product)
+        public async Task<IActionResult> Edit(int id, Product Product,string OldImagesIds,string UploadedImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes)
         {
             if (id != Product.Id)
             {
@@ -355,7 +363,11 @@ namespace Admin_Panel.Controllers
 
             if (ModelState.IsValid)
             {
-                await _serviceManager.ProductService.Update(Product);
+                 // Додайте перевірку originProdId
+         int originProdId = Product.OriginId.HasValue ? Product.OriginId.Value : Product.Id;
+
+                await _serviceManager.ProductService.Update(Product,originProdId,UploadedImageIds,SelectedMarks,SelectedCategories,SelectedAttributes);
+                // await _serviceManager.ProductService.UpdateProductToUploadedFileAsync(Product,OldImagesIds,UploadedImageIds);
                 return RedirectToAction(nameof(Index));
             }
             return View(Product);
