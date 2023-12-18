@@ -1,0 +1,66 @@
+﻿@model  Admin_Panel.ViewModels.BrandCreateViewModels
+@* @model Admin_Panel.Models.Category *@
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="text-center mt-5">
+                <h1>Edit</h1>
+                <h4 class="mt-3">Brand</h4>
+                <hr />
+<form enctype="multipart/form-data" asp-action="Edit" class="mt-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+  <input type="hidden"  name="OriginId" value="@Model.OriginId">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status" class="control-label"></label>
+        <select asp-for="Status" class="form-select">
+            <option value="1">Deleted</option>
+            <option value="2">Active</option>
+            <option value="3">Waiting</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="hiddenId">
+        <label asp-for="Photo" class="file-input-label"></label>
+        <div id="previewImg">
+            @if (!string.IsNullOrEmpty(Model.ImageId.ToString())){   
+             <div class="image-container">
+                <img src="@Model.UploadedFiles.FilePath" alt="Image 1">
+                <button class="delete-button" data-file-id="@Model.ImageId">Видалити</button>
+            </div>
+            }
+        </div>
+        @* value="@Model.ImageId" *@
+        <input asp-for="Photo" type="file" id="brandImage" name="Photo" class="form-control"/>
+        <input type="hidden" id="previewBrandId" name="ImageId"  value="@Model.ImageId" >
+    </div>
+
+    <div class="form-group text-center">
+        <button type="submit" id="testbtn" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+                <div class="mt-3">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    
+}

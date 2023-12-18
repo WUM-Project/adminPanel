@@ -21,6 +21,7 @@ namespace  Admin_Panel.Models
           
          public IList<Product> Products { get; } = new List<Product>();
           public IList<ProductToUploadedFiles>  ProductToUploadedFiles  { get; set; }
+         public IList<Brand> Brands { get; } = new List<Brand>();
          public IList<Category> Categories { get; } = new List<Category>();
          public IList<Category> CategoryIcon { get; } = new List<Category>();
     }

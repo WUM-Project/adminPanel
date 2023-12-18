@@ -34,6 +34,7 @@ namespace Admin_Panel.ViewModels
 
         //  public List<IFormFile>  Gallery { get; set; }
           public UploadedFiles UploadedFiles;
+            public IList<Brand>  Brands  { get; set; } =  new List<Brand>();
             public IList<ProductToUploadedFiles>  ProductToUploadedFile  { get; set; } =  new List<ProductToUploadedFiles>();
           
             public IList<ProductToMark>  Marks  { get; set; } =  new List<ProductToMark>();

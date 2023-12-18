@@ -23,26 +23,65 @@
                     <input asp-for="ShortName" class="form-control" />
                     <span asp-validation-for="ShortName" class="text-danger"></span>
                 </div>
-                     <div class="form-group" id="hiddenId">
+                   <div class="form-group" id="hiddenId">
+        <label asp-for="Photo" class="file-input-label">
+           
+        </label>
+        <div id="previewImg">
+       
+    </div>
+        <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
+               <input type="hidden" id="previewImageId" name="ImageId" >
+     
+    </div>
+                     @*
+                     old save img
+                      <div class="form-group" id="hiddenId">
         <label asp-for="Photo" class="file-input-label">
            
         </label>
         
         <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
      
-    </div>
+    </div> *@
+  <!-- Add a new file input for multiple file uploads -->
+    @* <div class="form-group" id="hiddenId">
+        <label asp-for="Gallery">Gallery Images</label>
+        <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
+    </div> *@
+      <div class="align">
+
+</div>
+<div id="imageGridWrapper">
+   
+   
+</div>
+    
   <!-- Add a new file input for multiple file uploads -->
     <div class="form-group" id="hiddenId">
         <label asp-for="Gallery">Gallery Images</label>
         <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
+        <input type="hidden" id="uploadedImageIds" name="UploadedImageIds"   />
+      
     </div>
 
 
-                    @* <div class="form-group" id="hiddenId">
-        <label for="fileInput">Choose files:</label>
-        <input asp-for="UploadedFiles" type="file" name="files" id="fileInput" multiple />
-        <br />
-    </div> *@
+           <div class="form-group row">
+   <label asp-for="Brands" class="control-label col-md-3">Brand</label>
+
+    <div class="input-group">
+        <select asp-for="Brands" class="form-control" id="brandDropdown" size="1" style="height: auto; overflow-y: scroll;">
+           <option value="" selected>Select a brand</option>
+            @foreach (var item in ViewBag.Brands)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+  
+    <input type="hidden"  name="BrandId"  id="SelectedBrand" />
+</div>
+
                  @* Categories *@
                  <div class="form-group">
     <label asp-for="Categories" class="control-label">Category</label>

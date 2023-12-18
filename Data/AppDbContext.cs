@@ -27,6 +27,7 @@ namespace Admin_Panel.Data
         public DbSet<Models.Attribute> Attributes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Mark> Marks { get; set; }
+        public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<UploadedFiles> UploadedFile { get; set; }
        
@@ -78,6 +79,20 @@ namespace Admin_Panel.Data
  
 
  
+
+
+          builder.Entity<Brand>()
+        .HasOne(c => c.UploadedFiles)
+        .WithMany(uf => uf.Brands)
+        .HasForeignKey(c => c.ImageId) // Assuming ImageId is the foreign key in Category
+        .OnDelete(DeleteBehavior.Restrict); // Adjust the delete behavior as needed
+         
+          builder.Entity<Product>()
+        .HasOne(c => c.Brands)
+        .WithMany(uf => uf.Products)
+        .HasForeignKey(c => c.BrandId) // Assuming ImageId is the foreign key in Category
+        .OnDelete(DeleteBehavior.Restrict); // Adjust the delete behavior as needed
+
 
 
           builder.Entity<Product>()

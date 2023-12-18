@@ -26,11 +26,13 @@ namespace Admin_Panel.Models
         public int? Popular { get; set; }
         
         public int? ImageId { get; set; }
+        public int? BrandId { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
             public UploadedFiles UploadedFiles;
+            public Brand Brands{get;set;}
             public IList<ProductToUploadedFiles>  ProductToUploadedFile  { get; set; } =  new List<ProductToUploadedFiles>();
             public IList<ProductToMark>  Marks  { get; set; } =  new List<ProductToMark>();
             public IList<ProductToAttribute>  Attributes  { get; set; } = new List<ProductToAttribute>();

@@ -65,12 +65,14 @@ namespace Admin_Panel.Controllers
             var result = await _serviceManager.CategoryService.GetAllAsync();
             var marks = await _serviceManager.MarkService.GetAllAsync();
             var attributes = await _serviceManager.AttributeServices.GetAllAsync();
+            var brands = await _serviceManager.BrandService.GetAllAsync();
             if (!String.IsNullOrEmpty(lang))
             {
 
                 result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
                 marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
                 attributes = attributes?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+                brands = brands?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
             }
             var groupedCategories = result
     .GroupBy(category => category.ParentId)
@@ -82,6 +84,12 @@ namespace Admin_Panel.Controllers
             foreach (var price in result)
             {
                 mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
+
+            }
+            List<SelectListItem> brandslist = new List<SelectListItem>();
+            foreach (var item in brands)
+            {
+                brandslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
 
             }
             List<SelectListItem> markslist = new List<SelectListItem>();
@@ -100,6 +108,7 @@ namespace Admin_Panel.Controllers
             ViewBag.Categories = groupedCategories;
             // ViewBag.Categories = mylist;
             ViewBag.Marks = markslist;
+            ViewBag.Brands = brandslist;
 
             ViewBag.Attributes = attributesList;
             return View();
@@ -107,96 +116,28 @@ namespace Admin_Panel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product Product, string SelectedMarks, string SelectedCategories, string SelectedAttributes, IFormFile Photo, List<IFormFile> Gallery)
+        public async Task<IActionResult> Create(Product Product, string SelectedMarks, string SelectedCategories, string SelectedAttributes, string UploadedImageIds)
         {
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
-            UploadedFiles downloadedimage = null;
+          
             int? originProductId = null;
-            int? imageId = null;
+         
             string originLang = null;
-            List<UploadedFiles> uploadedFilesList = new List<UploadedFiles>();
-            List<int> galleryImageIds = new List<int>();
-            using (var client = new HttpClient())
-            {
-                if (Photo != null)
-                {
-                    // Create a new MultipartFormDataContent
-                    var formData = new MultipartFormDataContent();
-
-                    // Open the file you want to send
-                    using (var fileStream = Photo.OpenReadStream())
-                    {
-                        // Create a StreamContent for the file
-                        var fileContent = new StreamContent(fileStream);
-
-                        // Add the StreamContent to the MultipartFormDataContent
-                        formData.Add(fileContent, "file", Photo.FileName);
-
-                        // You can also add other form data fields if needed
-                        formData.Add(new StringContent("Some additional data"), "field1");
-
-                        // Send the HTTP POST request with the MultipartFormDataContent
-                        var response = await client.PostAsync("https://localhost:7144/api/Uploads/SingleUploadImage?FolderName=productviews", formData);
-
-                        if (response.IsSuccessStatusCode)
-
-                        {
-
-                            Console.WriteLine("File sent successfully.");
-                            var responseContent = await response.Content.ReadAsStringAsync();
-                            downloadedimage = JsonConvert.DeserializeObject<UploadedFiles>(responseContent);
-                            imageId = downloadedimage.Id;
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error sending file: " + response.ReasonPhrase);
-                        }
-                    }
-                }
-
-                // Handle the gallery images
-                if (Gallery != null && Gallery.Count > 0)
-                {
-                    foreach (var galleryImage in Gallery)
-                    {
-                        var galleryFormData = new MultipartFormDataContent();
-                        using (var galleryFileStream = galleryImage.OpenReadStream())
-                        {
-                            var galleryFileContent = new StreamContent(galleryFileStream);
-                            galleryFormData.Add(galleryFileContent, "file", galleryImage.FileName);
-                            galleryFormData.Add(new StringContent("Some additional data"), "field1");
-
-                            var galleryResponse = await client.PostAsync("https://localhost:7144/api/Uploads/SingleUploadImage?FolderName=productGallery", galleryFormData);
-
-                            if (galleryResponse.IsSuccessStatusCode)
-                            {
-                                Console.WriteLine("Gallery File sent successfully.");
-                                var galleryResponseContent = await galleryResponse.Content.ReadAsStringAsync();
-                                var galleryDownloadedimage = JsonConvert.DeserializeObject<UploadedFiles>(galleryResponseContent);
-                                uploadedFilesList.Add(galleryDownloadedimage);
-                                galleryImageIds.Add(galleryDownloadedimage.Id);
-                                // Process the gallery image response as needed
-
-                            }
-                            else
-                            {
-                                Console.WriteLine("Error sending gallery file: " + galleryResponse.ReasonPhrase);
-                            }
-                        }
-                    }
-                }
-            }
+           
+          
             if (ModelState.IsValid)
             {
 
 
                 foreach (var lang in languages)
                 {
+                        int indexLang = languages.FindIndex(el => el == lang);
+                         indexLang = indexLang >= 0 ? indexLang : 0;
                     if (Product?.Id != null) Product.Id = 0;
                     Product.Lang = lang;
-                    if (imageId != null) Product.ImageId = imageId;
+                    Product.BrandId = Product.BrandId + (indexLang == 1 ? 1 : 0);
+                    // if (imageId != null) Product.ImageId = imageId;
 
                     Product.OriginId = originProductId ?? 0;
                     result = await _serviceManager.ProductService.CreateTest(Product);
@@ -207,7 +148,7 @@ namespace Admin_Panel.Controllers
                         originLang = result.Lang;
                     }
                     //Add Gallery to product
-                    await _serviceManager.ProductService.AddProductToUploadedFileAsync(result.Id, galleryImageIds, result.Lang);
+                    await _serviceManager.ProductService.AddProductToUploadedFileAsync(result.Id, UploadedImageIds, result.Lang);
                     //Add Category to product
                     await _serviceManager.ProductService.AddProductToCategoryAsync(result.Id, SelectedCategories, result.Lang);
 
@@ -231,7 +172,7 @@ namespace Admin_Panel.Controllers
                 }
                 result = Product;
                 //Add ProductToUploadedFiles origin
-                await _serviceManager.ProductService.AddProductToUploadedFileAsync(originProductId.Value, galleryImageIds, originLang);
+                await _serviceManager.ProductService.AddProductToUploadedFileAsync(originProductId.Value, UploadedImageIds, originLang);
                 //Add ProductToCategory origin
                 await _serviceManager.ProductService.AddProductToCategoryAsync(originProductId.Value, SelectedCategories, originLang);
 
@@ -252,12 +193,14 @@ namespace Admin_Panel.Controllers
              var result = await _serviceManager.CategoryService.GetAllAsync();
             var marks = await _serviceManager.MarkService.GetAllAsync();
             var attributes = await _serviceManager.AttributeServices.GetAllAsync();
+            var brands = await _serviceManager.BrandService.GetAllAsync();
             if (!String.IsNullOrEmpty(lang))
             {
 
                 result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
                 marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
                 attributes = attributes?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+                brands = brands?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
             }
             var groupedCategories = result
     .GroupBy(category => category.ParentId)
@@ -277,6 +220,12 @@ namespace Admin_Panel.Controllers
             foreach (var item in marks)
             {
                 markslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+
+            }
+            List<SelectListItem> brandslist = new List<SelectListItem>();
+            foreach (var item in brands)
+            {
+                brandslist.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
 
             }
             List<SelectListItem> attributesList = new List<SelectListItem>();
@@ -304,6 +253,7 @@ namespace Admin_Panel.Controllers
                 Availability = Product.Availability,
                 ImageId = Product.ImageId,
                 UploadedFiles = Product.UploadedFiles,
+                Brands= Product.Brands,
                 ProductGallery = Product.ProductToUploadedFile.Select(m => new GalleryViewModel
     {
         FilePath = m.UploadedFile.FilePath,
@@ -346,6 +296,7 @@ namespace Admin_Panel.Controllers
            
             // ViewBag.Categories = mylist;
             ViewBag.Marks = markslist;
+            ViewBag.Brands = brandslist;
 
             ViewBag.Attributes = attributesList;
             // Console.WriteLine(ViewBag.Categories);
@@ -354,7 +305,7 @@ namespace Admin_Panel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product Product,string OldImagesIds,string UploadedImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes)
+        public async Task<IActionResult> Edit(int id, Product Product,string UploadedImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes)
         {
             if (id != Product.Id)
             {
@@ -367,7 +318,7 @@ namespace Admin_Panel.Controllers
          int originProdId = Product.OriginId.HasValue ? Product.OriginId.Value : Product.Id;
 
                 await _serviceManager.ProductService.Update(Product,originProdId,UploadedImageIds,SelectedMarks,SelectedCategories,SelectedAttributes);
-                // await _serviceManager.ProductService.UpdateProductToUploadedFileAsync(Product,OldImagesIds,UploadedImageIds);
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(Product);

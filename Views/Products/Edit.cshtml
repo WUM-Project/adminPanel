@@ -13,6 +13,7 @@
         <div class="col-md-6">
             <form enctype="multipart/form-data" asp-action="Edit"  >
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <input type="hidden"  name="OriginId" value="@Model.OriginId">
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
@@ -60,6 +61,26 @@
         <input type="hidden" id="uploadedImageIds" name="UploadedImageIds" value="@string.Join(",", Model.ProductGallery.Select(item => item.ImageId))"  />
         <input type="hidden"  name="OldImagesIds" value="@string.Join(",", Model.ProductGallery.Select(item => item.ImageId))"  />
     </div>
+
+    <div class="form-group row">
+   <label asp-for="Brands" class="control-label col-md-3">Brand</label>
+
+    <div class="input-group">
+        <select asp-for="Brands" class="form-control" id="brandDropdown" size="1" style="height: auto; overflow-y: scroll;">
+           @* <option value="">Select a brand</option> *@
+            @foreach (var item in ViewBag.Brands)
+            {  @if(int.Parse(item.Value) == Model.BrandId ){
+                 <option value="@item.Value" selected>@item.Text</option>
+            }else{
+                 <option value="@item.Value" >@item.Text</option>
+            }
+                @* <option value="@item.Value" @(Model.BrandsId != null && Model.BrandsId == int.Parse(item.Value) ? "selected" : "")>@item.Text</option> *@
+            }
+        </select>
+    </div>
+  
+    <input type="hidden"  name="BrandId"  id="SelectedBrand"  value="@Model.Brands?.Id"/>
+</div>
  <div class="mb-3">
                         <label for="Status" class="form-label">Status</label>
                         <select asp-for="Status" class="form-select">
@@ -92,7 +113,7 @@
     </div>
 
 <div class="form-group">
-    <label class="control-label" for="SelectedMarks">Mark</label>
+    <label class="control-label" for="SelectedMarks">Brand</label>
     <div class="location-popup-radios">
         @foreach (var item in ViewBag.Marks)
         {

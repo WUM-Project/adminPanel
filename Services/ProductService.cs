@@ -61,7 +61,7 @@ namespace Admin_Panel.Services
 
             // return product;
             var product = await _context.Products
-       .Include(d => d.UploadedFiles)
+       .Include(d => d.UploadedFiles).Include(y=> y.Brands)
        .FirstOrDefaultAsync(e => e.Id == id);
 
             if (product != null)
@@ -71,6 +71,9 @@ namespace Admin_Panel.Services
                 await _context.Entry(product)
                     .Collection(p => p.Attributes)
                     .LoadAsync(cancellationToken);
+               
+          
+
                 await _context.Entry(product)
                          .Collection(d => d.Categories)
                          .LoadAsync(cancellationToken);
@@ -394,24 +397,45 @@ namespace Admin_Panel.Services
             _context.ProductToUploadedFiles.RemoveRange(existingProductToCategories);
             await _context.SaveChangesAsync();
         }
-        public async Task AddProductToUploadedFileAsync(int productId, List<int> galleryImageIds, string Lang)
+        public async Task AddProductToUploadedFileAsync(int productId, string NewImageIds, string Lang)
         {
 
-            if (galleryImageIds.Count > 0)
-            {
-                foreach (var uploadId in galleryImageIds)
+            // if (galleryImageIds.Count > 0)
+            // {
+            //     foreach (var uploadId in galleryImageIds)
+            //     {
+
+            //         var productToUploadedFile = new ProductToUploadedFiles
+            //         {
+            //             ProductId = productId, // Set the ProductId
+            //             UploadId = uploadId
+            //         };
+            //         // ProductToUploadedFiles
+            //         _context.ProductToUploadedFiles.Add(productToUploadedFile);
+
+            //     }
+            // }
+             if (!string.IsNullOrEmpty(NewImageIds))
+
+                        {
+
+                            int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
+                            if (newImageArray.Length > 0)
+                            {
+        foreach (var galleryItem in newImageArray)
+        {
+            
+                var productToUploadedFile = new ProductToUploadedFiles
                 {
+                    ProductId =productId,
+                    UploadId =galleryItem
+                };
 
-                    var productToUploadedFile = new ProductToUploadedFiles
-                    {
-                        ProductId = productId, // Set the ProductId
-                        UploadId = uploadId
-                    };
-                    // ProductToUploadedFiles
-                    _context.ProductToUploadedFiles.Add(productToUploadedFile);
-
-                }
+                _context.ProductToUploadedFiles.Add(productToUploadedFile);
             }
+         
+        }
+        }
 
 
             await _context.SaveChangesAsync();
@@ -453,11 +477,11 @@ namespace Admin_Panel.Services
         {
 
               List<string> languages = new List<string>() { "uk", "ru" };
-               int indexLang = languages.FindIndex(el => el == product.Lang);
-            indexLang = indexLang >= 0 ? indexLang : 0;
+            
             var existingProduct = await _context.Products
               .FirstOrDefaultAsync(m => m.Id == product.Id);
-
+   int indexLang = languages.FindIndex(el => el == existingProduct.Lang);
+            indexLang = indexLang >= 0 ? indexLang : 0;
                var allProductIds = await _context.Products
     .Where(p => p.Id == originProdId || p.OriginId == originProdId)
     .ToListAsync();
@@ -475,6 +499,7 @@ if (allProductIds != null && allProductIds.Any())
             if (existingProduct != null)
             {
                 product.Lang = existingProduct.Lang;
+                product.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
 
                 var originId = product.OriginId;
                 if (originId.HasValue && originId != 0)
@@ -484,7 +509,8 @@ if (allProductIds != null && allProductIds.Any())
 
                     if (originproduct != null)
                     {  
-                  
+                      
+                          originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
                         originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
                         originproduct.ImageId = product.ImageId;
@@ -504,6 +530,7 @@ if (allProductIds != null && allProductIds.Any())
                     if (originproduct != null)
                     {
                   
+                          originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
                         originproduct.OriginId = product.Id;
                         originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
@@ -774,141 +801,7 @@ if (allProductIds != null && allProductIds.Any())
 
             }
         }
-        public async Task UpdateProductToUploadedFileAsync(Product product, string OldImagesIds, string NewImageIds)
-        {
-            var existingProduct = await _context.Products
-           .FirstOrDefaultAsync(m => m.Id == product.Id);
-
-            if (!string.IsNullOrEmpty(NewImageIds) && !string.IsNullOrEmpty(OldImagesIds))
-
-            {
-                int[] oldImageArray = OldImagesIds.Split(',').Select(int.Parse).ToArray();
-                int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
-
-                int[] removedNumbers = oldImageArray.Except(newImageArray).ToArray();
-
-                if (removedNumbers.Length > 0)
-                {
-
-
-
-                    var originId = product.OriginId;
-                    if (originId.HasValue && originId != 0)
-                    {
-                        var originproduct = await _context.Products
-                            .FirstOrDefaultAsync(m => m.Id == originId.Value);
-
-                        if (originproduct != null)
-                        {
-                            foreach (var uploadId in removedNumbers)
-                            {
-
-                                var productToUploadedFile = new ProductToUploadedFiles
-                                {
-                                    ProductId = originproduct.Id, // Set the ProductId
-                                    UploadId = uploadId
-                                };
-                                // ProductToUploadedFiles
-                                _context.ProductToUploadedFiles.Add(productToUploadedFile);
-
-                            }
-
-                        }
-                    }
-                    else
-                    {
-
-                        var originproduct = await _context.Products
-                          .FirstOrDefaultAsync(m => m.OriginId == product.Id);
-
-                        if (originproduct != null)
-                        {
-                            foreach (var uploadId in removedNumbers)
-                            {
-
-                                var productToUploadedFile = new ProductToUploadedFiles
-                                {
-                                    ProductId = originproduct.Id, // Set the ProductId
-                                    UploadId = uploadId
-                                };
-                                // ProductToUploadedFiles
-                                _context.ProductToUploadedFiles.Add(productToUploadedFile);
-
-                            }
-                        }
-                    }
-
-                }
-
-            }
-            if (!string.IsNullOrEmpty(NewImageIds) && string.IsNullOrEmpty(OldImagesIds))
-
-            {
-
-                int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
-
-
-                if (newImageArray.Length > 0)
-                {
-
-
-
-                    var originId = product.OriginId;
-                    if (originId.HasValue && originId != 0)
-                    {
-                        var originproduct = await _context.Products
-                            .FirstOrDefaultAsync(m => m.Id == originId.Value);
-
-                        if (originproduct != null)
-                        {
-                            foreach (var uploadId in newImageArray)
-                            {
-
-                                var productToUploadedFile = new ProductToUploadedFiles
-                                {
-                                    ProductId = originproduct.Id, // Set the ProductId
-                                    UploadId = uploadId
-                                };
-                                // ProductToUploadedFiles
-                                _context.ProductToUploadedFiles.Add(productToUploadedFile);
-
-                            }
-
-                        }
-                    }
-                    else
-                    {
-
-                        var originproduct = await _context.Products
-                          .FirstOrDefaultAsync(m => m.OriginId == product.Id);
-
-                        if (originproduct != null)
-                        {
-                            foreach (var uploadId in newImageArray)
-                            {
-
-                                var productToUploadedFile = new ProductToUploadedFiles
-                                {
-                                    ProductId = originproduct.Id, // Set the ProductId
-                                    UploadId = uploadId
-                                };
-                                // ProductToUploadedFiles
-                                _context.ProductToUploadedFiles.Add(productToUploadedFile);
-
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-
-
-
-            await _context.SaveChangesAsync();
-        }
-
+      
 
         public async Task UpdateProductToUploadedsFileAsync(Product product, string NewImageIds)
         {

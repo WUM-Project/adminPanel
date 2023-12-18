@@ -20,7 +20,8 @@ document.querySelectorAll('.dropdown-item:not(.selected)').forEach(function (ite
         }
     });
 });
-
+var attributeBtn = document.getElementById('addAttributeBtn');
+if(attributeBtn){
 document.getElementById('addAttributeBtn').addEventListener('click', function (e) {
     var attributeDropdown = document.getElementById('attributeDropdown');
     var attributeValueInput = document.getElementById('attributeValueInput');
@@ -120,7 +121,7 @@ function removeAttribute(button) {
     updateHiddenAttributes(hiddenAttributesInput);
 }
   
-   
+} 
 
     //=================================================================================
    
@@ -162,16 +163,17 @@ function removeAttribute(button) {
             }
         });
             $('#selectedCategories').val(selectedCategories.join(','));
-        //    $('.categories').change(function () {
-        //     var selectedCategories = $('.categories:checked').map(function () {
-        //         return $(this).data('id');
-        //     }).get();
-        //     $('#selectedCategories').val(selectedCategories.join(','));
-        // });
-     
+       
+            // var selectedBrand = $('#brandDropdown').val();
+            $('#SelectedBrand').val( $('#brandDropdown').val());
   
    })
+
    $(document).ready(function () {
+    $('#brandDropdown').on('change', function () {
+        var selectedBrand = $(this).val();
+        $('#SelectedBrand').val(selectedBrand);
+    });
     // $("#fileInput").click(function () {
     //     // Make an AJAX request to initiate the download
     //     $.ajax({
@@ -365,6 +367,7 @@ $(document).on('click', '.delete-button', async function (e) {
 
          // Забрати ідентифікатор з рядка значень прихованого поля
          var currentIds = $('#uploadedImageIds').val();
+         if(currentIds){
          var idsArray = currentIds.split(',');
          var indexToRemove = idsArray.indexOf(fileId.toString());
          if (indexToRemove !== -1) {
@@ -373,6 +376,7 @@ $(document).on('click', '.delete-button', async function (e) {
              $('#uploadedImageIds').val(idsArray.join(','));
          }
         }
+    }
         // Видалити батьківський контейнер зображення з гріду
         imageContainer.remove();
     } catch (error) {
@@ -398,6 +402,45 @@ async function deleteFile(fileId) {
     });
 }
 $(document).ready(function () {
+
+    //  // Обробник події при зміні вибраних файлів
+     $('#brandImage').on('change', function (e) {
+        var files = e.target.files;
+           console.log("ddddsfsss");
+        // Створюємо об'єкт FormData для відправлення файлів
+        var formData = new FormData();
+
+        // Додаємо файли до об'єкту FormData
+        for (var i = 0; i < files.length; i++) {
+            formData.append('file', files[i]); }
+    
+        // Додаємо додаткові дані (якщо потрібно)
+        formData.append('FolderName', 'brands');
+    
+        // Здійснюємо Ajax-запит для завантаження файлів на сервер
+        $.ajax({
+            type: 'POST',
+            url: 'https://localhost:7144/api/Uploads/SingleUploadImage?FolderName=brands',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+           if(response && response.id)
+                      $('#previewBrandId').val(response.id);
+                 
+                      $('#previewImg').append(
+                        '<div class="image-container">' +
+                        '<img src="' + response.filePath + '" alt="Image">' +
+                        '<button class="delete-button" data-file-id="' + response.id + '">Видалити</button>' +
+                        '</div>'
+                    );
+               
+            },
+            error: function () {
+                console.error('Помилка при завантаженні файлів на сервер.');
+            }
+        });
+    });
     // Масив для зберігання ідентифікаторів завантажених файлів
     // var uploadedImageIdsArray = [];
     
@@ -504,6 +547,7 @@ var currentUploadedIds = $('#uploadedImageIds').val();
             }
         });
     });
+   
 
   
 });
@@ -533,6 +577,7 @@ $(document).on('click', '.btn.edit-product', async function () {
          }
      });
          $('#selectedCategories').val(selectedCategories.join(','));
+         $('#SelectedBrand').val( $('#brandDropdown').val());
      //    $('.categories').change(function () {
      //     var selectedCategories = $('.categories:checked').map(function () {
      //         return $(this).data('id');
