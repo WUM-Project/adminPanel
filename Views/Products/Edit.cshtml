@@ -14,6 +14,7 @@
             <form enctype="multipart/form-data" asp-action="Edit"  >
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                  <input type="hidden"  name="OriginId" value="@Model.OriginId">
+                 <input type="hidden"  name="Id" value="@Model.Id">
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />

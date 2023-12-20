@@ -485,6 +485,7 @@ namespace Admin_Panel.Services
                var allProductIds = await _context.Products
     .Where(p => p.Id == originProdId || p.OriginId == originProdId)
     .ToListAsync();
+    
 
 List<int> prodIdsToDelete = new List<int>();
 if (allProductIds != null && allProductIds.Any())
@@ -544,6 +545,7 @@ if (allProductIds != null && allProductIds.Any())
                 }
  foreach (var item in allProductIds)
     {
+     
           _context.ProductToUploadedFiles.RemoveRange(_context.ProductToUploadedFiles.Where(p => p.ProductId == item.Id));
            if (!string.IsNullOrEmpty(NewImageIds))
 
@@ -557,6 +559,7 @@ if (allProductIds != null && allProductIds.Any())
             
                 var productToUploadedFile = new ProductToUploadedFiles
                 {
+                
                     ProductId = item.Id,
                     UploadId =galleryItem
                 };

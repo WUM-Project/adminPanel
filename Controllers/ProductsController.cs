@@ -120,20 +120,20 @@ namespace Admin_Panel.Controllers
         {
             List<string> languages = new List<string>() { "uk", "ru" };
             Product result = null;
-          
+
             int? originProductId = null;
-         
+
             string originLang = null;
-           
-          
+
+
             if (ModelState.IsValid)
             {
 
 
                 foreach (var lang in languages)
                 {
-                        int indexLang = languages.FindIndex(el => el == lang);
-                         indexLang = indexLang >= 0 ? indexLang : 0;
+                    int indexLang = languages.FindIndex(el => el == lang);
+                    indexLang = indexLang >= 0 ? indexLang : 0;
                     if (Product?.Id != null) Product.Id = 0;
                     Product.Lang = lang;
                     Product.BrandId = Product.BrandId + (indexLang == 1 ? 1 : 0);
@@ -190,7 +190,7 @@ namespace Admin_Panel.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             string lang = "uk";
-             var result = await _serviceManager.CategoryService.GetAllAsync();
+            var result = await _serviceManager.CategoryService.GetAllAsync();
             var marks = await _serviceManager.MarkService.GetAllAsync();
             var attributes = await _serviceManager.AttributeServices.GetAllAsync();
             var brands = await _serviceManager.BrandService.GetAllAsync();
@@ -210,7 +210,7 @@ namespace Admin_Panel.Controllers
             {
                 return NotFound();
             }
-             List<SelectListItem> mylist = new List<SelectListItem>();
+            List<SelectListItem> mylist = new List<SelectListItem>();
             foreach (var price in result)
             {
                 mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
@@ -253,47 +253,47 @@ namespace Admin_Panel.Controllers
                 Availability = Product.Availability,
                 ImageId = Product.ImageId,
                 UploadedFiles = Product.UploadedFiles,
-                Brands= Product.Brands,
+                Brands = Product.Brands,
                 ProductGallery = Product.ProductToUploadedFile.Select(m => new GalleryViewModel
-    {
-        FilePath = m.UploadedFile.FilePath,
-        ImageId = m.UploadId,
+                {
+                    FilePath = m.UploadedFile.FilePath,
+                    ImageId = m.UploadId,
 
-        // Map other properties if needed
-    }).ToList(),
+                    // Map other properties if needed
+                }).ToList(),
                 // ProductToUploadedFile = Product.ProductToUploadedFile,
                 // SelectedMarks = Product.Marks,
                 // SelectedAttributes = Product.Attributes,
                 // SelectedCategories = Product.Categories
-                   SelectedMarks = Product.Marks.Select(m => new MarkViewModel
-    {
-        MarkId = m.Mark.Id,
-        Title = m.Mark.Title,
-        // Map other properties if needed
-    }).ToList(),
+                SelectedMarks = Product.Marks.Select(m => new MarkViewModel
+                {
+                    MarkId = m.Mark.Id,
+                    Title = m.Mark.Title,
+                    // Map other properties if needed
+                }).ToList(),
 
-    SelectedAttributes = Product.Attributes.Select(a => new AttributeViewModel
-    {
-        AttributeId = a.Attribute.Id,
-        Value = a.Value,
-        Title = a.Attribute.Title
-        // Map other properties if needed
-    }).ToList(),
+                SelectedAttributes = Product.Attributes.Select(a => new AttributeViewModel
+                {
+                    AttributeId = a.Attribute.Id,
+                    Value = a.Value,
+                    Title = a.Attribute.Title
+                    // Map other properties if needed
+                }).ToList(),
 
-    SelectedCategories = Product.Categories.Select(c => new CategoryViewModel
-    {
-        CategoryId = c.Category.Id,
-        Title = c.Category.Title,
-        // Map other properties if needed
-    }).ToList()
-    
+                SelectedCategories = Product.Categories.Select(c => new CategoryViewModel
+                {
+                    CategoryId = c.Category.Id,
+                    Title = c.Category.Title,
+                    // Map other properties if needed
+                }).ToList()
+
             };
             if (Product == null)
             {
                 return NotFound();
             }
-               ViewBag.Categories = groupedCategories;
-           
+            ViewBag.Categories = groupedCategories;
+
             // ViewBag.Categories = mylist;
             ViewBag.Marks = markslist;
             ViewBag.Brands = brandslist;
@@ -305,7 +305,7 @@ namespace Admin_Panel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product Product,string UploadedImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes)
+        public async Task<IActionResult> Edit(int id, Product Product, string UploadedImageIds, string SelectedMarks, string SelectedCategories, string SelectedAttributes)
         {
             if (id != Product.Id)
             {
@@ -314,11 +314,12 @@ namespace Admin_Panel.Controllers
 
             if (ModelState.IsValid)
             {
-                 // Додайте перевірку originProdId
-         int originProdId = Product.OriginId.HasValue ? Product.OriginId.Value : Product.Id;
 
-                await _serviceManager.ProductService.Update(Product,originProdId,UploadedImageIds,SelectedMarks,SelectedCategories,SelectedAttributes);
-               
+                int originProdId = Product.OriginId.GetValueOrDefault() == 0 ? Product.Id : Product.OriginId.GetValueOrDefault();
+
+
+                await _serviceManager.ProductService.Update(Product, originProdId, UploadedImageIds, SelectedMarks, SelectedCategories, SelectedAttributes);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(Product);
