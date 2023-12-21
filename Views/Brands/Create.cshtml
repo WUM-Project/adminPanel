@@ -18,36 +18,30 @@
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-               
-               
-            
-                   <div class="form-group">
-        <label asp-for="Status" class="control-label"></label>
-        <select asp-for="Status" class="form-select">
-            <option value="1">Deleted</option>
-            <option value="2">Active</option>
-            <option value="3">Waiting</option>
-        </select>
-    </div>
-              
-                 <div class="form-group" id="hiddenId">
-        <label asp-for="Photo" class="file-input-label">
-           
-        </label>
-        <div id="previewImg">
-          @* @if (!string.IsNullOrEmpty(Model.ImageId.ToString())){   
-         <div class="image-container">
-        <img src="@Model.UploadedFiles.FilePath" alt="Image 1">
-        <button class="delete-button"  data-file-id="@Model.ImageId" >Видалити</button>
-    </div>
-    } *@
-    </div>
-    @* value="@Model.ImageId" *@
-        <input asp-for="Photo" type="file" id="brandImage" name="Photo" class="form-control"/>
-               <input type="hidden" id="previewBrandId" name="ImageId" >
-     
-    </div>
-             
+
+
+
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="1">Deleted</option>
+                        <option value="2">Active</option>
+                        <option value="3">Waiting</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="hiddenId">
+                    <label asp-for="Photo" class="file-input-label">
+
+                    </label>
+                    <div id="previewImg">
+                    </div>
+
+                    <input asp-for="Photo" type="file" id="brandImage" name="Photo" class="form-control" />
+                    <input type="hidden" id="previewBrandId" name="ImageId">
+
+                </div>
+
                 <div class="form-group text-center">
                     <button type="submit" id="testbtn" class="btn btn-primary">Create</button>
                 </div>
@@ -60,46 +54,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @* <script>
-        
-     // Обробник події при зміні вибраних файлів
-     $('#brandImage').on('change', function (e) {
-        var files = e.target.files;
-           console.log("ddddsfsss");
-        // Створюємо об'єкт FormData для відправлення файлів
-        var formData = new FormData();
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-        // Додаємо файли до об'єкту FormData
-        for (var i = 0; i < files.length; i++) {
-            formData.append('file', files[i]); }
-    
-        // Додаємо додаткові дані (якщо потрібно)
-        formData.append('FolderName', 'brands');
-    
-        // Здійснюємо Ajax-запит для завантаження файлів на сервер
-        $.ajax({
-            type: 'POST',
-            url: 'https://localhost:7144/api/Uploads/SingleUploadImage?FolderName=brands',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-           if(response && response.id)
-                      $('#previewBrandId').val(response.id);
-                 
-                      $('#previewImg').append(
-                        '<div class="image-container">' +
-                        '<img src="' + response.filePath + '" alt="Image">' +
-                        '<button class="delete-button" data-file-id="' + response.id + '">Видалити</button>' +
-                        '</div>'
-                    );
-               
-            },
-            error: function () {
-                console.error('Помилка при завантаженні файлів на сервер.');
-            }
-        });
-    });
-    </script> *@
 }

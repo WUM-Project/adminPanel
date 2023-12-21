@@ -34,21 +34,7 @@
                <input type="hidden" id="previewImageId" name="ImageId" >
      
     </div>
-                     @*
-                     old save img
-                      <div class="form-group" id="hiddenId">
-        <label asp-for="Photo" class="file-input-label">
-           
-        </label>
-        
-        <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
-     
-    </div> *@
-  <!-- Add a new file input for multiple file uploads -->
-    @* <div class="form-group" id="hiddenId">
-        <label asp-for="Gallery">Gallery Images</label>
-        <input asp-for="Gallery" type="file" name="Gallery" id="galleryFiles" multiple class="form-control" />
-    </div> *@
+                    
       <div class="align">
 
 </div>
@@ -102,32 +88,23 @@
     </div>
     <input type="hidden" id="selectedCategories" name="SelectedCategories" />
 </div>
-                     @* <div class="form-group">
-                      <label asp-for="Categories" class="control-label">Category</label>
-                      <select asp-for="Categories" multiple="true" class="form-select" asp-items="@ViewBag.Categories">
-                          <option value="">Select a category</option>
-                      </select>
-                  </div> *@
-                 @* Categories *@
+                
+            
 
                   <div class="form-group">
                    <label asp-for="Marks" class="control-label">Mark</label>
-                 @* asp-items="@ViewBag.Marks"  *@
+                
                  <div class="location-popup-radios">
                  @foreach (var item in ViewBag.Marks){
                    <label class="checkbox-entry"  data-id="@item.Value">
-                    @* asp-for="Marks"  *@
+              
                 <input type="checkbox" name="Marks" class="marks" data-id="@item.Value">
                 <span>@item.Text</span>
             </label>
             }
             </div>
                  
-                   @* <select asp-for="Marks"  size="5"   style="height: auto;" class="form-select"  id="TestMarks" multiple>
-                    <option value="">Select a mark</option> 
-                     @foreach (var item in ViewBag.Marks)
-                       {<option value="@item.Id">@item.Title</option>}
-                   </select> *@
+                 
                    <input type="hidden" id="selectedMarks" name="SelectedMarks" />
                   </div>
 
@@ -155,24 +132,9 @@
      <div id="selectedAttributesList" class="mt-2">
         <!-- Вибрані атрибути будуть тут -->
     </div>
-    @* name="SelectedAttributes"  *@
+ 
     <input type="hidden"  name="SelectedAttributes[]"  id="SelectedAttributes" />
 </div>
- @* працююча версыя з атрибутами <div class="form-group row">
-        <label asp-for="Attributes" class="control-label col-md-3">Attribute</label>
-         <div id="selectedAttributesList" class="mt-2">
-            <!-- Вибрані атрибути будуть тут -->
-        </div>
-        <div class="input-group">
-            <select asp-for="Attributes" class="form-select custom-select" asp-items="@ViewBag.Attributes"  size="1">
-             
-            </select>
-            <input type="text" class="form-control" id="attributeValueInput" placeholder="Attribute Value">
-            <button type="button" class="btn btn-success" id="addAttributeBtn">+</button>
-        </div>
-       
-        <input type="hidden" asp-for="Attributes" id="hiddenAttributes" />
-    </div> *@
 
                 
                
@@ -226,7 +188,6 @@
     
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"  crossorigin="anonymous">
 
-@* <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script> *@
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

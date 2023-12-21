@@ -7,27 +7,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Admin_Panel.Models
 {
 
- 
-        public partial class ProductToMark
+
+    public partial class ProductToMark
     {
         [Key]
         [Column(Order = 0)]
-        // [ForeignKey("Product")]
+
         public int ProductId { get; set; }
 
-         [Key]
+        [Key]
         [Column(Order = 1)]
-        // [ForeignKey("Mark")]     
+
         public int MarkId { get; set; }
 
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
-        
-         [ForeignKey("MarkId")]
+
+        [ForeignKey("MarkId")]
         public Mark Mark { get; set; }
 
-       
+
 
 
     }

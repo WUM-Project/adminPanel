@@ -43,7 +43,7 @@ namespace Admin_Panel.Controllers
                 middleVal: middleVal, cntBetween: cntBetween));
         }
 
- 
+
 
         public IActionResult Create()
         {
@@ -78,14 +78,14 @@ namespace Admin_Panel.Controllers
 
 
 
-                    
+
 
                     result = await _serviceManager.BrandService.Create(brand);
-                      if (originBrandId == null)
+                    if (originBrandId == null)
                     {
 
                         originBrandId = result.Id;
-                        
+
                     }
 
                 }
@@ -106,7 +106,7 @@ namespace Admin_Panel.Controllers
             }
 
             var brand = await _serviceManager.BrandService.GetByIdAsync(id.Value);
-            Console.WriteLine(brand);
+
 
             var brandViewModel = new BrandCreateViewModels
             {
@@ -121,8 +121,7 @@ namespace Admin_Panel.Controllers
 
 
 
-                // Photo = category.UploadedFiles.FilePath
-                // Map other properties as needed
+
             };
             if (brand == null)
             {
@@ -145,7 +144,7 @@ namespace Admin_Panel.Controllers
 
             if (ModelState.IsValid)
             {
-               
+
                 await _serviceManager.BrandService.Update(brand);
                 return RedirectToAction(nameof(Index));
             }

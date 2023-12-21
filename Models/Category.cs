@@ -16,28 +16,25 @@ namespace Admin_Panel.Models
         public string Title { get; set; }
 
         public int Status { get; set; }
-        // public IFormFile ImageId { get; set; }
-        // [ForeignKey("UploadedFiles")]
 
 
         public int? ImageId { get; set; }
-      
-        public UploadedFiles UploadedFiles;
-       
 
-          
+        public UploadedFiles UploadedFiles;
+
+
+
         public int? IconId { get; set; }
-         
+
         public UploadedFiles UploadedFileIcon;
-        
+
         public int? Position { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
-        public IList<ProductToCategory>  Products  { get; set; }
+        public IList<ProductToCategory> Products { get; set; }
 
-        
-        // public virtual ICollection<Product> Product { get; set; }= new List<Product>();
+
 
     }
 }

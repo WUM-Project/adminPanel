@@ -139,7 +139,8 @@ namespace Admin_Panel.Services
                       .FirstOrDefaultAsync(m => m.OriginId == id);
 
                     if (originBrand != null)
-                    {   if (originBrand.UploadedFiles != null)
+                    {
+                        if (originBrand.UploadedFiles != null)
                         {
                             _context.UploadedFile.Remove(brand.UploadedFiles);
                         }

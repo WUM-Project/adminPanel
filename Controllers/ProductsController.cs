@@ -187,20 +187,26 @@ namespace Admin_Panel.Controllers
             return View(Product);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             string lang = "uk";
             var result = await _serviceManager.CategoryService.GetAllAsync();
             var marks = await _serviceManager.MarkService.GetAllAsync();
             var attributes = await _serviceManager.AttributeServices.GetAllAsync();
             var brands = await _serviceManager.BrandService.GetAllAsync();
+
+            var Product = await _serviceManager.ProductService.GetByIdAsync(id);
+            if (Product == null)
+            {
+                return NotFound();
+            }
             if (!String.IsNullOrEmpty(lang))
             {
 
-                result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
-                marks = marks?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
-                attributes = attributes?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
-                brands = brands?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+                result = result?.Where(x => x.Lang?.Contains(Product.Lang.ToLower()) ?? false)?.ToList();
+                marks = marks?.Where(x => x.Lang?.Contains(Product.Lang.ToLower()) ?? false)?.ToList();
+                attributes = attributes?.Where(x => x.Lang?.Contains(Product.Lang.ToLower()) ?? false)?.ToList();
+                brands = brands?.Where(x => x.Lang?.Contains(Product.Lang.ToLower()) ?? false)?.ToList();
             }
             var groupedCategories = result
     .GroupBy(category => category.ParentId)
@@ -213,7 +219,7 @@ namespace Admin_Panel.Controllers
             List<SelectListItem> mylist = new List<SelectListItem>();
             foreach (var price in result)
             {
-                mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString() });
+                mylist.Add(new SelectListItem { Text = price.Title, Value = price.Id.ToString(), });
 
             }
             List<SelectListItem> markslist = new List<SelectListItem>();
@@ -234,7 +240,7 @@ namespace Admin_Panel.Controllers
                 attributesList.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
 
             }
-            var Product = await _serviceManager.ProductService.GetByIdAsync(id.Value);
+
             var ProductViewModel = new ProductEditViewModel
             {
                 Id = Product.Id,
@@ -259,16 +265,15 @@ namespace Admin_Panel.Controllers
                     FilePath = m.UploadedFile.FilePath,
                     ImageId = m.UploadId,
 
+
                     // Map other properties if needed
                 }).ToList(),
-                // ProductToUploadedFile = Product.ProductToUploadedFile,
-                // SelectedMarks = Product.Marks,
-                // SelectedAttributes = Product.Attributes,
-                // SelectedCategories = Product.Categories
+
                 SelectedMarks = Product.Marks.Select(m => new MarkViewModel
                 {
                     MarkId = m.Mark.Id,
                     Title = m.Mark.Title,
+
                     // Map other properties if needed
                 }).ToList(),
 
@@ -299,7 +304,7 @@ namespace Admin_Panel.Controllers
             ViewBag.Brands = brandslist;
 
             ViewBag.Attributes = attributesList;
-            // Console.WriteLine(ViewBag.Categories);
+
             return View(ProductViewModel);
         }
 

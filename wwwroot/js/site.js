@@ -60,6 +60,7 @@ document.getElementById('addAttributeBtn').addEventListener('click', function (e
             deleteButton.textContent = 'Delete';
             deleteButton.addEventListener('click', function () {
                 // Видалити поточний елемент списку
+                console.log()
                 divWrapper.remove();
                 // Зняти заборону для випадаючого списку
                 dropdownClone.removeAttribute('disabled');
@@ -100,15 +101,26 @@ function updateHiddenAttributes(hiddenAttributesInput) {
 }
 
 $(document).ready(function () {
-    // Find the element by ID
-    var deleteAttributeButton = document.getElementById('delete_attribute');
+    var deleteAttributeButtons = document.querySelectorAll('.delete-attribute');
 
-    // Check if the element exists before attaching the event listener
-    if (deleteAttributeButton) {
-        deleteAttributeButton.addEventListener('click', function () {
+    // Attach the event listener to each 'Delete' button
+    deleteAttributeButtons.forEach(function(button) {
+        button.addEventListener('click', function () {
+            console.log("clicked");
             removeAttribute(this);
         });
-    }
+    });
+    // // Find the element by ID
+    // var deleteAttributeButton = document.getElementById('delete_attribute');
+    //      console.log("worked")
+         
+    // // Check if the element exists before attaching the event listener
+    // if (deleteAttributeButton) {
+    //     deleteAttributeButton.addEventListener('click', function () {
+    //         console.log("clicked");
+    //         removeAttribute(this);
+    //     });
+    // }
 });
 
 function removeAttribute(button) {
@@ -123,23 +135,7 @@ function removeAttribute(button) {
   
 } 
 
-    //=================================================================================
    
-   
-    /////////////=============================================================================================================
-
-//     $(".marks").click(function (e)
-// {
-//     var checkBox = $(this).find("input:checkbox:first");
-//     if (checkBox.is(":checked"))
-//     {
-//         checkBox.prop("checked", false);
-//     }
-//     else
-//     {
-//         checkBox.prop("checked", true);
-//     }
-// });
     $(document).on('click', '.btn.create-product', async function () {
        let error
     
@@ -174,22 +170,7 @@ function removeAttribute(button) {
         var selectedBrand = $(this).val();
         $('#SelectedBrand').val(selectedBrand);
     });
-    // $("#fileInput").click(function () {
-    //     // Make an AJAX request to initiate the download
-    //     $.ajax({
-    //         type: "POST",  // Use the appropriate HTTP method (POST in this case)
-    //         url: "https://localhost:7144/api/Uploads/SingleUploadImage",  // Replace with the correct controller and action URL
-    //         data: { FolderName: "test" },  // Pass any required parameters
-    //         success: function (result) {
-    //             // Handle the response and initiate the download
-    //             console.log(result);
-    //             // window.location.href = result.filePath;  // Assuming 'filePath' is the URL of the downloaded file
-    //         },
-    //         error: function (error) {
-    //             console.error("Error:", error);
-    //         }
-    //     });
-    // });
+   
     $("#fileInput").on("change", function () {
         var files = $(this).get(0).files;
         var formData = new FormData();
@@ -199,118 +180,11 @@ function removeAttribute(button) {
          console.log(formData)
         // uploadFiles(formData);
     })
-//      $('#testbtn').click(function () { 
-//         console.log("clicked")
-//               if (window.FormData !== undefined) { 
-//  var fileUpload = $("#FileUpload1").get(0);  
-//             var files = fileUpload.files;  
-              
-//             // Create FormData object  
-//             var fileData = new FormData();  
-  
-//             // Looping over all files and add it to FormData object  
-//             for (var i = 0; i < files.length; i++) {  
-//                 fileData.append(files[i].name, files[i]);  
-//             } 
-//              fileData.append('username', "Manas");
-//               console.log(fileData);
-//                }
-//                else {  
-//             alert("FormData is not supported.");  
-//         }  
-//       })
-    //   $('#testbtn').click(function () {
-    //   var form = new FormData();
-    //   var temp = $('#uploadFile').prop('files');
-    //   form.append("file",temp[0]);
-    //   form.append("FolderName","test");
-    //   console.log(form);
-    //   uploadFiles(form)
-    // })
+
 
     
 });
-function uploadFiles(formData) {
-    $.ajax({
-        url: "https://localhost:7144/api/Uploads/SingleUploadImage",
-        method: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            // var str = "";
-            // for (var i = 0; i < data.length; i++) {
-            //     str += "<img src='" + data[i] + "' height='100' width='100'>"
-            // }
 
-            $("#hiddenId").append(data);
-        },
-        error: function (data) {
-            alert("Upload Failed!");
-        }
-    })
-}
-// 'use strict';
-
-// $('.gallery-wrapper').lightGallery({
-//     selector: '.gallery-item',
-//     subHtmlSelectorRelative: true,
-//     prevHtml: '<div class="swiper-button-prev"><i></i></div>',
-//     nextHtml: '<div class="swiper-button-next"><i></i></div>'
-// });
-
-
-// if ($('html').find("body").hasClass("lg-on")) {
-//     $('html').addClass("overflow-hidden")
-// } else {
-//     $('html').removeClass("overflow-hidden")
-// }
-//    /* swiper sliders */
-//    _functions.getSwOptions = function(swiper) {
-//     let options = swiper.data('options');
-//     options = (!options || typeof options !== 'object') ? {} : options;
-//     const $p = swiper.closest('.swiper-entry'),
-//         slidesLength = swiper.find('>.swiper-wrapper>.swiper-slide').length;
-//     if (!options.pagination) options.pagination = {
-//         el: $p.find('.swiper-pagination')[0],
-//         clickable: true
-//     };
-//     if (!options.navigation) options.navigation = {
-//         nextEl: $p.find('.swiper-button-next')[0],
-//         prevEl: $p.find('.swiper-button-prev')[0]
-//     };
-//     options.preloadImages = false;
-//     options.lazy = {
-//         loadPrevNext: true
-//     };
-//     options.observer = true;
-//     options.observeParents = true;
-//     options.watchOverflow = true;
-//     options.centerInsufficientSlides = true;
-//     if (!options.speed) options.speed = 500;
-//     options.roundLengths = true;
-//     if (isTouchScreen) options.direction = "horizontal";
-//     if (slidesLength <= 1) {
-//         options.loop = false;
-//         $p.find('.swiper-wrapper').css({
-//             "cursor": "default"
-//         })
-//     }
-//     if (options.customFraction) {
-//         $p.addClass('custom-fraction');
-//         if (slidesLength > 1 && slidesLength < 10) {
-//             $p.find('.custom-current').text('1');
-//             $p.find('.custom-total').text(slidesLength);
-//         } else if (slidesLength > 1) {
-//             $p.find('.custom-current').text('1');
-//             $p.find('.custom-total').text(slidesLength);
-//         }
-//     }
-//     return options;
-// };
-// _functions.initSwiper = function(el) {
-//     const swiper = new Swiper(el[0], _functions.getSwOptions(el));
-// };
 
   // Ініціалізація Swiper після завантаження документа
   document.addEventListener('DOMContentLoaded', function () {
@@ -327,31 +201,6 @@ function uploadFiles(formData) {
 
 
 
-//   // Обробник події при зміні вибраних файлів
-//   $('#galleryFiles').on('change', function (e) {
-//     var files = e.target.files;
-
-//     // Переглядаємо всі вибрані файли
-//     for (var i = 0; i < files.length; i++) {
-//         var reader = new FileReader();
-
-//         // Обробник завершення читання файлу
-//         reader.onload = function (event) {
-//             var imageUrl = event.target.result;
-
-//             // Додаємо зображення до гріду
-//             $('#imageGridWrapper').append(
-//                 '<div class="image-container">' +
-//                 '<img src="' + imageUrl + '" alt="Image">' +
-//                 '<button class="delete-button">Видалити</button>' +
-//                 '</div>'
-//             );
-//         };
-
-//         // Читаємо вибраний файл як URL-адресу
-//         reader.readAsDataURL(files[i]);
-//     }
-// })
 //====================Нове завантаження картинок=======================
 
 $(document).on('click', '.delete-button', async function (e) {
@@ -578,13 +427,7 @@ $(document).on('click', '.btn.edit-product', async function () {
      });
          $('#selectedCategories').val(selectedCategories.join(','));
          $('#SelectedBrand').val( $('#brandDropdown').val());
-     //    $('.categories').change(function () {
-     //     var selectedCategories = $('.categories:checked').map(function () {
-     //         return $(this).data('id');
-     //     }).get();
-     //     $('#selectedCategories').val(selectedCategories.join(','));
-     // });
-  
+   
 
 })
 

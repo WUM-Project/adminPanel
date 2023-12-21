@@ -22,55 +22,56 @@ namespace Admin_Panel.Services
             _mapper = mapper;
         }
 
-// CancellationToken cancellationToken = default
+        // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
-        {   
-           
-           var result = await _context.Categories.Include(d => d.UploadedFiles).Include(d=>d.UploadedFileIcon).ToListAsync(cancellationToken);
-           var  resultOut = _mapper.Map<IEnumerable<Category>>(result);
-           
+        {
+
+            var result = await _context.Categories.Include(d => d.UploadedFiles).Include(d => d.UploadedFileIcon).ToListAsync(cancellationToken);
+            var resultOut = _mapper.Map<IEnumerable<Category>>(result);
+
             return resultOut;
         }
 
-        public async Task<Category> GetByIdAsync(int id,CancellationToken cancellationToken = default)
+        public async Task<Category> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 
-        { 
-            var category = await _context.Categories.Include(d => d.UploadedFiles).Include(d=>d.UploadedFileIcon).FirstOrDefaultAsync(e => e.Id == id);
-            
-           
+        {
+            var category = await _context.Categories.Include(d => d.UploadedFiles).Include(d => d.UploadedFileIcon).FirstOrDefaultAsync(e => e.Id == id);
+
+
             return category;
         }
 
         public async Task<Category> Create(Category category)
-        {    
-              var res = await _context.Categories
-          .Where(result => result.Lang == category.Lang)
-         .OrderByDescending(result => result.Position)
-    .Select(result => new { result.Id, result.Position })
-    .FirstOrDefaultAsync();
+        {
+            var res = await _context.Categories
+        .Where(result => result.Lang == category.Lang)
+       .OrderByDescending(result => result.Position)
+  .Select(result => new { result.Id, result.Position })
+  .FirstOrDefaultAsync();
             category.Position = (res != null && res.Position.HasValue) ? res.Position.Value + 1 : 1;
-            category.Status= 3;
+            category.Status = 3;
             _context.Add(category);
             await _context.SaveChangesAsync();
-            return category; 
-            
+            return category;
+
         }
 
         public async Task Update(Category category)
         {
-              var existingCategory = await _context.Categories
-              .FirstOrDefaultAsync(m => m.Id == category.Id);
-            
-            if (existingCategory != null)
-            {   
-                if(category.ParentId !=null){
-                var originParentCategoryId = await _context.Categories
-    .Where(cat => cat.Id == category.ParentId || cat.OriginId == category.ParentId)
-    .Select(cat => cat.OriginId ?? cat.Id)
-    .FirstOrDefaultAsync();
+            var existingCategory = await _context.Categories
+            .FirstOrDefaultAsync(m => m.Id == category.Id);
 
-    
-    }
+            if (existingCategory != null)
+            {
+                if (category.ParentId != null)
+                {
+                    var originParentCategoryId = await _context.Categories
+        .Where(cat => cat.Id == category.ParentId || cat.OriginId == category.ParentId)
+        .Select(cat => cat.OriginId ?? cat.Id)
+        .FirstOrDefaultAsync();
+
+
+                }
 
                 category.Lang = existingCategory.Lang;
 
@@ -82,7 +83,7 @@ namespace Admin_Panel.Services
 
                     if (originCategory != null)
                     {
-                        
+
                         originCategory.Status = category.Status;
                         originCategory.ImageId = category.ImageId;
                         originCategory.IconId = category.IconId;
@@ -99,7 +100,7 @@ namespace Admin_Panel.Services
                     if (originCategory != null)
                     {
                         originCategory.OriginId = category.Id;
-                        
+
                         originCategory.Status = category.Status;
                         originCategory.ImageId = category.ImageId;
                         originCategory.IconId = category.IconId;
@@ -120,16 +121,14 @@ namespace Admin_Panel.Services
 
         public async Task Delete(int id)
         {
-            // var category = await _context.Categories.FindAsync(id);
-            // _context.Categories.Remove(category);
-            // await _context.SaveChangesAsync();
-               var category = await _context.Categories
-               .FirstOrDefaultAsync(m => m.Id == id);
+            
+            var category = await _context.Categories
+            .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category != null)
             {
                 var originId = category.OriginId;
-                  
+
                 if (originId.HasValue && originId != 0)
                 {
                     var origincategory = await _context.Categories
@@ -142,10 +141,11 @@ namespace Admin_Panel.Services
                         await _context.SaveChangesAsync();
                     }
                 }
-                else{
-                    
-                      var origincategory = await _context.Categories
-                        .FirstOrDefaultAsync(m => m.OriginId == id);
+                else
+                {
+
+                    var origincategory = await _context.Categories
+                      .FirstOrDefaultAsync(m => m.OriginId == id);
 
                     if (origincategory != null)
                     {
@@ -157,8 +157,8 @@ namespace Admin_Panel.Services
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
- 
-        }
+
+            }
         }
     }
 }

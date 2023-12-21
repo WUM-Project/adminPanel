@@ -8,8 +8,8 @@ namespace Admin_Panel.Interfaces
     {
         // CancellationToken cancellationToken
         Task<IEnumerable<Brand>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<Brand> GetByIdAsync(int id,CancellationToken cancellationToken = default);
-        // Task<Category> GetByIdAsync(int id,CancellationToken cancellationToken = default);
+        Task<Brand> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+
         Task<Brand> Create(Brand brand);
         Task Update(Brand brand);
         Task Delete(int id);

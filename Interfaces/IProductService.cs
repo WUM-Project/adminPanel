@@ -8,21 +8,21 @@ namespace Admin_Panel.Interfaces
     {
         // CancellationToken cancellationToken
         Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<Product> GetByIdAsync(int id,CancellationToken cancellationToken = default);
-        Task<Product> Create(Product product, string  Categories,string  Marks,string Attribute);
+        Task<Product> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+        Task<Product> Create(Product product, string Categories, string Marks, string Attribute);
         Task<Product> CreateTest(Product product);
-        Task Update(Product product,int originProdId, string NewImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes);
-        Task Delete(int id);    
-        Task AddProductToUploadedFileAsync(int productId,  string NewImageIds ,string Lang);
-              Task DeleteProductToUploadedFileAsync(int productId);
-        Task AddProductToCategoryAsync(int productId, string selectedCategories,string Lang);
-    
+        Task Update(Product product, int originProdId, string NewImageIds, string SelectedMarks, string SelectedCategories, string SelectedAttributes);
+        Task Delete(int id);
+        Task AddProductToUploadedFileAsync(int productId, string NewImageIds, string Lang);
+        Task DeleteProductToUploadedFileAsync(int productId);
+        Task AddProductToCategoryAsync(int productId, string selectedCategories, string Lang);
+
         Task DeleteProductToCategoryAsync(int productId);
-        Task AddProductToMarkAsync(int productId, string SelectedMarks,string Lang);
+        Task AddProductToMarkAsync(int productId, string SelectedMarks, string Lang);
         Task DeleteProductToMarkAsync(int productId);
-        Task AddProductToAttributeAsync(int productId,string selectedAttributes, string Lang);
+        Task AddProductToAttributeAsync(int productId, string selectedAttributes, string Lang);
         Task DeleteProductToAttributeAsync(int productId);
-      
-        // Task UpdateProductToCategoryAsync(int newProductId, int oldProductId, string selectedCategories);
+
+
     }
 }

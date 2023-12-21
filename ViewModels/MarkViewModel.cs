@@ -9,6 +9,7 @@ namespace Admin_Panel.ViewModels
 {
     public int MarkId { get; set; }
     public string Title { get; set; }
+    
     // Other properties related to Mark
 }
 }

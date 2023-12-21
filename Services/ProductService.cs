@@ -61,7 +61,7 @@ namespace Admin_Panel.Services
 
             // return product;
             var product = await _context.Products
-       .Include(d => d.UploadedFiles).Include(y=> y.Brands)
+       .Include(d => d.UploadedFiles).Include(y => y.Brands)
        .FirstOrDefaultAsync(e => e.Id == id);
 
             if (product != null)
@@ -71,8 +71,8 @@ namespace Admin_Panel.Services
                 await _context.Entry(product)
                     .Collection(p => p.Attributes)
                     .LoadAsync(cancellationToken);
-               
-          
+
+
 
                 await _context.Entry(product)
                          .Collection(d => d.Categories)
@@ -272,25 +272,6 @@ namespace Admin_Panel.Services
                 await _context.SaveChangesAsync();
 
 
-                //         if (!string.IsNullOrEmpty(Attributes))
-                //     {
-                //        selectedAttributeIds = Marks.Split(',');
-                //        foreach (var markId in selectedAttributeIds)
-                // {
-                //     // Create a new ProductToAttribute entity and associate it with the product.
-
-                //     var attribute = new ProductToAttribute()
-                //     {
-
-                //         ProductId = product.Id, 
-                //         AttributeId = int.Parse(markId)
-                //     };
-
-                //  await _context.ProductToAttributes.AddAsync(attribute);
-
-                // }
-                //       await _context.SaveChangesAsync(); 
-                //      }
 
                 if (!string.IsNullOrEmpty(Marks))
                 {
@@ -400,42 +381,28 @@ namespace Admin_Panel.Services
         public async Task AddProductToUploadedFileAsync(int productId, string NewImageIds, string Lang)
         {
 
-            // if (galleryImageIds.Count > 0)
-            // {
-            //     foreach (var uploadId in galleryImageIds)
-            //     {
 
-            //         var productToUploadedFile = new ProductToUploadedFiles
-            //         {
-            //             ProductId = productId, // Set the ProductId
-            //             UploadId = uploadId
-            //         };
-            //         // ProductToUploadedFiles
-            //         _context.ProductToUploadedFiles.Add(productToUploadedFile);
+            if (!string.IsNullOrEmpty(NewImageIds))
 
-            //     }
-            // }
-             if (!string.IsNullOrEmpty(NewImageIds))
+            {
 
-                        {
-
-                            int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
-                            if (newImageArray.Length > 0)
-                            {
-        foreach (var galleryItem in newImageArray)
-        {
-            
-                var productToUploadedFile = new ProductToUploadedFiles
+                int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
+                if (newImageArray.Length > 0)
                 {
-                    ProductId =productId,
-                    UploadId =galleryItem
-                };
+                    foreach (var galleryItem in newImageArray)
+                    {
 
-                _context.ProductToUploadedFiles.Add(productToUploadedFile);
+                        var productToUploadedFile = new ProductToUploadedFiles
+                        {
+                            ProductId = productId,
+                            UploadId = galleryItem
+                        };
+
+                        _context.ProductToUploadedFiles.Add(productToUploadedFile);
+                    }
+
+                }
             }
-         
-        }
-        }
 
 
             await _context.SaveChangesAsync();
@@ -473,34 +440,25 @@ namespace Admin_Panel.Services
 
             await _context.SaveChangesAsync();
         }
-        public async Task Update(Product product, int originProdId,string NewImageIds,string SelectedMarks,string SelectedCategories,string SelectedAttributes)
+        public async Task Update(Product product, int originProdId, string NewImageIds, string SelectedMarks, string SelectedCategories, string SelectedAttributes)
         {
 
-              List<string> languages = new List<string>() { "uk", "ru" };
-            
+            List<string> languages = new List<string>() { "uk", "ru" };
+
             var existingProduct = await _context.Products
               .FirstOrDefaultAsync(m => m.Id == product.Id);
-   int indexLang = languages.FindIndex(el => el == existingProduct.Lang);
+            int indexLang = languages.FindIndex(el => el == existingProduct.Lang);
             indexLang = indexLang >= 0 ? indexLang : 0;
-               var allProductIds = await _context.Products
-    .Where(p => p.Id == originProdId || p.OriginId == originProdId)
-    .ToListAsync();
-    
+            var allProductIds = await _context.Products
+ .Where(p => p.Id == originProdId || p.OriginId == originProdId)
+ .ToListAsync();
 
-List<int> prodIdsToDelete = new List<int>();
-if (allProductIds != null && allProductIds.Any())
-{
-    foreach (var el in allProductIds)
-    {
-       
-            prodIdsToDelete.Add(el.Id); // Змінено з el.id.Value на el.Id.Value
-        
-    }
-}
+
+
             if (existingProduct != null)
             {
                 product.Lang = existingProduct.Lang;
-                product.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
+                // product.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
 
                 var originId = product.OriginId;
                 if (originId.HasValue && originId != 0)
@@ -509,9 +467,11 @@ if (allProductIds != null && allProductIds.Any())
                         .FirstOrDefaultAsync(m => m.Id == originId.Value);
 
                     if (originproduct != null)
-                    {  
-                      
-                          originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
+                    {
+                        int LangIndex = languages.FindIndex(el => el == originproduct.Lang);
+                        LangIndex = LangIndex >= 0 ? LangIndex : 0;
+                        originproduct.BrandId = (indexLang == 1 && LangIndex == 0) ? product.BrandId - 1 : (indexLang == 0 && LangIndex == 1) ? product.BrandId + 1 : product.BrandId;
+                        // originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
                         originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
                         originproduct.ImageId = product.ImageId;
@@ -530,8 +490,11 @@ if (allProductIds != null && allProductIds.Any())
 
                     if (originproduct != null)
                     {
-                  
-                          originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
+                        int LangIndex = languages.FindIndex(el => el == originproduct.Lang);
+                        LangIndex = LangIndex >= 0 ? LangIndex : 0;
+
+                        originproduct.BrandId = (indexLang == 1 && LangIndex == 0) ? product.BrandId - 1 : (indexLang == 0 && LangIndex == 1) ? product.BrandId + 1 : product.BrandId;
+                        // originproduct.BrandId = product.BrandId + (indexLang == 1 ? 1 : 0);
                         originproduct.OriginId = product.Id;
                         originproduct.Sku = product.Sku;
                         originproduct.Quantity = product.Quantity;
@@ -543,104 +506,145 @@ if (allProductIds != null && allProductIds.Any())
                         await _context.SaveChangesAsync();
                     }
                 }
- foreach (var item in allProductIds)
-    {
-     
-          _context.ProductToUploadedFiles.RemoveRange(_context.ProductToUploadedFiles.Where(p => p.ProductId == item.Id));
-           if (!string.IsNullOrEmpty(NewImageIds))
+                foreach (var item in allProductIds)
+                {
 
+                    _context.ProductToUploadedFiles.RemoveRange(_context.ProductToUploadedFiles.Where(p => p.ProductId == item.Id));
+                    if (!string.IsNullOrEmpty(NewImageIds))
+
+                    {
+
+                        int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
+                        if (newImageArray.Length > 0)
+                        {
+                            foreach (var galleryItem in newImageArray)
+                            {
+
+                                var productToUploadedFile = new ProductToUploadedFiles
+                                {
+
+                                    ProductId = item.Id,
+                                    UploadId = galleryItem
+                                };
+
+                                _context.ProductToUploadedFiles.Add(productToUploadedFile);
+                            }
+
+                        }
+                    }
+                }
+
+
+                if (!string.IsNullOrEmpty(SelectedAttributes))
+                {
+
+                    foreach (var item in allProductIds)
+                    {
+                        int LangIndex = languages.FindIndex(el => el == item.Lang);
+                        LangIndex = LangIndex >= 0 ? LangIndex : 0;
+                        var existingProductToAttributes = _context.ProductToAttributes.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToAttributes.RemoveRange(existingProductToAttributes);
+                        foreach (var attributePair in SelectedAttributes.Split(','))
+                        {
+                            var keyValue = attributePair.Split(':');
+                            // var attributeId = int.Parse(keyValue[0]) + (indexLang == 1 ? 1 : 0);
+                            var attributeId = int.Parse(keyValue[0]);
+                            var attributeValue = keyValue[1];
+                            attributeId = (indexLang == 1 && LangIndex == 0) ? attributeId - 1 : (indexLang == 0 && LangIndex == 1) ? attributeId + 1 : attributeId;
+                            // Create a new ProductToAttributes entity and associate it with the product.
+                            var productToAttribute = new ProductToAttribute
+                            {
+                                ProductId = item.Id,
+                                AttributeId = attributeId,
+                                //  + (LangIndex == 1 ? 1 : 0),
+                                Value = attributeValue
+                            };
+
+                            // ProductToAttributes
+                            _context.ProductToAttributes.Add(productToAttribute);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item in allProductIds)
+                    {
+                        var existingProductToAttributes = _context.ProductToAttributes.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToAttributes.RemoveRange(existingProductToAttributes);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(SelectedMarks))
+                {
+                    foreach (var item in allProductIds)
+                    {
+                        int LangIndex = languages.FindIndex(el => el == item.Lang);
+                        LangIndex = LangIndex >= 0 ? LangIndex : 0;
+                        var existingProductToMarks = _context.ProductToMarks.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToMarks.RemoveRange(existingProductToMarks);
+                        foreach (var markId in SelectedMarks.Split(','))
                         {
 
-                            int[] newImageArray = NewImageIds.Split(',').Select(int.Parse).ToArray();
-                            if (newImageArray.Length > 0)
+                            int catId = int.Parse(markId);
+
+                            catId = (indexLang == 1 && LangIndex == 0) ? catId - 1 : (indexLang == 0 && LangIndex == 1) ? catId + 1 : catId;
+
+
+                            // Create a new ProductToMarks entity and associate it with the product.
+                            var productToMark = new ProductToMark
                             {
-        foreach (var galleryItem in newImageArray)
-        {
-            
-                var productToUploadedFile = new ProductToUploadedFiles
-                {
-                
-                    ProductId = item.Id,
-                    UploadId =galleryItem
-                };
+                                ProductId = item.Id, // Set the ProductId
+                                MarkId = catId
 
-                _context.ProductToUploadedFiles.Add(productToUploadedFile);
-            }
-         
-        }
-        }
-    }
+                            };
 
-    //Доробити редагування щоб одночасно редагувало на всіх мовах 
-    // foreach (var item in allProductIds)
-    // {
-          if (!string.IsNullOrEmpty(SelectedAttributes))
-            {
-                var existingProductToAttributes = _context.ProductToAttributes.Where(ptc => ptc.ProductId == product.Id);
-            _context.ProductToAttributes.RemoveRange(existingProductToAttributes);
-                foreach (var attributePair in SelectedAttributes.Split(','))
-                {
-                    var keyValue = attributePair.Split(':');
-                    // var attributeId = int.Parse(keyValue[0]) + (indexLang == 1 ? 1 : 0);
-                    var attributeId = int.Parse(keyValue[0]);
-                    var attributeValue = keyValue[1];
+                            _context.ProductToMarks.Add(productToMark);
 
-                    // Create a new ProductToAttributes entity and associate it with the product.
-                    var productToAttribute = new ProductToAttribute
-                    {
-                        ProductId = product.Id, 
-                        AttributeId = attributeId,
-                        Value = attributeValue 
-                    };
-
-                    // ProductToAttributes
-                    _context.ProductToAttributes.Add(productToAttribute);
+                        }
+                    }
                 }
-            }else{
-                  var existingProductToAttributes = _context.ProductToAttributes.Where(ptc => ptc.ProductId == product.Id);
-            _context.ProductToAttributes.RemoveRange(existingProductToAttributes);
-            }
-            
-      if (!string.IsNullOrEmpty(SelectedMarks))
-            {  
-                var existingProductToMarks = _context.ProductToMarks.Where(ptc => ptc.ProductId == product.Id);
-            _context.ProductToMarks.RemoveRange(existingProductToMarks);
-                foreach (var markId in SelectedMarks.Split(','))
+                else
                 {
-
-                    int catId = int.Parse(markId);
-                    // Create a new ProductToMarks entity and associate it with the product.
-                    var productToMark = new ProductToMark
+                    foreach (var item in allProductIds)
                     {
-                        ProductId = product.Id, // Set the ProductId
-                        MarkId = catId
-                    };
-                    // ProductToMarks
-                    _context.ProductToMarks.Add(productToMark);
-
+                        var existingProductToMarks = _context.ProductToMarks.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToMarks.RemoveRange(existingProductToMarks);
+                    }
                 }
-            }
-      if (!string.IsNullOrEmpty(SelectedCategories))
-            {  
-          
-                var existingProductToCategories = _context.ProductToCategories.Where(ptc => ptc.ProductId == product.Id);
-            _context.ProductToCategories.RemoveRange(existingProductToCategories);
-                foreach (var cat in SelectedCategories.Split(','))
+                if (!string.IsNullOrEmpty(SelectedCategories))
                 {
-                          
-                    int catId = int.Parse(cat);
-                    // Create a new ProductToMarks entity and associate it with the product.
-                    var productToCat = new ProductToCategory
+                    foreach (var item in allProductIds)
                     {
-                        ProductId = product.Id, // Set the ProductId
-                        CategoryId = catId
-                    };
-                    // ProductToMarks
-                    _context.ProductToCategories.Add(productToCat);
+                        int LangIndex = languages.FindIndex(el => el == item.Lang);
+                        LangIndex = LangIndex >= 0 ? LangIndex : 0;
+                        var existingProductToCategories = _context.ProductToCategories.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToCategories.RemoveRange(existingProductToCategories);
+                        foreach (var cat in SelectedCategories.Split(','))
+                        {
 
+                            int catId = int.Parse(cat);
+                            catId = (indexLang == 1 && LangIndex == 0) ? catId - 1 : (indexLang == 0 && LangIndex == 1) ? catId + 1 : catId;
+                            // Create a new ProductToCategory entity and associate it with the product.
+                            var productToCat = new ProductToCategory
+                            {
+                                ProductId = item.Id, // Set the ProductId
+                                CategoryId = catId
+                            };
+
+                            _context.ProductToCategories.Add(productToCat);
+
+                        }
+                    }
                 }
-            }
-            // }
+                else
+                {
+                    foreach (var item in allProductIds)
+                    {
+                        var existingProductToCategories = _context.ProductToCategories.Where(ptc => ptc.ProductId == item.Id);
+                        _context.ProductToCategories.RemoveRange(existingProductToCategories);
+                    }
+                }
+
 
 
                 existingProduct.UpdatedAt = DateTime.Now;
@@ -653,9 +657,7 @@ if (allProductIds != null && allProductIds.Any())
 
 
 
-            // product.UpdatedAt = DateTime.Now;
-            // _context.Update(product);
-            // await _context.SaveChangesAsync();
+
         }
 
 
@@ -720,34 +722,34 @@ if (allProductIds != null && allProductIds.Any())
                     if (originproduct != null)
                     {
                         // Видалення зв'язаних файлів
-        if (originproduct.UploadedFiles != null)
-        {
-            _context.UploadedFile.Remove(product.UploadedFiles);
-        }
+                        if (originproduct.UploadedFiles != null)
+                        {
+                            _context.UploadedFile.Remove(product.UploadedFiles);
+                        }
 
-        // Видалення зв'язаних файлів
-        if (originproduct.ProductToUploadedFile != null && originproduct.ProductToUploadedFile.Any())
-        {
-            _context.ProductToUploadedFiles.RemoveRange(product.ProductToUploadedFile);
-        }
+                        // Видалення зв'язаних файлів
+                        if (originproduct.ProductToUploadedFile != null && originproduct.ProductToUploadedFile.Any())
+                        {
+                            _context.ProductToUploadedFiles.RemoveRange(product.ProductToUploadedFile);
+                        }
 
-        // Видалення зв'язаних міток
-        if (originproduct.Marks != null && originproduct.Marks.Any())
-        {
-            _context.ProductToMarks.RemoveRange(product.Marks);
-        }
+                        // Видалення зв'язаних міток
+                        if (originproduct.Marks != null && originproduct.Marks.Any())
+                        {
+                            _context.ProductToMarks.RemoveRange(product.Marks);
+                        }
 
-        // Видалення зв'язаних атрибутів
-        if (originproduct.Attributes != null && originproduct.Attributes.Any())
-        {
-            _context.ProductToAttributes.RemoveRange(originproduct.Attributes);
-        }
+                        // Видалення зв'язаних атрибутів
+                        if (originproduct.Attributes != null && originproduct.Attributes.Any())
+                        {
+                            _context.ProductToAttributes.RemoveRange(originproduct.Attributes);
+                        }
 
-        // Видалення зв'язаних категорій
-        if (originproduct.Categories != null && originproduct.Categories.Any())
-        {
-            _context.ProductToCategories.RemoveRange(originproduct.Categories);
-        }
+                        // Видалення зв'язаних категорій
+                        if (originproduct.Categories != null && originproduct.Categories.Any())
+                        {
+                            _context.ProductToCategories.RemoveRange(originproduct.Categories);
+                        }
                         _context.Products.Remove(originproduct);
 
                         await _context.SaveChangesAsync();
@@ -765,34 +767,34 @@ if (allProductIds != null && allProductIds.Any())
 
                     if (originproduct != null)
                     {
-                         if (originproduct.UploadedFiles != null)
-        {
-            _context.UploadedFile.Remove(product.UploadedFiles);
-        }
+                        if (originproduct.UploadedFiles != null)
+                        {
+                            _context.UploadedFile.Remove(product.UploadedFiles);
+                        }
 
-        // Видалення зв'язаних файлів
-        if (originproduct.ProductToUploadedFile != null && originproduct.ProductToUploadedFile.Any())
-        {
-            _context.ProductToUploadedFiles.RemoveRange(product.ProductToUploadedFile);
-        }
+                        // Видалення зв'язаних файлів
+                        if (originproduct.ProductToUploadedFile != null && originproduct.ProductToUploadedFile.Any())
+                        {
+                            _context.ProductToUploadedFiles.RemoveRange(product.ProductToUploadedFile);
+                        }
 
-        // Видалення зв'язаних міток
-        if (originproduct.Marks != null && originproduct.Marks.Any())
-        {
-            _context.ProductToMarks.RemoveRange(product.Marks);
-        }
+                        // Видалення зв'язаних міток
+                        if (originproduct.Marks != null && originproduct.Marks.Any())
+                        {
+                            _context.ProductToMarks.RemoveRange(product.Marks);
+                        }
 
-        // Видалення зв'язаних атрибутів
-        if (originproduct.Attributes != null && originproduct.Attributes.Any())
-        {
-            _context.ProductToAttributes.RemoveRange(originproduct.Attributes);
-        }
+                        // Видалення зв'язаних атрибутів
+                        if (originproduct.Attributes != null && originproduct.Attributes.Any())
+                        {
+                            _context.ProductToAttributes.RemoveRange(originproduct.Attributes);
+                        }
 
-        // Видалення зв'язаних категорій
-        if (originproduct.Categories != null && originproduct.Categories.Any())
-        {
-            _context.ProductToCategories.RemoveRange(originproduct.Categories);
-        }
+                        // Видалення зв'язаних категорій
+                        if (originproduct.Categories != null && originproduct.Categories.Any())
+                        {
+                            _context.ProductToCategories.RemoveRange(originproduct.Categories);
+                        }
                         _context.Products.Remove(originproduct);
 
                         await _context.SaveChangesAsync();
@@ -804,7 +806,7 @@ if (allProductIds != null && allProductIds.Any())
 
             }
         }
-      
+
 
         public async Task UpdateProductToUploadedsFileAsync(Product product, string NewImageIds)
         {

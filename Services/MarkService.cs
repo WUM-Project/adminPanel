@@ -25,7 +25,6 @@ namespace Admin_Panel.Services
         // CancellationToken cancellationToken = default
         public async Task<IEnumerable<Mark>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-// cancellationToken
             var result = await _context.Marks.ToListAsync();
             var resultOut = _mapper.Map<IEnumerable<Mark>>(result);
 
@@ -97,7 +96,7 @@ namespace Admin_Panel.Services
 
                 existingMark.UpdatedAt = DateTime.Now;
 
-                // Update the properties of the existingMark object
+
                 _context.Entry(existingMark).CurrentValues.SetValues(mark);
                 _context.Update(existingMark);
                 await _context.SaveChangesAsync();
@@ -105,9 +104,7 @@ namespace Admin_Panel.Services
 
 
 
-            // mark.UpdatedAt = DateTime.Now;
-            // _context.Update(mark);
-            // await _context.SaveChangesAsync();
+
         }
 
         public async Task Delete(int id)

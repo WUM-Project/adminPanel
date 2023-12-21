@@ -15,6 +15,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                  <input type="hidden"  name="OriginId" value="@Model.OriginId">
                  <input type="hidden"  name="Id" value="@Model.Id">
+                 <input type="hidden"  name="Lang" id="Lang" value="@Model.Lang">
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
@@ -75,7 +76,7 @@
             }else{
                  <option value="@item.Value" >@item.Text</option>
             }
-                @* <option value="@item.Value" @(Model.BrandsId != null && Model.BrandsId == int.Parse(item.Value) ? "selected" : "")>@item.Text</option> *@
+             
             }
         </select>
     </div>
@@ -114,7 +115,7 @@
     </div>
 
 <div class="form-group">
-    <label class="control-label" for="SelectedMarks">Brand</label>
+    <label class="control-label" for="SelectedMarks">Marks</label>
     <div class="location-popup-radios">
         @foreach (var item in ViewBag.Marks)
         {
@@ -127,7 +128,7 @@
         }
     </div>
     <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@string.Join(",", Model.SelectedMarks.Select(s=>s.MarkId))">
-    @* <input type="hidden" id="selectedMarks" name="SelectedMarks" value="@Model.SelectedMarks"> *@
+   
 </div>
 
 <div class="form-group row">
@@ -155,8 +156,9 @@
             <div class="d-flex align-items-center mb-2 selected-attribute" data-value="@selectedAttribute.AttributeId">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="attributeDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-value="@selectedAttribute.AttributeId" disabled="disabled">@selectedAttribute.Title</button>
                 <input type="text" class="form-control ms-2 me-2 attribute-value" value="@selectedAttribute.Value">
-                <button type="button" class="btn btn-danger"  id="delete_attribute"  >Delete</button>
-                <input type="hidden" class="attribute-input" name="SelectedAttributes" value="@($"{selectedAttribute.AttributeId}:{selectedAttribute.Value}")">
+                <button type="button" class="btn btn-danger delete-attribute"  id="delete_attribute"  >Delete</button>
+           
+                <input type="hidden" class="attribute-input" value="@($"{selectedAttribute.AttributeId}:{selectedAttribute.Value}")">
             </div>
         }
         <!-- Selected attributes will be displayed here -->
@@ -215,54 +217,10 @@
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
-
 @section Scripts {
-    <script> 
-        
-            function deleteImage(button) {
-      
-        button.parentElement.style.display = 'none';
-    }
-    // Function to remove selected attribute
-     function removeAttribute(button) {
-        // Видалити поточний елемент списку
-        var divWrapper = button.closest('.selected-attribute');
-        divWrapper.remove();
-    
-        // Оновити приховане поле
-        var hiddenAttributesInput = document.getElementById('SelectedAttributes');
-        updateHiddenAttributes(hiddenAttributesInput);
-    }
-
-  
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var mySwiper = new Swiper('.swiper-container', {
-                loop: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                    navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
-        });
-
-            var closeButton = document.querySelectorAll('.icon-button');
-            closeButton.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var slideIndex = mySwiper.activeIndex;
-                    mySwiper.removeSlide(slideIndex);
-                });
-            });
-        });
-  </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"  crossorigin="anonymous">
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-@* <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script> *@
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

@@ -21,48 +21,36 @@
                         <input type="text" asp-for="Title" class="form-control" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
-                     @* <div class="mb-3">
-                        <label for="Color" class="form-label">Color</label>
-                        <input type="text" asp-for="Color" class="form-control" />
-                        <span asp-validation-for="Color" class="text-danger"></span>
-                    </div> *@
+
                     <div class="mb-3">
-    <label for="Color" class="form-label">Color</label>
-    <input type="color" asp-for="Color"  id="colorInput" class="form-control" />
-    <span asp-validation-for="Color" class="text-danger"></span>
-                      </div>
-                          <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
-        <label for="Position" class="form-label">Position</label>
-        <input type="text" asp-for="Position" class="form-control" />
-        <span asp-validation-for="Position" class="text-danger"></span>
-    </div>
-                     <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
-        <label for="OriginId" class="form-label">OriginId</label>
-        <input type="text" asp-for="OriginId" class="form-control" />
-        <span asp-validation-for="OriginId" class="text-danger"></span>
-    </div>
-                     <div class="mb-3">
+                        <label for="Color" class="form-label">Color</label>
+                        <input type="color" asp-for="Color" id="colorInput" class="form-control" />
+                        <span asp-validation-for="Color" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
+                        <label for="Position" class="form-label">Position</label>
+                        <input type="text" asp-for="Position" class="form-control" />
+                        <span asp-validation-for="Position" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3" hidden> <!-- Hiding the OriginId field -->
+                        <label for="OriginId" class="form-label">OriginId</label>
+                        <input type="text" asp-for="OriginId" class="form-control" />
+                        <span asp-validation-for="OriginId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
                         <label for="Type" class="form-label">Type</label>
                         <input type="text" asp-for="Type" class="form-control" />
                         <span asp-validation-for="Type" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-    <label for="Status" class="form-label">Status</label>
-    <select asp-for="Status" class="form-select">
-        <option value="1">Deleted</option>
-        <option value="2">Active</option>
-        <option value="3">Waiting</option>
-    </select>
-    <span asp-validation-for="Status" class="text-danger"></span>
-</div>
-                    
- 
-                   
-
-                  
-                   
-                    
-                    
+                        <label for="Status" class="form-label">Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">Deleted</option>
+                            <option value="2">Active</option>
+                            <option value="3">Waiting</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -78,7 +66,7 @@
 </div>
 <script>
     const colorInput = document.getElementById('colorInput');
-     colorInput.setAttribute('value', colorInput.getAttribute('value').replace(/\s/g, ''));
+    colorInput.setAttribute('value', colorInput.getAttribute('value').replace(/\s/g, ''));
     colorInput.addEventListener('change', (event) => {
         const selectedColor = event.target.value;
         console.log(selectedColor);
@@ -86,9 +74,11 @@
         colorInput.value = formattedColor
         console.log(formattedColor)
     });
-   
-    
+
+
 </script>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

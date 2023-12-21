@@ -15,26 +15,26 @@ namespace Admin_Panel.Controllers
             _serviceManager = serviceManager;
         }
 
-        public async Task<IActionResult> Index(string lang, string search,int page=1,int middleVal = 10, 
+        public async Task<IActionResult> Index(string lang, string search, int page = 1, int middleVal = 10,
             int cntBetween = 5, int limit = 10)
         {
-               var result = await _serviceManager.MarkService.GetAllAsync();
-   if (!String.IsNullOrEmpty(lang))
+            var result = await _serviceManager.MarkService.GetAllAsync();
+            if (!String.IsNullOrEmpty(lang))
             {
-           
-              result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
-            }
-         if (!String.IsNullOrEmpty(search))
-            {
-           
-              result = result?.Where(x => x.Title?.ToLower().Contains(search.ToLower()) ?? false)?.ToList();
-            }
-             var test = Paggination<Mark>.GetData(currentPage: page, limit: limit, itemsData: result, 
-                middleVal: middleVal, cntBetween: cntBetween);
-               
 
-             return View( Paggination<Mark>.GetData(currentPage: page, limit: limit, itemsData: result, 
-                middleVal: middleVal, cntBetween: cntBetween));
+                result = result?.Where(x => x.Lang?.Contains(lang.ToLower()) ?? false)?.ToList();
+            }
+            if (!String.IsNullOrEmpty(search))
+            {
+
+                result = result?.Where(x => x.Title?.ToLower().Contains(search.ToLower()) ?? false)?.ToList();
+            }
+            var test = Paggination<Mark>.GetData(currentPage: page, limit: limit, itemsData: result,
+               middleVal: middleVal, cntBetween: cntBetween);
+
+
+            return View(Paggination<Mark>.GetData(currentPage: page, limit: limit, itemsData: result,
+               middleVal: middleVal, cntBetween: cntBetween));
         }
 
         public async Task<IActionResult> Details(int? id, CancellationToken cancellationToken = default)
@@ -107,7 +107,7 @@ namespace Admin_Panel.Controllers
             {
                 return NotFound();
             }
-     
+
             if (ModelState.IsValid)
             {
                 await _serviceManager.MarkService.Update(mark);

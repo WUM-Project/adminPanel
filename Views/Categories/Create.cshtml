@@ -18,8 +18,8 @@
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-               
-               
+
+
                 <div class="form-group">
                     <label asp-for="ParentId" class="control-label"></label>
                     <input asp-for="ParentId" class="form-control" />
@@ -30,31 +30,23 @@
                     <input asp-for="Status" class="form-control" />
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
-                @* <div class="form-group">
-                    <label asp-for="ImageId" class="control-label"></label>
-                    <input asp-for="ImageId" class="form-control" />
-                    <span asp-validation-for="ImageId" class="text-danger"></span>
-                </div> *@
+               
                 <div class="form-group" id="hiddenId">
-        <label asp-for="Photo" class="file-input-label">
-           
-        </label>
-        
-        <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control"/>
-        @* <label asp-for="ImageId" class="file-button-mask">
-           Upload
-        </label> *@
-    </div>
+                    <label asp-for="Photo" class="file-input-label">
+
+                    </label>
+
+                    <input asp-for="Photo" type="file" id="uploadFile" name="Photo" class="form-control" />
+                 
+                </div>
                 <div class="form-group">
-        <label asp-for="PhotoIcon" class="file-input-label">
-           
-        </label>
-        
-        <input asp-for="PhotoIcon" type="file" id="uploadFile" name="PhotoIcon" class="form-control"/>
-        @* <label asp-for="ImageId" class="file-button-mask">
-           Upload
-        </label> *@
-    </div>
+                    <label asp-for="PhotoIcon" class="file-input-label">
+
+                    </label>
+
+                    <input asp-for="PhotoIcon" type="file" id="uploadFile" name="PhotoIcon" class="form-control" />
+                   
+                </div>
                 <div class="form-group text-center">
                     <button type="submit" id="testbtn" class="btn btn-primary">Create</button>
                 </div>
@@ -67,5 +59,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

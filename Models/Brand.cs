@@ -16,8 +16,7 @@ namespace Admin_Panel.Models
         public string Title { get; set; }
 
         public int Status { get; set; }
-        // public IFormFile ImageId { get; set; }
-        // [ForeignKey("UploadedFiles")]
+
 
 
         public int? ImageId { get; set; }

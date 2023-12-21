@@ -60,8 +60,8 @@ namespace Admin_Panel.Services
 
         public async Task Update(Models.Attribute attribute)
         {
-             var existingAttribute = await _context.Attributes
-              .FirstOrDefaultAsync(m => m.Id == attribute.Id);
+            var existingAttribute = await _context.Attributes
+             .FirstOrDefaultAsync(m => m.Id == attribute.Id);
 
             if (existingAttribute != null)
             {
@@ -106,14 +106,12 @@ namespace Admin_Panel.Services
                 await _context.SaveChangesAsync();
             }
 
-          
+
         }
 
         public async Task Delete(int id)
         {
-            // var attribute = await _context.Attributes.FindAsync(id);
-            // _context.Attributes.Remove(attribute);
-            // await _context.SaveChangesAsync();
+          
             var attribute = await _context.Attributes
             .FirstOrDefaultAsync(m => m.Id == id);
 

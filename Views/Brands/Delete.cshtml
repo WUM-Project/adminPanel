@@ -1,4 +1,4 @@
-﻿ @model Admin_Panel.Models.Brand
+﻿@model Admin_Panel.Models.Brand
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,11 +8,11 @@
     <h1 class="mb-4">Delete</h1>
 
     <div class="mb-4">
-        
-      
+
+
 
         <div class="mt-4">
-            <h3>Ви дійсно хочете видалити цей бренд ?</h3> 
+            <h3>Ви дійсно хочете видалити цей бренд ?</h3>
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
                 <input type="submit" value="Delete" class="btn btn-danger" /> |
